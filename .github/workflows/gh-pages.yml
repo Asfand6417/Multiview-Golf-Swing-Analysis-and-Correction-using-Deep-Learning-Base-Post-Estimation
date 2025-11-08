@@ -5,7 +5,7 @@ on:
     branches:
       - main
 
-# Grant the workflow permission to push commits
+# Grant write permission so the workflow can push to gh-pages
 permissions:
   contents: write
 
@@ -16,12 +16,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # ensure the default GITHUB_TOKEN is available for pushing
+          # ensure the GITHUB_TOKEN (or PAT if you replace it) is available for pushing
           persist-credentials: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # If you created a PERSONAL_TOKEN secret, uncomment the next line and set token to PERSONAL_TOKEN
+          # token: ${{ secrets.PERSONAL_TOKEN }}
 
       - name: Deploy docs/ to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
+          # Use GITHUB_TOKEN by default. If branch protection prevents GITHUB_TOKEN from pushing,
+          # create a personal access token (repo scope), save it as PERSONAL_TOKEN, and change this line to:
+          # github_token: ${{ secrets.PERSONAL_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
