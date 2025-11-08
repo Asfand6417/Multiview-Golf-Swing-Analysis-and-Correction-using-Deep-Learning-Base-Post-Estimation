@@ -1,4 +1,5 @@
-# GolfPose: Advanced 3D Golf Swing Analysis System
+# Multi-View Golf Swing Analysis System
+3D Pose Estimation • Swing Phase Segmentation • Rule-Based Feedback
 
 GolfPose is a comprehensive system for analyzing golf swings using computer vision and machine learning techniques. The system provides 3D pose estimation, swing phase detection, and detailed metrics to help golfers improve their technique.
 
