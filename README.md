@@ -30,7 +30,7 @@ GolfPose is a comprehensive system for analyzing golf swings using computer visi
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/golfpose.git
+   git clone https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation.git
    cd golfpose
    ```
 
@@ -150,73 +150,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-
-⚙️ Installation
-1. Clone the Repository
-git clone https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation.git
-cd Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation
-
-2. Set Up Environment
-python -m venv venv
-source venv/bin/activate     # (Linux/Mac)
-venv\Scripts\activate        # (Windows)
-
-3. Install Dependencies
-pip install -r requirements.txt
-
-▶️ Usage
-1. Prepare Input Videos
-
-Place synchronized back and side view videos inside data/videos/.
-
-Ensure filenames match, e.g.
-
-back_view/golfer1.mp4
-side_view/golfer1.mp4
-
-2. Run the Pipeline
-python src/main.py --input golfer1
-
-
-This will:
-
-Detect 2D poses
-
-Reconstruct 3D keypoints
-
-Segment swing phases
-
-Evaluate accuracy
-
-Generate annotated outputs
-
-3. View Results
-
-Results are saved in:
-
-output/annotated_frames/ – individual frames with pose overlays
-
-output/result_videos/ – combined annotated swing video
-
-output/metrics_report/ – MPJPE and evaluation report
-
-📊 Evaluation Metrics
-Metric	Description
-MPJPE (Mean Per Joint Position Error)	Measures average 3D joint reconstruction accuracy.
-Accuracy (%)	Phase classification accuracy using SVM.
-Precision / Recall	Swing segmentation performance.
-🎨 Visual Output Example
-Correct Pose	Incorrect Pose
-
-	
-
-Annotated frames include:
-
-Blue skeletons: Correct biomechanics
-
-Red skeletons: Incorrect postures
-
-Text overlay: Swing phase + feedback message
 
 🧩 Core Technologies
 
