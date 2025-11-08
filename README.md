@@ -9,14 +9,41 @@ The system processes dual-camera video input (side and back views) to detect 2D 
 
 Pipeline Summary:
 
-Input: Two synchronized videos (Back View & Side View).
+1) Input: Two synchronized videos (Back View & Side View).
 
-2D Pose Detection: Keypoint extraction via Media Pipe.
+2) 2D Pose Detection: Keypoint extraction via Media Pipe.
 
-3D Pose Reconstruction: DLT triangulation from multi-view data.
+3) 3D Pose Reconstruction: DLT triangulation from multi-view data.
 
-Swing Phase Segmentation: Classification using SVM/MLP.
+4) Swing Phase Segmentation: Classification using SVM/MLP.
 
-Pose Correction: Rule-based biomechanical evaluation.
+5) Pose Correction: Rule-based biomechanical evaluation.
 
-Output: Annotated frames and videos with MPJPE, phase label, and feedback.
+6) Output: Annotated frames and videos with MPJPE, phase label, and feedback.
+
+🧠 System Architecture
+
+┌────────────────────────────┐
+│   Input Videos (Back/Side) │
+└──────────────┬─────────────┘
+               │
+               ▼
+        [Mediapipe Detector]
+               │
+               ▼
+         2D Keypoint Files
+               │
+               ▼
+         [DLT Reconstruction]
+               │
+               ▼
+          3D Pose Data
+               │
+               ▼
+     [Swing Phase Segmentation]
+               │
+               ▼
+        [Rule-based Analysis]
+               │
+               ▼
+     Annotated Frames & Results
