@@ -23,27 +23,4 @@ Pipeline Summary:
 
 🧠 System Architecture
 
-┌────────────────────────────┐
-│   Input Videos (Back/Side) │
-└──────────────┬─────────────┘
-               │
-               ▼
-        [Mediapipe Detector]
-               │
-               ▼
-         2D Keypoint Files
-               │
-               ▼
-         [DLT Reconstruction]
-               │
-               ▼
-          3D Pose Data
-               │
-               ▼
-     [Swing Phase Segmentation]
-               │
-               ▼
-        [Rule-based Analysis]
-               │
-               ▼
-     Annotated Frames & Results
+
