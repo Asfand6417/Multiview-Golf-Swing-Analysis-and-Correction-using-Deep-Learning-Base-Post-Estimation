@@ -1,0 +1,16 @@
+tensorflow==2.7.0
+numpy>=1.22.4
+cython>=0.29.24
+setuptools>=58.0.0
+wheel>=0.37.0
+# Use a specific pandas version that is known to work with numpy>=1.22.4
+# and has pre-built wheels available for Windows
+pandas==1.4.2
+# Windows-specific dependencies for building C extensions
+pywin32>=303; platform_system=="Windows"
+# Other dependencies
+protobuf==3.19.4
+opencv-python>=4.5.0
+scikit-learn>=1.0.0
+matplotlib>=3.5.0
+mediapipe>=0.8.10
