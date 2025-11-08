@@ -1,0 +1,24 @@
+# GolfPose Requirements
+# Core dependencies
+numpy>=1.19.0
+opencv-python>=4.5.0
+mediapipe>=0.8.9
+matplotlib>=3.3.0
+pandas>=1.1.0
+scikit-learn>=0.24.0
+
+# For 3D visualization
+mpl_toolkits.mplot3d
+
+# For model saving/loading
+joblib>=1.0.0
+
+# For deep learning components (optional)
+tensorflow>=2.4.0
+keras>=2.4.0
+
+# For video processing
+ffmpeg-python>=0.2.0
+
+# For camera calibration
+scipy>=1.6.0
