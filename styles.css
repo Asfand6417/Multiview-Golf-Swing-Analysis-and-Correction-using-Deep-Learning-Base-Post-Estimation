@@ -1,0 +1,71 @@
+:root {
+    --bg: #fafafa;
+    --card: #fff;
+    --muted: #666
+}
+
+* {
+    box-sizing: border-box
+}
+
+body {
+    font-family: system-ui, Arial;
+    background: var(--bg);
+    color: #111;
+    margin: 0;
+    padding: 1rem
+}
+
+header {
+    max-width: 900px;
+    margin: 0 auto 1rem
+}
+
+h1 {
+    margin: .2rem 0
+}
+
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding-bottom: 3rem
+}
+
+.hero .cover {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .08)
+}
+
+section {
+    background: var(--card);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .04)
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px
+}
+
+.grid img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    background: #eee
+}
+
+footer {
+    max-width: 900px;
+    margin: 1rem auto;
+    color: var(--muted);
+    font-size: .9rem
+}
+
+a {
+    color: #0b66ff
+}
