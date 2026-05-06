@@ -1,0 +1,16 @@
+<svg width="800" height="520" viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+    <title id="title">Pose timeline preview</title>
+    <desc id="desc">Dashboard mockup showing a pose timeline and metrics.</desc>
+    <rect width="800" height="520" rx="28" fill="#eef2f8" />
+    <rect x="60" y="60" width="680" height="70" rx="18" fill="#0b3d91" />
+    <rect x="90" y="90" width="220" height="10" rx="5" fill="#ffffff" opacity="0.8" />
+    <rect x="60" y="160" width="410" height="290" rx="22" fill="#ffffff" />
+    <rect x="520" y="160" width="220" height="130" rx="22" fill="#ffffff" />
+    <rect x="520" y="320" width="220" height="130" rx="22" fill="#ffffff" />
+    <rect x="90" y="200" width="300" height="12" rx="6" fill="#c7d4ea" />
+    <rect x="90" y="230" width="260" height="12" rx="6" fill="#c7d4ea" />
+    <rect x="90" y="260" width="320" height="12" rx="6" fill="#c7d4ea" />
+    <rect x="90" y="320" width="160" height="12" rx="6" fill="#1f7ae0" />
+    <rect x="90" y="350" width="220" height="12" rx="6" fill="#1f7ae0" />
+    <rect x="90" y="380" width="120" height="12" rx="6" fill="#1f7ae0" />
+</svg>

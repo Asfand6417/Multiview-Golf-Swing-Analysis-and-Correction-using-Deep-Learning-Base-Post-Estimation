@@ -1,0 +1,26 @@
+<svg width="800" height="520" viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+    <title id="title">3D skeleton preview</title>
+    <desc id="desc">Illustration of a 3D skeleton overlay and metrics panel.</desc>
+    <rect width="800" height="520" rx="28" fill="#eef2f8" />
+    <rect x="70" y="70" width="420" height="380" rx="24" fill="#ffffff" />
+    <rect x="520" y="70" width="210" height="120" rx="20" fill="#ffffff" />
+    <rect x="520" y="210" width="210" height="120" rx="20" fill="#ffffff" />
+    <rect x="520" y="350" width="210" height="100" rx="20" fill="#ffffff" />
+    <circle cx="280" cy="170" r="34" fill="#0b3d91" opacity="0.25" />
+    <circle cx="230" cy="260" r="24" fill="#0b3d91" opacity="0.25" />
+    <circle cx="330" cy="260" r="24" fill="#0b3d91" opacity="0.25" />
+    <circle cx="250" cy="360" r="26" fill="#0b3d91" opacity="0.25" />
+    <circle cx="310" cy="360" r="26" fill="#0b3d91" opacity="0.25" />
+    <path
+        d="M280 200l-50 40m50-40l50 40m-50-40v80m0 0l-30 60m30-60l30 60"
+        fill="none"
+        stroke="#0b3d91"
+        stroke-width="8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        opacity="0.6"
+    />
+    <rect x="550" y="110" width="150" height="12" rx="6" fill="#c7d4ea" />
+    <rect x="550" y="245" width="150" height="12" rx="6" fill="#c7d4ea" />
+    <rect x="550" y="385" width="150" height="12" rx="6" fill="#c7d4ea" />
+</svg>

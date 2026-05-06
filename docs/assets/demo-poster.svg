@@ -1,0 +1,11 @@
+<svg width="960" height="540" viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+    <title id="title">Demo video placeholder</title>
+    <desc id="desc">Placeholder frame prompting visitors to add a demo video.</desc>
+    <rect width="960" height="540" rx="28" fill="#0b1220" />
+    <rect x="60" y="60" width="840" height="420" rx="24" fill="#111a2b" />
+    <circle cx="480" cy="270" r="72" fill="#1f7ae0" opacity="0.8" />
+    <polygon points="465,235 525,270 465,305" fill="#ffffff" />
+    <text x="120" y="470" fill="#dbe6ff" font-size="20" font-family="Segoe UI, sans-serif">
+        Add your swing demo video here
+    </text>
+</svg>

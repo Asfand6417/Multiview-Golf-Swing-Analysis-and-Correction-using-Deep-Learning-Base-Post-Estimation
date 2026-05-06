@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://asfand6417.github.io/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/sitemap.xml

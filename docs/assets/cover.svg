@@ -1,0 +1,42 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+    <title id="title">Multiview Golf Swing Analysis cover</title>
+    <desc id="desc">Gradient background with a dashboard illustration and project title.</desc>
+    <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#0b3d91" />
+            <stop offset="100%" stop-color="#1f7ae0" />
+        </linearGradient>
+    </defs>
+    <rect width="1200" height="630" rx="32" fill="url(#bg)" />
+    <rect x="80" y="90" width="520" height="360" rx="24" fill="#ffffff" opacity="0.15" />
+    <rect x="110" y="140" width="460" height="30" rx="12" fill="#ffffff" opacity="0.35" />
+    <rect x="110" y="190" width="320" height="16" rx="8" fill="#ffffff" opacity="0.4" />
+    <rect x="110" y="225" width="400" height="16" rx="8" fill="#ffffff" opacity="0.4" />
+    <rect x="110" y="260" width="260" height="16" rx="8" fill="#ffffff" opacity="0.4" />
+    <rect x="110" y="310" width="180" height="90" rx="18" fill="#ffffff" opacity="0.25" />
+    <rect x="310" y="310" width="180" height="90" rx="18" fill="#ffffff" opacity="0.25" />
+    <rect x="510" y="310" width="60" height="90" rx="18" fill="#ffffff" opacity="0.25" />
+    <circle cx="820" cy="240" r="120" fill="#ffffff" opacity="0.18" />
+    <path
+        d="M770 235c30-55 100-80 150-40"
+        fill="none"
+        stroke="#ffffff"
+        stroke-width="16"
+        stroke-linecap="round"
+        opacity="0.7"
+    />
+    <path
+        d="M740 300c40 30 120 40 170 10"
+        fill="none"
+        stroke="#ffffff"
+        stroke-width="16"
+        stroke-linecap="round"
+        opacity="0.7"
+    />
+    <text x="80" y="520" fill="#ffffff" font-size="44" font-family="Segoe UI, sans-serif" font-weight="700">
+        Multiview Golf Swing Analysis
+    </text>
+    <text x="80" y="565" fill="#dbe6ff" font-size="24" font-family="Segoe UI, sans-serif">
+        3D Pose Estimation • Swing Phase Segmentation • Coaching Feedback
+    </text>
+</svg>

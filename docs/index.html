@@ -1,55 +1,354 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Multiview Golf Swing Analysis — Presentation</title>
-    <link rel="stylesheet" href="styles.css" />
-</head>
-
-<body>
-    <header>
-        <h1>Multiview Golf Swing Analysis</h1>
-        <p>Presentation page for the project. Replace images in docs/assets/ with real screenshots.</p>
-    </header>
-
-    <main>
-        <section class="hero">
-            <img src="assets/cover.png" alt="Project cover (replace)" class="cover" />
-        </section>
-
-        <section>
-            <h2>Overview</h2>
-            <p>Multiview Golf Swing Analysis and Correction using Deep Learning-based Pose Estimation.</p>
-            <ul>
-                <li>Pose estimation across multiple camera views</li>
-                <li>Deep learning-based swing feedback</li>
-                <li>Notebooks, models, and demo scripts included in the repo</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>Quick links</h2>
-            <ul>
-                <li><a href="../README.md">Project README</a></li>
-                <li><a href="../notebooks">Notebooks</a></li>
-                <li><a href="../src">Source</a></li>
-            </ul>
-        </section>
-
-        <section id="gallery">
-            <h2>Screenshots</h2>
-            <div class="grid">
-                <img src="assets/screen1.png" alt="Screenshot 1" />
-                <img src="assets/screen2.png" alt="Screenshot 2" />
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Multiview Golf Swing Analysis | 3D Pose Estimation &amp; Feedback</title>
+        <meta
+            name="description"
+            content="Professional GitHub Pages site for Multiview Golf Swing Analysis: 3D pose estimation, swing phase segmentation, and coaching feedback powered by deep learning."
+        />
+        <meta
+            name="keywords"
+            content="golf swing analysis, 3D pose estimation, multiview, computer vision, deep learning, sports biomechanics"
+        />
+        <meta name="author" content="Asfand Yar" />
+        <meta name="robots" content="index,follow" />
+        <meta name="theme-color" content="#0b3d91" />
+        <link
+            rel="canonical"
+            href="https://asfand6417.github.io/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/"
+        />
+        <meta
+            property="og:title"
+            content="Multiview Golf Swing Analysis | 3D Pose Estimation &amp; Feedback"
+        />
+        <meta
+            property="og:description"
+            content="Explore the multiview golf swing analysis system with 3D pose estimation, phase segmentation, and coaching feedback."
+        />
+        <meta
+            property="og:url"
+            content="https://asfand6417.github.io/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/"
+        />
+        <meta
+            property="og:image"
+            content="https://asfand6417.github.io/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/assets/cover.svg"
+        />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+            name="twitter:image"
+            content="https://asfand6417.github.io/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/assets/cover.svg"
+        />
+        <link rel="stylesheet" href="styles.css" />
+        <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "SoftwareSourceCode",
+                "name": "Multiview Golf Swing Analysis and Correction",
+                "description": "Deep learning-based multiview golf swing analysis with 3D pose estimation, swing phase segmentation, and coaching feedback.",
+                "codeRepository": "https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation",
+                "programmingLanguage": ["Python", "HTML", "CSS", "JavaScript"],
+                "author": {
+                    "@type": "Person",
+                    "name": "Asfand Yar"
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <a class="skip-link" href="#overview">Skip to content</a>
+        <header class="site-header">
+            <div class="brand">
+                <span class="brand-mark" aria-hidden="true">⛳</span>
+                <div>
+                    <p class="brand-title">Multiview Golf Swing Analysis</p>
+                    <p class="brand-subtitle">3D Pose Estimation • Swing Feedback • Research Toolkit</p>
+                </div>
             </div>
-        </section>
-    </main>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="#overview">Overview</a>
+                <a href="#features">Features</a>
+                <a href="#demo">Demo</a>
+                <a href="#getting-started">Get Started</a>
+                <a href="#resources">Resources</a>
+            </nav>
+            <a
+                class="button button-primary"
+                href="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation"
+                rel="noopener"
+                target="_blank"
+            >
+                View on GitHub
+            </a>
+        </header>
 
-    <footer>
-        <small>Replace placeholder images in docs/assets/ and push to publish.</small>
-    </footer>
-</body>
+        <main>
+            <!-- Hero summary -->
+            <section class="hero" id="overview">
+                <div class="hero-content">
+                    <p class="eyebrow">Research-ready computer vision pipeline</p>
+                    <h1>Turn multi-camera golf swings into 3D insights and coaching-ready feedback.</h1>
+                    <p>
+                        This project combines multi-view pose estimation, swing phase segmentation, and
+                        explainable feedback to support athletes, coaches, and researchers.
+                    </p>
+                    <div class="hero-actions">
+                        <a
+                            class="button button-primary"
+                            href="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            Explore the repo
+                        </a>
+                        <a class="button button-ghost" href="#getting-started">Setup guide</a>
+                    </div>
+                    <div class="hero-metrics">
+                        <div>
+                            <p class="metric-value">3D</p>
+                            <p class="metric-label">Pose reconstruction</p>
+                        </div>
+                        <div>
+                            <p class="metric-value">7</p>
+                            <p class="metric-label">Swing phases tracked</p>
+                        </div>
+                        <div>
+                            <p class="metric-value">Multi-view</p>
+                            <p class="metric-label">Camera fusion</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-media">
+                    <img
+                        src="assets/cover.svg"
+                        alt="Illustration of a multiview golf swing analysis dashboard"
+                        loading="eager"
+                    />
+                </div>
+            </section>
 
+            <!-- Feature highlights -->
+            <section class="card-grid" id="features">
+                <header class="section-header">
+                    <h2>Key features</h2>
+                    <p>Designed for research teams and performance coaches who need explainable results.</p>
+                </header>
+                <div class="grid">
+                    <article class="card">
+                        <h3>Multi-camera fusion</h3>
+                        <p>Fuse synchronized views to generate stable 3D joint trajectories.</p>
+                    </article>
+                    <article class="card">
+                        <h3>Swing phase intelligence</h3>
+                        <p>Automatically segment address, backswing, impact, and follow-through phases.</p>
+                    </article>
+                    <article class="card">
+                        <h3>Quantitative metrics</h3>
+                        <p>Track MPJPE, joint angles, and motion smoothness for objective comparisons.</p>
+                    </article>
+                    <article class="card">
+                        <h3>Explainable feedback</h3>
+                        <p>Rule-based posture insights translate model outputs into coaching cues.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Pipeline overview -->
+            <section class="workflow">
+                <header class="section-header">
+                    <h2>Workflow at a glance</h2>
+                    <p>A clear pipeline makes the project easy to extend and demo.</p>
+                </header>
+                <ol class="timeline">
+                    <li>
+                        <span class="timeline-step">1</span>
+                        Capture synchronized camera feeds.
+                    </li>
+                    <li>
+                        <span class="timeline-step">2</span>
+                        Extract 2D keypoints with MediaPipe.
+                    </li>
+                    <li>
+                        <span class="timeline-step">3</span>
+                        Reconstruct 3D pose via triangulation.
+                    </li>
+                    <li>
+                        <span class="timeline-step">4</span>
+                        Segment swing phases and generate feedback.
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Demo + interactive preview -->
+            <section id="demo" class="demo">
+                <header class="section-header">
+                    <h2>Demo &amp; interactive preview</h2>
+                    <p>Drop in your own video to instantly showcase the system.</p>
+                </header>
+                <div class="demo-layout">
+                    <figure class="demo-video">
+                        <img
+                            src="assets/demo-poster.svg"
+                            alt="Placeholder poster for the swing analysis demo video"
+                            loading="lazy"
+                        />
+                        <figcaption>
+                            Add a demo clip at <code>docs/assets/demo.mp4</code> or link a YouTube video in the
+                            README to replace this placeholder.
+                        </figcaption>
+                    </figure>
+                    <div class="demo-interactive">
+                        <h3>Interactive swing phases</h3>
+                        <p class="phase-label" data-phase-label>Address</p>
+                        <p class="phase-description" data-phase-description>
+                            Establish posture alignment before initiating movement.
+                        </p>
+                        <input
+                            class="phase-slider"
+                            type="range"
+                            min="0"
+                            max="6"
+                            value="0"
+                            aria-label="Swing phase slider"
+                            data-phase-slider
+                        />
+                        <div class="phase-legend">
+                            <span>Address</span>
+                            <span>Takeaway</span>
+                            <span>Backswing</span>
+                            <span>Top</span>
+                            <span>Downswing</span>
+                            <span>Impact</span>
+                            <span>Follow-through</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Project impact -->
+            <section class="impact">
+                <header class="section-header">
+                    <h2>Why it matters</h2>
+                    <p>Make performance insights accessible to coaches, athletes, and researchers.</p>
+                </header>
+                <div class="grid">
+                    <article class="card">
+                        <h3>Coaching at scale</h3>
+                        <p>Automate biomechanical analysis and provide consistent swing feedback.</p>
+                    </article>
+                    <article class="card">
+                        <h3>Research-ready data</h3>
+                        <p>Export clean 3D trajectories for ML experiments or biomechanics studies.</p>
+                    </article>
+                    <article class="card">
+                        <h3>Transparent insights</h3>
+                        <p>Blend ML models with rule-based explanations to build trust.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Screenshot gallery -->
+            <section class="gallery">
+                <header class="section-header">
+                    <h2>Visual highlights</h2>
+                    <p>Replace these placeholders with real screenshots from your experiments.</p>
+                </header>
+                <div class="grid gallery-grid">
+                    <figure>
+                        <img src="assets/screen1.svg" alt="Pose timeline dashboard placeholder" loading="lazy" />
+                        <figcaption>Pose timeline and phase segmentation view.</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="assets/screen2.svg" alt="3D skeleton rendering placeholder" loading="lazy" />
+                        <figcaption>3D skeleton reconstruction with metrics panel.</figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            <!-- Setup steps -->
+            <section id="getting-started" class="getting-started">
+                <header class="section-header">
+                    <h2>Getting started</h2>
+                    <p>Clone the repo, install dependencies, and analyze your first swing.</p>
+                </header>
+                <div class="grid two-column">
+                    <div>
+                        <h3>Installation</h3>
+                        <pre><code>git clone https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation.git
+cd Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
+pip install -r requirements.txt</code></pre>
+                    </div>
+                    <div>
+                        <h3>Quick run</h3>
+                        <pre><code>python main.py
+# Optional: update input paths in main.py to match your videos.
+
+python test_triangulation.py
+# Verify multi-view triangulation outputs.</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resource links -->
+            <section id="resources" class="resources">
+                <header class="section-header">
+                    <h2>Resources</h2>
+                    <p>Everything you need to present or extend the project.</p>
+                </header>
+                <div class="grid">
+                    <a
+                        class="resource-card"
+                        href="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/blob/main/README.md"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        <h3>Project README</h3>
+                        <p>Goals, setup, and usage examples.</p>
+                    </a>
+                    <a
+                        class="resource-card"
+                        href="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/tree/main/docs"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        <h3>Documentation</h3>
+                        <p>User guide, module docs, and reference notes.</p>
+                    </a>
+                    <a
+                        class="resource-card"
+                        href="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/issues"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        <h3>Issues &amp; roadmap</h3>
+                        <p>Track enhancements and share feedback.</p>
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div>
+                <p>Created by Asfand Yar • Computer Vision Research</p>
+                <p class="muted">
+                    Publish this page via GitHub Pages → Settings → Pages → Deploy from branch → main /docs.
+                </p>
+            </div>
+            <div>
+                <a
+                    href="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    GitHub Repository
+                </a>
+            </div>
+        </footer>
+        <script src="scripts.js" defer></script>
+    </body>
 </html>
