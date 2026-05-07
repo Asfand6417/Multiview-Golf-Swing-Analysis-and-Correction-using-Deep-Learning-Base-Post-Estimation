@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>GolfPose Studio — Multiview Swing Analysis</title>
+    <meta name="description"
+        content="Multiview golf swing analysis with real-time 3D pose estimation, swing phase segmentation, and AI coaching feedback." />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="GolfPose Studio — Multiview Swing Analysis" />
+    <meta property="og:description"
+        content="Real-time 3D pose estimation, swing phase segmentation, and coaching feedback across synchronized camera views." />
+    <meta property="og:image" content="assets/cover.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="GolfPose Studio — Multiview Swing Analysis" />
+    <meta name="twitter:description"
+        content="Real-time 3D pose estimation, swing phase segmentation, and coaching feedback across synchronized camera views." />
+    <meta name="twitter:image" content="assets/cover.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="brand-mark">MV</div>
+                <div class="brand-text">
+                    <span class="brand-title">GolfPose Studio</span>
+                    <span class="brand-sub">Multiview Swing Lab</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-tab="analyze">
+                    <i data-lucide="camera"></i>
+                    Analyze
+                    <span class="nav-pill">Live</span>
+                </button>
+                <button class="nav-item" data-tab="metrics">
+                    <i data-lucide="activity"></i>
+                    Metrics
+                </button>
+                <button class="nav-item" data-tab="targets">
+                    <i data-lucide="target"></i>
+                    Targets
+                </button>
+                <button class="nav-item" data-tab="chat">
+                    <i data-lucide="message-square"></i>
+                    Coach Chat
+                </button>
+                <button class="nav-item" data-tab="history">
+                    <i data-lucide="history"></i>
+                    Session History
+                </button>
+                <button class="nav-item" data-tab="security">
+                    <i data-lucide="shield"></i>
+                    Security
+                </button>
+                <button class="nav-item" data-tab="settings">
+                    <i data-lucide="settings"></i>
+                    Settings
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="status-card">
+                    <div class="status-header">System Status</div>
+                    <div class="status-row"><span class="dot success"></span>Cameras synced</div>
+                    <div class="status-row"><span class="dot"></span>Pose model ready</div>
+                    <div class="status-row"><span class="dot warn"></span>Wind threshold: 12 mph</div>
+                    <button class="secondary full">
+                        Connect device
+                        <i data-lucide="chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <div class="main">
+            <header class="topbar">
+                <button class="mobile-toggle" id="menuToggle">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div class="search">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Search swings, athletes, sessions" />
+                </div>
+                <div class="topbar-actions">
+                    <button class="ghost">
+                        <i data-lucide="play"></i>
+                        Start capture
+                    </button>
+                    <button class="icon-button" aria-label="Settings">
+                        <i data-lucide="settings"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="icon-alert" id="iconAlert" role="status">
+                <strong>Icons unavailable.</strong> Refresh the page or check your connection.
+            </div>
+
+            <section class="hero">
+                <div class="hero-copy">
+                    <span class="eyebrow">AI Swing Intelligence</span>
+                    <h1>Multiview Golf Swing Analysis &amp; Correction</h1>
+                    <p>
+                        Real-time 3D pose estimation, swing phase segmentation, and rule-based coaching feedback across
+                        synchronized camera views.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="primary">Launch analysis</button>
+                        <button class="secondary">View demo</button>
+                    </div>
+                    <div class="badge-row">
+                        <span class="badge active">3D Pose</span>
+                        <span class="badge">Phase Detection</span>
+                        <span class="badge">Trajectory Smoothing</span>
+                        <span class="badge">Coach Feedback</span>
+                    </div>
+                </div>
+                <div class="hero-panel">
+                    <div class="video-card">
+                        <div class="video-header">
+                            <span>Session: Tiger_042</span>
+                            <span class="status">Live</span>
+                        </div>
+                        <div class="video-body">
+                            <div class="video-grid"></div>
+                            <div class="swing-metric">
+                                <span class="label">Club Speed</span>
+                                <span class="value">104 <small>mph</small></span>
+                            </div>
+                        </div>
+                        <div class="video-footer">
+                            <div class="camera-pill"><i data-lucide="camera"></i>Cam A 60fps</div>
+                            <div class="camera-pill"><i data-lucide="camera"></i>Cam B 60fps</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="metrics">
+                <article class="metric-card">
+                    <span class="metric-label">Pose Accuracy</span>
+                    <div class="metric-value">92.4<span>%</span></div>
+                    <span class="metric-sub">MPJPE 18.2mm</span>
+                </article>
+                <article class="metric-card">
+                    <span class="metric-label">Swing Tempo</span>
+                    <div class="metric-value">3.1<span>:1</span></div>
+                    <span class="metric-sub">Backswing / Downswing</span>
+                </article>
+                <article class="metric-card">
+                    <span class="metric-label">Plane Deviation</span>
+                    <div class="metric-value">2.8<span>°</span></div>
+                    <span class="metric-sub">Target plane</span>
+                </article>
+                <article class="metric-card">
+                    <span class="metric-label">Impact Score</span>
+                    <div class="metric-value">86<span>/100</span></div>
+                    <span class="metric-sub">Consistency index</span>
+                </article>
+            </section>
+
+            <div class="tab-panels">
+                <section class="tab-panel active" data-panel="analyze">
+                    <div class="panel-grid">
+                        <article class="panel">
+                            <div class="panel-header">
+                                <h3>Swing Phases</h3>
+                                <button class="ghost small">Full breakdown</button>
+                            </div>
+                            <div class="phase-list">
+                                <div class="phase-item active">
+                                    <span>Address</span>
+                                    <span class="phase-time">0.0s</span>
+                                </div>
+                                <div class="phase-item">
+                                    <span>Backswing</span>
+                                    <span class="phase-time">0.9s</span>
+                                </div>
+                                <div class="phase-item">
+                                    <span>Top</span>
+                                    <span class="phase-time">1.1s</span>
+                                </div>
+                                <div class="phase-item highlight">
+                                    <span>Downswing</span>
+                                    <span class="phase-time">1.4s</span>
+                                </div>
+                                <div class="phase-item">
+                                    <span>Impact</span>
+                                    <span class="phase-time">1.6s</span>
+                                </div>
+                                <div class="phase-item">
+                                    <span>Follow-through</span>
+                                    <span class="phase-time">2.3s</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="panel">
+                            <div class="panel-header">
+                                <h3>Key Corrections</h3>
+                                <button class="ghost small">Review</button>
+                            </div>
+                            <ul class="insight-list">
+                                <li>
+                                    <span class="insight-title">Hip rotation +4°</span>
+                                    <span class="insight-sub">Increase hip turn at the top for more speed.</span>
+                                </li>
+                                <li>
+                                    <span class="insight-title">Trail elbow angle</span>
+                                    <span class="insight-sub">Maintain 85° through transition.</span>
+                                </li>
+                                <li>
+                                    <span class="insight-title">Head stability</span>
+                                    <span class="insight-sub">Reduce lateral drift by 2cm.</span>
+                                </li>
+                            </ul>
+                        </article>
+
+                        <article class="panel wide">
+                            <div class="panel-header">
+                                <h3>Target Flight Preview</h3>
+                                <button class="ghost small">Adjust target</button>
+                            </div>
+                            <div class="trajectory">
+                                <div class="trajectory-line"></div>
+                                <div class="trajectory-point"></div>
+                                <div class="trajectory-point two"></div>
+                                <div class="trajectory-point three"></div>
+                                <div class="trajectory-label">Carry 278y • Apex 34m</div>
+                            </div>
+                        </article>
+
+                        <article class="panel chat">
+                            <div class="panel-header">
+                                <h3>Coach Chat</h3>
+                                <button class="ghost small">Clear</button>
+                            </div>
+                            <div class="chat-thread">
+                                <div class="chat-message assistant">
+                                    <p>Great tempo on the downswing. Focus on keeping your lead wrist flatter at impact.</p>
+                                    <span>AI Coach · just now</span>
+                                </div>
+                                <div class="chat-message user">
+                                    <p>Should I widen my stance for more stability?</p>
+                                    <span>You · 1m ago</span>
+                                </div>
+                                <div class="chat-message assistant">
+                                    <p>Yes — widen by 2-3cm and keep weight balanced at address.</p>
+                                    <span>AI Coach · 1m ago</span>
+                                </div>
+                            </div>
+                            <div class="chat-input">
+                                <input type="text" placeholder="Ask the coach..." />
+                                <button class="primary small">Send</button>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="tab-panel" data-panel="metrics">
+                    <div class="panel-grid">
+                        <article class="panel">
+                            <div class="panel-header">
+                                <h3>Consistency Trend</h3>
+                            </div>
+                            <div class="sparkline">
+                                <span></span><span></span><span></span><span></span><span></span><span></span>
+                            </div>
+                            <p class="panel-text">Dispersion reduced 14% across the last 8 sessions.</p>
+                        </article>
+                        <article class="panel">
+                            <div class="panel-header">
+                                <h3>Efficiency Index</h3>
+                            </div>
+                            <div class="ring" style="--ring-progress: 78%;">
+                                <div class="ring-value">78%</div>
+                            </div>
+                            <p class="panel-text">Energy transfer rated "Strong".</p>
+                        </article>
+                        <article class="panel wide">
+                            <div class="panel-header">
+                                <h3>Biomechanics</h3>
+                            </div>
+                            <div class="metric-table">
+                                <div>
+                                    <span>Shoulder Tilt</span>
+                                    <strong>21°</strong>
+                                </div>
+                                <div>
+                                    <span>Spine Angle</span>
+                                    <strong>34°</strong>
+                                </div>
+                                <div>
+                                    <span>Knee Flexion</span>
+                                    <strong>18°</strong>
+                                </div>
+                                <div>
+                                    <span>Wrist Lag</span>
+                                    <strong>74°</strong>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="tab-panel" data-panel="targets">
+                    <div class="panel-grid">
+                        <article class="panel wide">
+                            <div class="panel-header">
+                                <h3>Target Plan</h3>
+                            </div>
+                            <div class="target-grid">
+                                <div>
+                                    <span>Carry</span>
+                                    <strong>275-285y</strong>
+                                </div>
+                                <div>
+                                    <span>Shot Shape</span>
+                                    <strong>Fade</strong>
+                                </div>
+                                <div>
+                                    <span>Launch Angle</span>
+                                    <strong>12.5°</strong>
+                                </div>
+                                <div>
+                                    <span>Spin Rate</span>
+                                    <strong>2400 rpm</strong>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="panel">
+                            <div class="panel-header">
+                                <h3>Range Pins</h3>
+                            </div>
+                            <ul class="insight-list">
+                                <li>
+                                    <span class="insight-title">Fairway Center</span>
+                                    <span class="insight-sub">285y • 12y roll</span>
+                                </li>
+                                <li>
+                                    <span class="insight-title">Right Bunker</span>
+                                    <span class="insight-sub">310y • 8y carry buffer</span>
+                                </li>
+                            </ul>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="tab-panel" data-panel="chat">
+                    <div class="panel-grid">
+                        <article class="panel wide">
+                            <div class="panel-header">
+                                <h3>Coach Chat</h3>
+                            </div>
+                            <div class="chat-thread">
+                                <div class="chat-message assistant">
+                                    <p>Today's focus: smoother transition and lower dispersion.</p>
+                                    <span>AI Coach · 5m ago</span>
+                                </div>
+                                <div class="chat-message user">
+                                    <p>Which drill helps with swing plane?</p>
+                                    <span>You · 4m ago</span>
+                                </div>
+                                <div class="chat-message assistant">
+                                    <p>Use the alignment stick drill for 12 reps with a slow tempo.</p>
+                                    <span>AI Coach · 4m ago</span>
+                                </div>
+                            </div>
+                            <div class="chat-input">
+                                <input type="text" placeholder="Ask the coach..." />
+                                <button class="primary small">Send</button>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="tab-panel" data-panel="history">
+                    <div class="panel-grid">
+                        <article class="panel wide">
+                            <div class="panel-header">
+                                <h3>Recent Sessions</h3>
+                            </div>
+                            <div class="history-list">
+                                <div class="history-row">
+                                    <div>
+                                        <strong>Session 042</strong>
+                                        <span>Dual-cam • Driver</span>
+                                    </div>
+                                    <span class="history-score">86</span>
+                                </div>
+                                <div class="history-row">
+                                    <div>
+                                        <strong>Session 041</strong>
+                                        <span>Indoor • 7 Iron</span>
+                                    </div>
+                                    <span class="history-score">82</span>
+                                </div>
+                                <div class="history-row">
+                                    <div>
+                                        <strong>Session 040</strong>
+                                        <span>Outdoor • Driver</span>
+                                    </div>
+                                    <span class="history-score">88</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="tab-panel" data-panel="security">
+                    <div class="panel-grid">
+                        <article class="panel wide">
+                            <div class="panel-header">
+                                <h3>Security &amp; Compliance</h3>
+                            </div>
+                            <div class="security-grid">
+                                <div>
+                                    <span>Data Retention</span>
+                                    <strong>30 days</strong>
+                                </div>
+                                <div>
+                                    <span>Encryption</span>
+                                    <strong>At rest &amp; transit</strong>
+                                </div>
+                                <div>
+                                    <span>Access</span>
+                                    <strong>Team verified</strong>
+                                </div>
+                                <div>
+                                    <span>Audit Logs</span>
+                                    <strong>Enabled</strong>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="tab-panel" data-panel="settings">
+                    <div class="panel-grid">
+                        <article class="panel">
+                            <div class="panel-header">
+                                <h3>Capture Settings</h3>
+                            </div>
+                            <div class="settings-list">
+                                <label>
+                                    <span>Auto-sync cameras</span>
+                                    <input type="checkbox" checked />
+                                </label>
+                                <label>
+                                    <span title="Direct Linear Transformation smoothing">DLT smoothing</span>
+                                    <input type="checkbox" checked />
+                                </label>
+                                <label>
+                                    <span>Store raw frames</span>
+                                    <input type="checkbox" />
+                                </label>
+                            </div>
+                        </article>
+                        <article class="panel">
+                            <div class="panel-header">
+                                <h3>Notifications</h3>
+                            </div>
+                            <div class="settings-list">
+                                <label>
+                                    <span>Coach summary</span>
+                                    <input type="checkbox" checked />
+                                </label>
+                                <label>
+                                    <span>Session exports</span>
+                                    <input type="checkbox" checked />
+                                </label>
+                                <label>
+                                    <span>Firmware alerts</span>
+                                    <input type="checkbox" />
+                                </label>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script>
+        const navItems = document.querySelectorAll('.nav-item');
+        const panels = document.querySelectorAll('.tab-panel');
+        const sidebar = document.getElementById('sidebar');
+        const menuToggle = document.getElementById('menuToggle');
+
+        navItems.forEach((item) => {
+            item.addEventListener('click', () => {
+                navItems.forEach((btn) => btn.classList.remove('active'));
+                item.classList.add('active');
+
+                const target = item.dataset.tab;
+                panels.forEach((panel) => {
+                    panel.classList.toggle('active', panel.dataset.panel === target);
+                });
+
+                sidebar.classList.remove('open');
+                menuToggle.classList.remove('open');
+            });
+        });
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            menuToggle.classList.toggle('open');
+        });
+
+        if (window.lucide) {
+            window.lucide.createIcons();
+        } else {
+            document.body.classList.add('no-icons');
+            console.warn('Lucide icons failed to load. Check your connection or refresh the page.');
+        }
+    </script>
+</body>
+
+</html>
