@@ -23,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
 </head>
@@ -104,6 +104,10 @@
                     </button>
                 </div>
             </header>
+
+            <div class="icon-alert" id="iconAlert" role="status">
+                <strong>Icons unavailable.</strong> Refresh the page or check your connection.
+            </div>
 
             <section class="hero">
                 <div class="hero-copy">
@@ -519,6 +523,9 @@
 
         if (window.lucide) {
             window.lucide.createIcons();
+        } else {
+            document.body.classList.add('no-icons');
+            console.warn('Lucide icons failed to load.');
         }
     </script>
 </body>

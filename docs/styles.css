@@ -209,6 +209,22 @@ body {
     gap: 10px;
 }
 
+.icon-alert {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    color: #fbbf24;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+}
+
+body.no-icons .icon-alert {
+    display: flex;
+}
+
 button {
     font-family: inherit;
 }
