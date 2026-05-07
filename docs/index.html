@@ -285,7 +285,7 @@
                             <div class="panel-header">
                                 <h3>Efficiency Index</h3>
                             </div>
-                            <div class="ring">
+                            <div class="ring" style="--ring-progress: 78%;">
                                 <div class="ring-value">78%</div>
                             </div>
                             <p class="panel-text">Energy transfer rated "Strong".</p>
@@ -460,7 +460,7 @@
                                     <input type="checkbox" checked />
                                 </label>
                                 <label>
-                                    <span>DLT smoothing</span>
+                                    <span title="Direct Linear Transformation smoothing">DLT smoothing</span>
                                     <input type="checkbox" checked />
                                 </label>
                                 <label>
@@ -525,7 +525,7 @@
             window.lucide.createIcons();
         } else {
             document.body.classList.add('no-icons');
-            console.warn('Lucide icons failed to load.');
+            console.warn('Lucide icons failed to load. Check your connection or refresh the page.');
         }
     </script>
 </body>

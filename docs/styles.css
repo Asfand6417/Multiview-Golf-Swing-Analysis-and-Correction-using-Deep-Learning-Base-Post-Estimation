@@ -668,10 +668,11 @@ button {
 }
 
 .ring {
+    --ring-progress: 78%;
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    background: conic-gradient(var(--accent) 0 78%, rgba(148, 163, 184, 0.2) 78% 100%);
+    background: conic-gradient(var(--accent) 0 var(--ring-progress), rgba(148, 163, 184, 0.2) var(--ring-progress) 100%);
     display: grid;
     place-items: center;
     margin: 0 auto;
