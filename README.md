@@ -63,11 +63,11 @@ The platform was developed to bridge the gap between expensive laboratory motion
 
 ---
 
-
+<img src="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/blob/4ed18370ae828b5d1995257ea3a61e565d0b83b6/MJJPE.png" />
 
 
 ## Research Results
-<img src="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/blob/4ed18370ae828b5d1995257ea3a61e565d0b83b6/MJJPE.png" />
+
 | Metric | Result |
 |----------|---------|
 | Overall MPJPE | 8.77 mm |
