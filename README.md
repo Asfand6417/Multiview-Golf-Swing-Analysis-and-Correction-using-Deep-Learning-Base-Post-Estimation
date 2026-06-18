@@ -26,7 +26,7 @@
 
 </div>
 
-<img src="./results/wrist_3d_trajectory.png" alt="Golf Swing Biomechanics Intelligence" />
+<img src="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/blob/33da378b6bcb0d0ea0e8e6634ec1358a9ce4f9b9/Banner.png" alt="Golf Swing Biomechanics Intelligence" />
 
 ## Overview
 
