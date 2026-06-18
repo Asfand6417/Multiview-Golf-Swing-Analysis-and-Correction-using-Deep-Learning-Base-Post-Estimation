@@ -63,7 +63,7 @@ The platform was developed to bridge the gap between expensive laboratory motion
 
 ---
 
-<img src="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/blob/67ae3d2ac1a079acb10ed6dec4a3df09f0e53465/Diagram.jpeg" alt="Golf Swing Biomechanics Intelligence" />
+
 
 
 ## Research Results
@@ -84,7 +84,7 @@ The platform was developed to bridge the gap between expensive laboratory motion
 ---
 
 ## System Architecture
-
+<img src="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/blob/67ae3d2ac1a079acb10ed6dec4a3df09f0e53465/Diagram.jpeg" alt="Golf Swing Biomechanics Intelligence" />
 
 flowchart LR
 
@@ -119,7 +119,7 @@ L --> M["Annotated Reports & Visualizations"]
 ---
 
 ## How It Works
-
+<img src="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/blob/67ae3d2ac1a079acb10ed6dec4a3df09f0e53465/Diagram.jpeg" alt="Golf Swing Biomechanics Intelligence" />
 flowchart LR
     A["Multi-View Swing Video"]
     --> B["Pose Detection & Landmark Extraction"]
@@ -146,7 +146,7 @@ flowchart LR
 ---
 
 ## Swing Phases
-
+<img src="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/blob/67ae3d2ac1a079acb10ed6dec4a3df09f0e53465/Diagram.jpeg" alt="Golf Swing Biomechanics Intelligence" />
 The system automatically classifies each frame into one of eight golf swing phases:
 
 1. Address
