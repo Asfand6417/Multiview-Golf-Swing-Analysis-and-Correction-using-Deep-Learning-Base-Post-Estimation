@@ -9,7 +9,7 @@ pandas==1.4.2
 # Windows-specific dependencies for building C extensions
 pywin32>=303; platform_system=="Windows"
 # Other dependencies
-protobuf==3.19.4
+protobuf==5.29.6
 opencv-python>=4.5.0
 scikit-learn>=1.0.0
 matplotlib>=3.5.0
