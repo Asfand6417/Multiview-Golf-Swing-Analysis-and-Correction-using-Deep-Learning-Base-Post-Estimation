@@ -1,6 +1,11 @@
+from pathlib import Path
+
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+
+OUTPUT_IMAGE_PATH = Path(__file__).resolve().parents[1] / "images" / "Multi-Camera Approach-2" / "camera_views.png"
+OUTPUT_IMAGE_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 # Load calibration data
 calibration_data = np.load('calibration_data.npz', allow_pickle=True)
@@ -36,7 +41,7 @@ plt.title("Camera 1")
 plt.subplot(122)
 plt.imshow(cv2.cvtColor(frame2, cv2.COLOR_BGR2RGB))
 plt.title("Camera 2")
-plt.savefig("camera_views.png")
+plt.savefig(OUTPUT_IMAGE_PATH)
 plt.show()
 import cv2
 

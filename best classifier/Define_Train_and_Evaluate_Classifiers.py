@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 import os
+from pathlib import Path
 import cv2  # Added for video processing
 import mediapipe as mp  # Added for pose estimation
 from sklearn.model_selection import train_test_split
@@ -163,8 +164,8 @@ classifiers = {
 }
 
 results = {}
-output_plots_dir = "classifier_results"
-os.makedirs(output_plots_dir, exist_ok=True)
+output_plots_dir = Path(__file__).resolve().parents[1] / "images" / "best classifier" / "classifier_results"
+output_plots_dir.mkdir(parents=True, exist_ok=True)
 
 print("\n--- Training and Evaluating Classifiers ---")
 if X_train_scaled.shape[0] == 0:
@@ -210,7 +211,7 @@ for name, clf in classifiers.items():
             plt.ylabel('Actual Label')
             plt.xlabel('Predicted Label')
             plt.tight_layout()
-            plt.savefig(os.path.join(output_plots_dir, f"cm_{name.replace(' ', '_')}.png"))
+            plt.savefig(output_plots_dir / f"cm_{name.replace(' ', '_')}.png")
             plt.close()
         else:
             results[name] = {"accuracy": "N/A (No test data)", "report": "N/A", "cm": None, "model": clf}
