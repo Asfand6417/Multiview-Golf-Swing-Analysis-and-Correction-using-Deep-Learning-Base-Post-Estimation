@@ -63,6 +63,9 @@ The platform was developed to bridge the gap between expensive laboratory motion
 
 ---
 
+<img src="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/blob/67ae3d2ac1a079acb10ed6dec4a3df09f0e53465/Diagram.jpeg" alt="Golf Swing Biomechanics Intelligence" />
+
+
 ## Research Results
 
 | Metric | Result |
