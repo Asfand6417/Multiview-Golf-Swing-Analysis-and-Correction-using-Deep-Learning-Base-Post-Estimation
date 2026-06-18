@@ -26,7 +26,7 @@
 
 </div>
 
-<img src="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/blob/33da378b6bcb0d0ea0e8e6634ec1358a9ce4f9b9/Banner.png" alt="Golf Swing Biomechanics Intelligence" />
+<img src="./images/Banner.png" alt="Golf Swing Biomechanics Intelligence" />
 
 ## Overview
 
@@ -84,7 +84,7 @@ The platform was developed to bridge the gap between expensive laboratory motion
 ---
 
 ## System Architecture
-<img src="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/blob/67ae3d2ac1a079acb10ed6dec4a3df09f0e53465/Diagram.jpeg" alt="Golf Swing Biomechanics Intelligence" />
+<img src="./images/Diagram.jpeg" alt="Golf Swing Biomechanics Intelligence" />
 
 flowchart LR
 
@@ -119,7 +119,7 @@ L --> M["Annotated Reports & Visualizations"]
 ---
 
 ## How It Works
-<img src="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/blob/67ae3d2ac1a079acb10ed6dec4a3df09f0e53465/Diagram.jpeg" alt="Golf Swing Biomechanics Intelligence" />
+<img src="./images/Diagram.jpeg" alt="Golf Swing Biomechanics Intelligence" />
 flowchart LR
     A["Multi-View Swing Video"]
     --> B["Pose Detection & Landmark Extraction"]
@@ -146,7 +146,7 @@ flowchart LR
 ---
 
 ## Swing Phases
-<img src="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/blob/67ae3d2ac1a079acb10ed6dec4a3df09f0e53465/Diagram.jpeg" alt="Golf Swing Biomechanics Intelligence" />
+<img src="./images/Diagram.jpeg" alt="Golf Swing Biomechanics Intelligence" />
 The system automatically classifies each frame into one of eight golf swing phases:
 
 1. Address
@@ -240,13 +240,14 @@ Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estim
 
 ├── GolfDB/
 
-├── Graphs/
-
-├── results/
-│   ├── wrist_3d_trajectory.png
-│   └── phase_detection_confusion_matrix.png
-
-└── best classifier/
+├── images/
+│   ├── Banner.png
+│   ├── Diagram.jpeg
+│   ├── Graphs/
+│   ├── results/
+│   ├── Multi-Camera Approach-1/
+│   ├── Multi-Camera Approach-2/
+│   └── best classifier/
 
 
 ---
@@ -378,5 +379,4 @@ to provide an accessible and scalable golf swing analysis framework.
 ## Acknowledgements
 
 Built using MediaPipe Pose, OpenCV, Direct Linear Transformation (DLT), Multi-View Geometry, Machine Learning, and modern sports biomechanics research to transform raw golf swing videos into actionable coaching intelligence.
-
 
