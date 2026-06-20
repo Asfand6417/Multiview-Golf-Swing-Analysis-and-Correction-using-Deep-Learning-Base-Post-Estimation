@@ -101,6 +101,8 @@ How it works
 
 Swing phases
 -------------
+<img src="./images/Picture5.jpg" alt="Golf Swing Biomechanics Intelligence" />
+
 The system classifies each frame into one of eight phases:
 1. Address
 2. Takeaway
