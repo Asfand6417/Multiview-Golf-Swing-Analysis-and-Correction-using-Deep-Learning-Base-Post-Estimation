@@ -1,6 +1,6 @@
 <div align="center">
 
-  <h1>Pro Swing AI — Golf Swing Biomechanics Intelligence</h1>
+  <h1>Multi-View Golf Swing Analysis and Correction Using Deep Learning-Based Pose Estimation</h1>
 
   <p>
     An AI-assisted golf swing laboratory for multi-view 3D reconstruction,
