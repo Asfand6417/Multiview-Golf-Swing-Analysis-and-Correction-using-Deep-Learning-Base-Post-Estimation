@@ -1,10 +1,18 @@
 {
-  "name": "golfpose-root",
+  "name": "pro-swing-ai-root",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
     "dev": "npm run dev --prefix frontend",
-    "install:frontend": "npm install --prefix frontend",
-    "start:backend": "python \"src/analysis/main_SKELETON_3D(2).py\""
+    "build": "npm run build --prefix frontend",
+    "start": "npm run start --prefix frontend",
+    "build:all": "npm run build && echo \"Frontend build complete\"",
+    "backend:start": "python \"main_SKELETON_3D(2).py\"",
+    "backend:serve": "echo \"Use: python \\\"main_SKELETON_3D(2).py\\\" to start FastAPI (or run uvicorn manually)\""
+  },
+  "engines": {
+    "node": ">=18",
+    "npm": ">=8"
   },
   "devDependencies": {
     "autoprefixer": "^10.5.0",
