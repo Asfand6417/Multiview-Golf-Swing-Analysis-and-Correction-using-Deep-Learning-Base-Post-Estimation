@@ -135,6 +135,8 @@ The expert-rule engine identifies common faults, including:
 - Improper Knee Flexion
 - Excessive Lateral Sway
 
+<img src="./images/MJJPE.png" alt="MPJPE results visualization" />
+
 Each detected fault includes an explanation and corrective recommendation.
 
 Technology stack
@@ -265,5 +267,5 @@ Acknowledgements
 ----------------
 Built using MediaPipe, OpenCV, DLT, and modern sports biomechanics research to transform raw golf swing video into actionable coaching intelligence.
 
-<img src="./images/MJJPE.png" alt="MPJPE results visualization" />
+
 
