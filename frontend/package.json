@@ -21,8 +21,6 @@
     "typescript": "5.2.2"
   },
   "overrides": {
-    "next": {
-      "postcss": "8.5.15"
-    }
+    "postcss": "$postcss"
   }
 }

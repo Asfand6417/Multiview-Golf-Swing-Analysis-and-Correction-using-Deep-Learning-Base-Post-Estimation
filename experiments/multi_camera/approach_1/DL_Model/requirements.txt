@@ -3,9 +3,8 @@ numpy>=1.26.0
 cython>=0.29.24
 setuptools>=58.0.0
 wheel>=0.37.0
-# Use a specific pandas version that is known to work with numpy>=1.22.4
-# and has pre-built wheels available for Windows
-pandas==1.4.2
+# Keep pandas on the Python 3.9-compatible line while using modern wheels.
+pandas==2.3.3
 # Windows-specific dependencies for building C extensions
 pywin32>=303; platform_system=="Windows"
 # Other dependencies
