@@ -10,11 +10,11 @@ import json
 # Create necessary directory structure
 if not os.path.exists('utils'):
     os.makedirs('utils')
-if not os.path.exists('ground_truth'):
-    os.makedirs('ground_truth')
+if not os.path.exists('data/ground_truth'):
+    os.makedirs('data/ground_truth')
 
 # Create CSV filename for results
-csv_filename = 'golf_swing_data.csv'
+csv_filename = 'data/golf_swing_data.csv'
 
 # Define a class for pose detection and analysis
 class poseDetector():
@@ -213,8 +213,8 @@ def load_ground_truth(video_name):
     
     This function tries to load from a JSON file containing expert landmark positions
     """
-    # Expected format: ground_truth/video_name.json
-    gt_file = os.path.join('ground_truth', f"{video_name}.json")
+    # Expected format: data/ground_truth/video_name.json
+    gt_file = os.path.join('data/ground_truth', f"{video_name}.json")
     
     # Check if ground truth file exists
     if not os.path.exists(gt_file):

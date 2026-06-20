@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-import mediapipe_compat as mp
+from src.analysis import mediapipe_compat as mp
 import os
 import math
 

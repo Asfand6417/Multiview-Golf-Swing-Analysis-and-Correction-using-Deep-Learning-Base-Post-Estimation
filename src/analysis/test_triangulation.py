@@ -1,14 +1,15 @@
 import os
 import sys
+from pathlib import Path
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 
-# Add the parent directory to the path so we can import from multi-camera-2
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Add the production multi-camera experiment to the import path.
+APPROACH_2_DIR = Path(__file__).resolve().parents[2] / "experiments" / "multi_camera" / "approach_2"
+sys.path.append(str(APPROACH_2_DIR))
 
 # Import the modules we need
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'multi-camera-2'))
 from reconstruction import triangulate_points, triangulate_sequence
 from run_pipeline import extract_keypoints, load_calibration_data
 
@@ -17,8 +18,8 @@ def main():
     print("Testing triangulation with updated code...")
 
     # Load the same videos mentioned in the error message
-    video1_path = "./../PoseVideos/17.mp4"  # Adjust path if needed
-    video2_path = "./../PoseVideos/18.mp4"  # This was mentioned in the error
+    video1_path = "PoseVideos/17.mp4"  # Adjust path if needed
+    video2_path = "PoseVideos/18.mp4"  # This was mentioned in the error
 
     # Check if the video files exist
     if not os.path.exists(video1_path):
@@ -30,7 +31,7 @@ def main():
         return
 
     # Load calibration data
-    calibration_path = "calibration_data.npz"  # Adjust path if needed
+    calibration_path = str(APPROACH_2_DIR / "calibration_data.npz")
     if not os.path.exists(calibration_path):
         print(f"Error: Calibration data not found: {calibration_path}")
         return

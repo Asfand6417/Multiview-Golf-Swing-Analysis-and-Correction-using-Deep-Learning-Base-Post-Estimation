@@ -775,7 +775,7 @@ def main():
 
     # Process a video file
     video_path = "input.mp4"  # Change this to your video file path
-    ground_truth_path = "data/ground_truth.json"  # Optional ground truth data
+    ground_truth_path = "data/ground_truth/42.json"  # Optional ground truth data
 
     # Check if the video file exists, if not, suggest looking for alternatives
     if not os.path.isfile(video_path):

@@ -1,11 +1,11 @@
 import cv2
 import os
 import time
-from PoseModule import poseDetector
-from utils.folder_management import create_video_folder
-from utils.display_info import display_info
-from utils.golf_rules import is_bad_swing
-from utils.mpjpe_calculation import calculate_mpjpe
+from src.analysis.PoseModule import poseDetector
+from src.utils.folder_management import create_video_folder
+from src.utils.display_info import display_info
+from src.utils.golf_rules import is_bad_swing
+from src.utils.mpjpe_calculation import calculate_mpjpe
 
 def process_video(video_path):
     output_dir = create_video_folder(video_path)

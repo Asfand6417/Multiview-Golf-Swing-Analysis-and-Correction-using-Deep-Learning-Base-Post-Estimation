@@ -4,7 +4,8 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 
-OUTPUT_IMAGE_PATH = Path(__file__).resolve().parents[1] / "images" / "Multi-Camera Approach-2" / "camera_views.png"
+REPO_ROOT = Path(__file__).resolve().parents[3]
+OUTPUT_IMAGE_PATH = REPO_ROOT / "images" / "Multi-Camera Approach-2" / "camera_views.png"
 OUTPUT_IMAGE_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 # Load calibration data

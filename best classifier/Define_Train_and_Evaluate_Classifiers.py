@@ -75,14 +75,14 @@ phase_labels_map = {name: i for i, name in enumerate(phase_definitions.keys())}
 
 print("Loading GolfDB.csv...")
 try:
-    df = pd.read_csv('.\..\GolfDB\GolfDB.csv')
+    df = pd.read_csv('..\\data\\golfdb\\GolfDB.csv')
 except FileNotFoundError:
     print("ERROR: GolfDB.csv not found. Please make sure it's in the correct directory.")
     exit()
 
 all_features = []
 all_labels = []
-VIDEO_BASE_PATH = "./../GolfDB/videos_160/videos_160"
+VIDEO_BASE_PATH = "./../data/golfdb/videos_160/videos_160"
 
 print("Extracting REAL features using MediaPipe (this will take some time)...")
 

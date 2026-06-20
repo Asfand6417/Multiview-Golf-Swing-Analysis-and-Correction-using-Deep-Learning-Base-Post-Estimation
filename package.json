@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "npm run dev --prefix frontend",
     "install:frontend": "npm install --prefix frontend",
-    "start:backend": "python \"main_SKELETON_3D(2).py\""
+    "start:backend": "python \"src/analysis/main_SKELETON_3D(2).py\""
   },
   "devDependencies": {
     "autoprefixer": "^10.5.0",
