@@ -1,0 +1,15 @@
+{
+  "description": "Expert golf swing landmark positions",
+  "landmarks": [
+    [
+      [
+        320,
+        240
+      ],
+      [
+        325,
+        245
+      ]
+    ]
+  ]
+}

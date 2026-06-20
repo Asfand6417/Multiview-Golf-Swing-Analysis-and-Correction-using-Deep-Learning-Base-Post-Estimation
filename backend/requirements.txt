@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+celery
+redis
+python-multipart
+mediapipe
+opencv-python-headless
+onnxruntime
+sqlalchemy
+psycopg2-binary

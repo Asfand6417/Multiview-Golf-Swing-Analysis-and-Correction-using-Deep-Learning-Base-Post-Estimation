@@ -1,0 +1,52 @@
+export type ActiveTab = 'analyze' | 'history' | 'insights';
+
+export interface SwingSession {
+  id: string;
+  location: string;
+  date: string;
+  time: string;
+  clubType: string;
+  swingScore: number;
+  smashFactor: number;
+  launchAngle: number;
+  rotationSpeed?: number;
+  mpjpeMetric?: number;
+  status?: string;
+  thumbnailUrl?: string;
+  skeletalOverlayUrl?: string;
+  tags?: string[];
+}
+
+export interface PipelineStep {
+  id: string;
+  number: string;
+  name: string;
+  description: string;
+  status: 'pending' | 'active' | 'completed';
+}
+
+export interface BiomechanicalIssue {
+  id: string;
+  type: 'critical' | 'stable' | 'optimal';
+  title: string;
+  rule: string;
+  description: string;
+  impact?: string;
+  injuryRisk?: string;
+  target?: string;
+  iconName: 'head' | 'arms' | 'knee' | 'hinge';
+}
+
+export interface SynchronizerState {
+  frontVideoName: string | null;
+  sideVideoName: string | null;
+  frontVideoUrl: string | null;
+  sideVideoUrl: string | null;
+  offsetSeconds: number;
+  playbackSpeed: number;
+  isPlaying: boolean;
+  alignScore: number;
+  frameIndex: number;
+  totalFrames: number;
+  isLocked: boolean;
+}
