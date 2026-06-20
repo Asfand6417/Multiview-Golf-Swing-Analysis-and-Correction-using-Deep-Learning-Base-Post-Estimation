@@ -284,7 +284,7 @@ export default function HistoryPage() {
                     <div className="max-w-xs">
                         <a href="/" className="flex items-center gap-2 mb-4 hover:opacity-80 transition-opacity">
                             <span className="material-symbols-outlined text-[#75ff9e]">analytics</span>
-                            <span className="text-[24px] font-bold text-[#75ff9e] font-inter tracking-tight">PRO SWING AI</span>
+                            <span className="text-[24px] font-bold text-[#75ff9e] font-inter tracking-tight">GOLFSWING AI</span>
                         </a>
                         <p className="text-[16px] text-[#bacbb9] font-inter leading-relaxed">Elite performance tracking powered by advanced kinematic analysis and real-time AI computer vision.</p>
                     </div>
