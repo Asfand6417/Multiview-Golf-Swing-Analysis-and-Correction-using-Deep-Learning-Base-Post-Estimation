@@ -91,6 +91,8 @@ Flow (high level):
 
 How it works
 ------------
+<img src="./images/Pose estimation from Input video.svg" alt="Pose estimation from Input video" />
+
 1. Multi-view video input (synchronized frames).
 2. 2D pose detection per frame using MediaPipe; filtering by confidence.
 3. DLT triangulation using calibrated camera matrices to recover 3D joint positions.

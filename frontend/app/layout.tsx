@@ -2,7 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Pro Swing AI — Kinetic Elite',
+  title: 'Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation',
   description: 'Elite athletic coaching powered by advanced kinematic analysis, real-time AI computer vision, and biomechanical intelligence.',
 }
 
