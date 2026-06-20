@@ -74,25 +74,11 @@ System architecture
 -------------------
 <img src="./images/Diagram.jpeg" alt="System Architecture Diagram" />
 
-Illustrations
--------------
-<p align="center">
-  <img src="./images/DLT 3D Tracking of Golfer's Swing.png" alt="DLT 3D Tracking of Golfer's Swing" style="max-width:100%;height:auto;border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,0.6)"/>
-</p>
-<p align="center"><em>DLT 3D Tracking of Golfer's Swing — triangulated joint cloud and reconstructed skeleton used for biomechanical feature extraction and visualization.</em></p>
-
-<p align="center">
-  <img src="./images/LANDMARK.png" alt="MediaPipe Landmark Topology" style="max-width:540px;height:auto;border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,0.4)"/>
-</p>
-<p align="center"><em>MediaPipe Pose landmark topology — 33 body keypoints used as the base 2D detections that feed DLT triangulation and biomechanical metrics.</em></p>
-
 Flow (high level):
 - Dual Camera Golf Swing Videos → Frame Synchronization → MediaPipe Pose Estimation → Keypoint Validation → DLT Triangulation → 3D Reconstruction → Trajectory Smoothing → Feature Engineering → Swing Phase Classification → Rule-Based Error Detection → Coaching Feedback → Annotated Reports & Visualizations
 
 How it works
 ------------
-<img src="./images/Pose estimation from Input video.svg" alt="Pose estimation from Input video" />
-
 1. Multi-view video input (synchronized frames).
 2. 2D pose detection per frame using MediaPipe; filtering by confidence.
 3. DLT triangulation using calibrated camera matrices to recover 3D joint positions.
@@ -103,7 +89,10 @@ How it works
 
 Swing phases
 -------------
+<<<<<<< HEAD
 
+=======
+>>>>>>> 438e4b62 (UPDATION)
 The system classifies each frame into one of eight phases:
 1. Address
 2. Takeaway
@@ -137,8 +126,6 @@ The expert-rule engine identifies common faults, including:
 - Lead Arm Collapse
 - Improper Knee Flexion
 - Excessive Lateral Sway
-
-<img src="./images/MJJPE.png" alt="MPJPE results visualization" />
 
 Each detected fault includes an explanation and corrective recommendation.
 
@@ -270,3 +257,8 @@ Acknowledgements
 ----------------
 Built using MediaPipe, OpenCV, DLT, and modern sports biomechanics research to transform raw golf swing video into actionable coaching intelligence.
 
+<<<<<<< HEAD
+=======
+<img src="./images/MJJPE.png" alt="MPJPE results visualization" />
+
+>>>>>>> 438e4b62 (UPDATION)

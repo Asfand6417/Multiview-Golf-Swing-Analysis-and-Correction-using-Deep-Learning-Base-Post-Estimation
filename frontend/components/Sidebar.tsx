@@ -67,7 +67,7 @@ export default function Sidebar({
           </div>
           <div>
             <h1 className="text-xl font-extrabold tracking-tight text-white flex items-center gap-1.5">
-              GOLFSWING <span className="text-brand-primary text-xs bg-brand-primary/10 px-1.5 py-0.5 rounded font-mono decoration-solid">AI</span>
+              PRO SWING <span className="text-brand-primary text-xs bg-brand-primary/10 px-1.5 py-0.5 rounded font-mono decoration-solid">AI</span>
             </h1>
             <span className="text-[10px] font-mono tracking-widest text-brand-secondary/40">KINETIC ELITE V3.4</span>
           </div>

@@ -186,17 +186,6 @@ export default function App() {
           setActiveSection={setActiveSection}
         />
 
-        {/* Top-level brand (kept for small screens / fallback) */}
-        <header className="flex justify-between items-center w-full px-6 h-16 z-50 bg-[#131313]/80 backdrop-blur-md fixed top-0 border-b border-[#3b4a3d]">
-            <a href="/" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
-                <span className="material-symbols-outlined text-[#75ff9e] text-3xl">analytics</span>
-                <h1 className="text-2xl font-black text-[#75ff9e] tracking-tight font-inter">
-                  Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation
-                </h1>
-            </a>
-            {/* ...existing code for the rest of the header ... */}
-        </header>
-
         {/* Dynamic Inner Dashboard Page Render */}
         <main id="workspace-main-content" className="flex-1 min-h-0 flex flex-col bg-surface-base relative">
           {renderWorkspaceContent()}
