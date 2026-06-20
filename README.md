@@ -103,7 +103,6 @@ How it works
 
 Swing phases
 -------------
-<img src="./images/Picture5.jpg" alt="Golf Swing Biomechanics Intelligence" />
 
 The system classifies each frame into one of eight phases:
 1. Address
@@ -270,6 +269,4 @@ Scientific citation
 Acknowledgements
 ----------------
 Built using MediaPipe, OpenCV, DLT, and modern sports biomechanics research to transform raw golf swing video into actionable coaching intelligence.
-
-
 
