@@ -1,6 +1,6 @@
 # Main Module Documentation
 
-The main module (`main.py`) is the core component of the GolfPose system, providing functionality for 3D pose analysis, swing phase detection, and evaluation metrics.
+The main module (`src/analysis/main.py`) is the core component of the GolfPose system, providing functionality for 3D pose analysis, swing phase detection, and evaluation metrics.
 
 ## Classes
 
@@ -17,7 +17,7 @@ A class that implements Direct Linear Transformation for trajectory smoothing.
 #### Example
 
 ```python
-from main import DirectLinearTransform
+from src.analysis.main import DirectLinearTransform
 
 # Initialize smoother with window size of 7
 smoother = DirectLinearTransform(window_size=7)
@@ -54,7 +54,7 @@ The segmenter identifies the following phases:
 #### Example
 
 ```python
-from main import SwingPhaseSegmenter
+from src.analysis.main import SwingPhaseSegmenter
 
 # Initialize segmenter
 segmenter = SwingPhaseSegmenter()
@@ -85,7 +85,7 @@ A class that provides evaluation metrics for pose estimation.
 #### Example
 
 ```python
-from main import PoseEvaluator
+from src.analysis.main import PoseEvaluator
 
 # Initialize evaluator
 evaluator = PoseEvaluator()
@@ -122,16 +122,16 @@ A class that visualizes 3D pose data and creates animations.
 #### Example
 
 ```python
-from main import Pose3DVisualizer
+from src.analysis.main import Pose3DVisualizer
 
 # Initialize visualizer
 visualizer = Pose3DVisualizer()
 
 # Process a video
-visualizer.process_video("PoseVideos/golf_swing.mp4", "ground_truth/gt_data.json")
+visualizer.process_video("PoseVideos/golf_swing.mp4", "data/ground_truth/gt_data.json")
 
 # Create and save animation
-visualizer.animate(show=True, save=True, output_path="results/3d_visualization.mp4")
+visualizer.animate(show=True, save=True, output_path="reports/results/3d_visualization.mp4")
 ```
 
 ## Main Function

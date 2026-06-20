@@ -1,6 +1,6 @@
 # Pose Detection Module Documentation
 
-The Pose Detection module (`PoseModule.py`) provides a simplified interface to MediaPipe's pose detection capabilities, making it easy to detect and analyze human poses in images and videos.
+The Pose Detection module (`src/analysis/PoseModule.py`) provides a simplified interface to MediaPipe's pose detection capabilities, making it easy to detect and analyze human poses in images and videos.
 
 ## Overview
 

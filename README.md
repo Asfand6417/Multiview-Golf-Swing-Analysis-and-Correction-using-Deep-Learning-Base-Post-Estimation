@@ -1,7 +1,6 @@
-
 <div align="center">
 
-  <h1>Golf Swing Biomechanics Intelligence</h1>
+  <h1>Pro Swing AI — Golf Swing Biomechanics Intelligence</h1>
 
   <p>
     An AI-assisted golf swing laboratory for multi-view 3D reconstruction,
@@ -28,48 +27,38 @@
 
 <img src="./images/Banner.png" alt="Golf Swing Biomechanics Intelligence" />
 
-## Overview
+Overview
+--------
+Pro Swing AI (Golf) is a research-grade, product-oriented platform that converts synchronized multi-view swing video into accurate 3D biomechanics, actionable coaching feedback, and reproducible performance metrics. The product bridges laboratory-grade motion-capture capability and practical consumer camera workflows by combining robust computer vision, geometry, and machine learning.
 
-Golf Swing Biomechanics Intelligence is a research-driven computer vision platform for automated golf swing analysis and correction.
+Key capabilities
+----------------
+- Multi-view pose estimation and synchronized video ingestion
+- Markerless motion capture using MediaPipe Pose
+- DLT-based 3D triangulation and reconstruction
+- Swing phase segmentation and kinematic feature extraction
+- Rule-based fault detection with coaching suggestions
+- MPJPE and related reconstruction quality reporting
+- Interactive 3D visualizations and annotated playback
+- Local-first design: video processing can run on-device or on-premises
 
-The system combines:
-
-- Multi-camera pose estimation
-- Direct Linear Transformation (DLT)
-- 3D biomechanical reconstruction
-- Swing phase classification
-- Rule-based fault detection
-- Coach-oriented feedback generation
-
-Unlike conventional monocular systems, the framework reconstructs true three-dimensional motion from synchronized camera views, enabling accurate measurement of rotational mechanics, swing plane characteristics, X-Factor separation, spine posture, impact dynamics, and sequencing efficiency.
-
-The platform was developed to bridge the gap between expensive laboratory motion-capture systems and affordable consumer-camera-based golf coaching solutions.
-
----
-
-## Highlights
-
+Highlights
+----------
 | Capability | Description |
 |------------|-------------|
-| Multi-view biomechanics | Uses synchronized side-view and down-the-line cameras for robust 3D reconstruction |
-| Markerless motion capture | Tracks golfer movement using MediaPipe Pose without wearable sensors |
-| DLT reconstruction | Generates accurate 3D joint coordinates through triangulation |
-| Swing phase segmentation | Detects Address, Takeaway, Backswing, Top, Transition, Downswing, Impact, and Follow-through |
-| Biomechanical analysis | Computes X-Factor, spine angle, hip rotation, shoulder rotation, wrist trajectory, and joint kinematics |
-| Fault detection engine | Identifies common swing faults using biomechanics rules |
-| Coaching recommendations | Converts kinematic measurements into actionable corrective feedback |
-| Performance evaluation | Generates MPJPE reports, confusion matrices, and classification metrics |
+| Multi-view biomechanics | Uses synchronized side and down-the-line camera views for robust 3D reconstruction |
+| Markerless motion capture | Tracks motion using MediaPipe Pose without markers or wearables |
+| DLT reconstruction | Triangulates 2D landmarks to produce accurate 3D joint coordinates |
+| Swing phase segmentation | Automatically detects 8 swing phases for context-aware analysis |
+| Biomechanics analysis | Computes X-Factor, spine angle, hip/shoulder rotation, wrist trajectory, and joint kinematics |
+| Fault detection engine | Identifies common swing faults and provides corrective coaching feedback |
+| Performance reporting | MPJPE reports, confusion matrices, and classification metrics |
 | 3D visualization | Interactive skeletal playback and trajectory rendering |
 
----
-
-<img src="https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/blob/4ed18370ae828b5d1995257ea3a61e565d0b83b6/MJJPE.png" />
-
-
-## Research Results
-
+Research results
+----------------
 | Metric | Result |
-|----------|---------|
+|--------|--------|
 | Overall MPJPE | 8.77 mm |
 | Setup MPJPE | 7.21 mm |
 | Backswing MPJPE | 7.85 mm |
@@ -81,74 +70,26 @@ The platform was developed to bridge the gap between expensive laboratory motion
 | Processing Speed | 18.2 FPS |
 | Pose Landmarks | 33 Keypoints |
 
----
+System architecture
+-------------------
+<img src="./images/Diagram.jpeg" alt="System Architecture Diagram" />
 
-## System Architecture
-<img src="./images/Diagram.jpeg" alt="Golf Swing Biomechanics Intelligence" />
+Flow (high level):
+- Dual Camera Golf Swing Videos → Frame Synchronization → MediaPipe Pose Estimation → Keypoint Validation → DLT Triangulation → 3D Reconstruction → Trajectory Smoothing → Feature Engineering → Swing Phase Classification → Rule-Based Error Detection → Coaching Feedback → Annotated Reports & Visualizations
 
-flowchart LR
+How it works
+------------
+1. Multi-view video input (synchronized frames).
+2. 2D pose detection per frame using MediaPipe; filtering by confidence.
+3. DLT triangulation using calibrated camera matrices to recover 3D joint positions.
+4. Smoothing (e.g., Savitzky–Golay) and temporal feature extraction.
+5. Feature-based or learned phase segmentation (SVM / neural models).
+6. Rule-based and learned fault detection (early extension, loss of spine angle, etc.).
+7. Generate metrics, visual overlays, and coach-facing recommendations.
 
-A["Dual Camera Golf Swing Videos"]
---> B["Frame Synchronization"]
-
-B --> C["MediaPipe Pose Estimation"]
-
-C --> D["Keypoint Validation"]
-
-D --> E["DLT Triangulation"]
-
-E --> F["3D Reconstruction"]
-
-F --> G["Trajectory Smoothing"]
-
-G --> H["Feature Engineering"]
-
-H --> I["Swing Phase Classification"]
-
-H --> J["Biomechanics Analysis"]
-
-I --> K["Rule-Based Error Detection"]
-
-J --> K
-
-K --> L["Coaching Feedback"]
-
-L --> M["Annotated Reports & Visualizations"]
-
-
----
-
-## How It Works
-<img src="./images/Diagram.jpeg" alt="Golf Swing Biomechanics Intelligence" />
-flowchart LR
-    A["Multi-View Swing Video"]
-    --> B["Pose Detection & Landmark Extraction"]
-
-   B --> C["Confidence Filtering"]
-
-   C --> D["DLT Triangulation"]
-
-   D --> E["3D Pose Reconstruction"]
-
-   E --> F["Savitzky-Golay Smoothing"]
-
-   F --> G["Biomechanics Feature Extraction"]
-
-   G --> H["SVM Swing Phase Segmentation"]
-
-   H --> I["Rule-Based Fault Detection"]
-
-   I --> J["Performance Metrics"]
-
-   J --> K["Coaching Feedback"]
-
-
----
-
-## Swing Phases
-<img src="./images/Diagram.jpeg" alt="Golf Swing Biomechanics Intelligence" />
-The system automatically classifies each frame into one of eight golf swing phases:
-
+Swing phases
+-------------
+The system classifies each frame into one of eight phases:
 1. Address
 2. Takeaway
 3. Backswing
@@ -158,213 +99,147 @@ The system automatically classifies each frame into one of eight golf swing phas
 7. Impact
 8. Follow-through
 
-These phases form the foundation for biomechanical analysis and context-aware coaching recommendations.
+Biomechanical metrics
+---------------------
+Measured and reported metrics include (non-exhaustive):
+- MPJPE (3D reconstruction error)
+- X-Factor (hip-to-shoulder separation)
+- Hip / Shoulder rotation
+- Spine angle and trunk mechanics
+- Knee flexion and joint velocities
+- Wrist trajectory and swing plane consistency
+- Lead arm extension and impact geometry
+- Performance and repeatability statistics
 
----
+Fault detection
+---------------
+The expert-rule engine identifies common faults, including:
+- Early Extension
+- Over-the-Top swing path
+- Loss of Spine Angle
+- Insufficient Hip Rotation
+- Reduced X-Factor
+- Lead Arm Collapse
+- Improper Knee Flexion
+- Excessive Lateral Sway
 
-## Biomechanical Metrics
+Each detected fault includes an explanation and corrective recommendation.
 
-| Metric             | Purpose                                         |
-| ------------------ | ----------------------------------------------- |
-| MPJPE              | Quantifies 3D reconstruction accuracy           |
-| X-Factor           | Measures hip-to-shoulder rotational separation  |
-| Hip Rotation       | Evaluates rotational power generation           |
-| Shoulder Rotation  | Assesses upper-body sequencing                  |
-| Spine Angle        | Monitors posture retention throughout the swing |
-| Lead Arm Extension | Evaluates backswing structure                   |
-| Wrist Trajectory   | Tracks club delivery path                       |
-| Swing Plane        | Measures movement consistency                   |
-| Knee Flexion       | Assesses setup and impact stability             |
-| Joint Velocities   | Measures kinetic chain sequencing               |
+Technology stack
+----------------
+| Layer | Technology |
+|-------|------------|
+| Language | Python 3.10+ |
+| Pose Estimation | MediaPipe Pose |
+| Computer Vision | OpenCV |
+| Numerical | NumPy, SciPy, Pandas |
+| ML & DL | Scikit-Learn, PyTorch / TensorFlow optional |
+| Reconstruction | Direct Linear Transformation (DLT) |
+| Visualization | Matplotlib, Web-based 3D viewer |
+| Backend API | FastAPI |
+| Frontend | Next.js, TailwindCSS |
+| Storage | PostgreSQL (optional) |
+| Deployment | Docker, GPU-enabled inference nodes |
 
----
-
-## Fault Detection
-
-The expert-rule engine identifies common golf swing errors including:
-
-* Early Extension
-* Over-the-Top Swing Path
-* Loss of Spine Angle
-* Insufficient Hip Rotation
-* Reduced X-Factor
-* Lead Arm Collapse
-* Improper Knee Flexion
-* Excessive Lateral Sway
-
-Each detected issue is accompanied by corrective recommendations and biomechanical explanations.
-
----
-
-## Technology Stack
-
-| Layer                | Technology                   |
-| -------------------- | ---------------------------- |
-| Programming Language | Python 3.10                  |
-| Pose Estimation      | MediaPipe Pose               |
-| Computer Vision      | OpenCV                       |
-| Numerical Processing | NumPy, Pandas, SciPy         |
-| Machine Learning     | Scikit-Learn                 |
-| Classification       | SVM (RBF Kernel)             |
-| Reconstruction       | Direct Linear Transformation |
-| Visualization        | Matplotlib                   |
-| Deep Learning        | TensorFlow (Optional)        |
-
----
-
-## Project Structure
-
-
-Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation/
-
+Project layout
+--------------
+```
+Multiview-Golf-Swing-Analysis/
 ├── README.md
 ├── requirements.txt
-├── main.py
-├── PoseModule.py
-├── club_type_detector.py
-├── mediapipe_compat.py
-├── test_triangulation.py
-
+├── src/
+│   ├── analysis/
+│   │   ├── main.py
+│   │   ├── PoseModule.py
+│   │   ├── club_type_detector.py
+│   │   ├── mediapipe_compat.py
+│   │   └── test_triangulation.py
+│   └── utils/
+│       ├── video_processing.py
+│       ├── display_info.py
+│       ├── folder_management.py
+│       ├── golf_rules.py
+│       └── mpjpe_calculation.py
+├── backend/
+├── frontend/
+├── data/
 ├── docs/
-│   ├── index.md
-│   ├── user_guide.md
-│   ├── main_module.md
-│   ├── pose_detection.md
-│   └── multicamera_system.md
-
-├── Multi-Camera Approach-1/
-│   └── main_pipeline.py
-
-├── Multi-Camera Approach-2/
-│   └── run_pipeline.py
-
-├── GolfDB/
-
+├── experiments/
+├── assets/
 ├── images/
-│   ├── Banner.png
-│   ├── Diagram.jpeg
-│   ├── Graphs/
-│   ├── results/
-│   ├── Multi-Camera Approach-1/
-│   ├── Multi-Camera Approach-2/
-│   └── best classifier/
+└── reports/
+```
 
-
----
-
-## Installation
-
-### Clone Repository
-
- git clone https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation.git
-
+Installation
+------------
+1. Clone repository
+```bash
+git clone https://github.com/Asfand6417/Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation.git
 cd Multiview-Golf-Swing-Analysis-and-Correction-using-Deep-Learning-Base-Post-Estimation
+```
 
-
-### Create Environment
-
-
+2. Create virtual environment
+```bash
 python -m venv .venv
+source .venv/bin/activate  # macOS / Linux
+# or
+.venv\Scripts\activate     # Windows
+```
 
-
-#### Linux / macOS
-
-
-source .venv/bin/activate
-
-
-#### Windows
-
-
-.venv\Scripts\activate
-
-
-### Install Dependencies
-
-
+3. Install Python dependencies
+```bash
 pip install -r requirements.txt
-
-
----
-
-## Usage
-
-### Run Main Analysis Pipeline
-
-```bash
-python main.py
 ```
 
-### Run Triangulation Validation
-
+4. Start API (example)
 ```bash
-python test_triangulation.py
+python src/analysis/main.py
 ```
 
-### Run Multi-Camera Pipeline
+5. Frontend
+- Navigate to `frontend/` and run the Next.js app (`npm install` then `npm run dev`) — see frontend README for details.
 
+Usage
+-----
+- Run the main analysis pipeline:
 ```bash
-python "Multi-Camera Approach-2/run_pipeline.py"
+python src/analysis/main.py
+```
+- Validate triangulation:
+```bash
+python src/analysis/test_triangulation.py
+```
+- Run experimental multi-camera pipelines:
+```bash
+python experiments/multi_camera/approach_2/run_pipeline.py
 ```
 
----
+Core modules
+------------
+| Module | Purpose |
+|--------|---------|
+| `src/analysis/main.py` | Main pipeline entry |
+| `src/analysis/PoseModule.py` | MediaPipe wrapper and joint calc |
+| `src/analysis/test_triangulation.py` | DLT validation |
+| `src/analysis/club_type_detector.py` | Club classifier |
+| `src/analysis/*` | Supporting modules for preprocessing, smoothing, and metrics |
 
-## Core Modules
+Data & privacy
+--------------
+- Processing can run locally; athlete footage remains under user control.
+- Store reports locally or on-premises Postgres.
+- Do not publish footage without consent.
 
-| File                      | Purpose                                       |
-| ------------------------- | --------------------------------------------- |
-| `main.py`                 | Main golf swing analysis pipeline             |
-| `PoseModule.py`           | MediaPipe pose wrapper and joint calculations |
-| `club_type_detector.py`   | Driver vs Iron classification                 |
-| `test_triangulation.py`   | Multi-camera reconstruction validation        |
-| `Multi-Camera Approach-1` | Initial reconstruction experiments            |
-| `Multi-Camera Approach-2` | Production multi-view pipeline                |
-| `GolfDB`                  | Dataset and annotations                       |
-| `Graphs`                  | Evaluation visualizations                     |
-| `results`                 | Generated outputs and reports                 |
+Roadmap
+-------
+- Real-time coaching and mobile support
+- Transformer-based swing understanding
+- Automated camera calibration
+- Club and shaft-plane analysis
+- Cloud analytics and benchmarking
 
----
-
-## Data And Privacy
-
-* All video processing can run locally.
-* No cloud service is required.
-* Athlete footage remains under user control.
-* Generated reports and metrics are stored locally.
-* Avoid publishing athlete recordings without consent.
-
----
-
-## Future Roadmap
-
-* Real-time coaching feedback
-* Transformer-based swing understanding
-* Automated camera calibration
-* Club tracking and shaft-plane analysis
-* Mobile deployment
-* Cloud analytics dashboard
-* Professional swing comparison engine
-* Multi-athlete benchmarking
-
----
-
-## Scientific Contributions
-
-This project integrates:
-
-* Markerless Motion Capture
-* Multi-View Geometry
-* 3D Human Pose Reconstruction
-* Sports Biomechanics
-* Machine Learning Classification
-* Expert-System Coaching Feedback
-
-to provide an accessible and scalable golf swing analysis framework.
-
----
-
-## Citation
-
+Scientific citation
+-------------------
 ```bibtex
 @article{yar2026golfswing,
   title={Multi-View Golf Swing Analysis and Correction Using Markerless 3D Biomechanics},
@@ -374,9 +249,9 @@ to provide an accessible and scalable golf swing analysis framework.
 }
 ```
 
----
+Acknowledgements
+----------------
+Built using MediaPipe, OpenCV, DLT, and modern sports biomechanics research to transform raw golf swing video into actionable coaching intelligence.
 
-## Acknowledgements
-
-Built using MediaPipe Pose, OpenCV, Direct Linear Transformation (DLT), Multi-View Geometry, Machine Learning, and modern sports biomechanics research to transform raw golf swing videos into actionable coaching intelligence.
+<img src="./images/MJJPE.png" alt="MPJPE results visualization" />
 

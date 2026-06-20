@@ -21,7 +21,7 @@ In some versions of TensorFlow, there are type annotations that use lists as par
 
 ## Solution
 
-A compatibility layer (`mediapipe_compat.py`) has been created to address this issue. This layer:
+A compatibility layer (`src/analysis/mediapipe_compat.py`) has been created to address this issue. This layer:
 
 1. Sets the `TF_ENABLE_ONEDNN_OPTS` environment variable to `0` to disable oneDNN custom operations
 2. Patches the typing module to safely handle lists in type annotations by converting them to tuples
@@ -39,7 +39,7 @@ import mediapipe as mp  # May cause errors in Python 3.9
 Use the compatibility layer:
 
 ```python
-import mediapipe_compat as mp  # Safe for Python 3.9
+from src.analysis import mediapipe_compat as mp  # Safe for Python 3.9
 ```
 
 ## Applying to Other Scripts

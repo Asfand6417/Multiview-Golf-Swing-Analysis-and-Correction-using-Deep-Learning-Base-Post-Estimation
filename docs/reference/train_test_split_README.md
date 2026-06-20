@@ -15,15 +15,15 @@ MediaPipe is a pre-trained model framework that can be used for pose detection a
 
 ## Files
 
-- `train_test_split_config.py`: Contains the modified `SwingPhaseSegmenter` class with configurable train/test split functionality
-- `demo_train_test_split.py`: A demo script that shows how to use the train/test split configuration
+- `src/analysis/train_test_split_config.py`: Contains the modified `SwingPhaseSegmenter` class with configurable train/test split functionality
+- `src/analysis/demo_train_test_split.py`: A demo script that shows how to use the train/test split configuration
 
 ## Usage
 
 ### Basic Usage
 
 ```python
-from train_test_split_config import SwingPhaseSegmenter
+from src.analysis.train_test_split_config import SwingPhaseSegmenter
 
 # Create a segmenter with default settings
 segmenter = SwingPhaseSegmenter()
@@ -41,7 +41,7 @@ segmenter.train(landmark_sequences, labels, test_size=0.4)
 ### Training with Different Splits and Comparing Results
 
 ```python
-from train_test_split_config import train_with_different_splits
+from src.analysis.train_test_split_config import train_with_different_splits
 
 # Train with all splits and compare results
 results = train_with_different_splits("data/swing_phase_labels.csv")
@@ -51,14 +51,14 @@ results = train_with_different_splits("data/swing_phase_labels.csv")
 
 1. Run the demo script:
    ```
-   python demo_train_test_split.py
+   python src/analysis/demo_train_test_split.py
    ```
 
 2. Follow the prompts to select a train/test split ratio or compare all ratios.
 
 ## Implementation Details
 
-The `SwingPhaseSegmenter` class in `train_test_split_config.py` is a modified version of the original class from `main.py`. The key modification is in the `train` method, which now accepts a `test_size` parameter to configure the train/test split ratio.
+The `SwingPhaseSegmenter` class in `src/analysis/train_test_split_config.py` is a modified version of the original class from `src/analysis/main.py`. The key modification is in the `train` method, which now accepts a `test_size` parameter to configure the train/test split ratio.
 
 ```python
 def train(self, landmark_sequences, labels, test_size=0.3):

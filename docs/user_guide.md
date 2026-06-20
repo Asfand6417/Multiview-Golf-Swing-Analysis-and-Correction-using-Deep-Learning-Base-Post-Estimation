@@ -55,7 +55,7 @@ For a quick demonstration of GolfPose's capabilities:
 2. Run the main script:
 
 ```bash
-python main.py
+python src/analysis/main.py
 ```
 
 This will:
@@ -79,7 +79,7 @@ For best results:
 #### Basic Analysis
 
 ```python
-from main import Pose3DVisualizer
+from src.analysis.main import Pose3DVisualizer
 
 # Initialize the visualizer
 visualizer = Pose3DVisualizer()
@@ -88,7 +88,7 @@ visualizer = Pose3DVisualizer()
 visualizer.process_video("PoseVideos/your_video.mp4")
 
 # Create and display the animation
-visualizer.animate(show=True, save=True, output_path="results/your_analysis.mp4")
+visualizer.animate(show=True, save=True, output_path="reports/results/your_analysis.mp4")
 ```
 
 #### Advanced Analysis with Ground Truth Data
@@ -98,7 +98,7 @@ If you have ground truth data (e.g., from a professional motion capture system):
 ```python
 visualizer.process_video(
     "PoseVideos/your_video.mp4",
-    ground_truth_path="ground_truth/your_data.json"
+    ground_truth_path="data/ground_truth/your_data.json"
 )
 
 # Generate a report
@@ -246,7 +246,7 @@ If you encounter issues not covered in this guide:
 You can train the swing phase segmenter with your own labeled data:
 
 ```python
-from main import Pose3DVisualizer
+from src.analysis.main import Pose3DVisualizer
 
 visualizer = Pose3DVisualizer()
 visualizer.train_phase_segmenter("data/your_labeled_data.csv")

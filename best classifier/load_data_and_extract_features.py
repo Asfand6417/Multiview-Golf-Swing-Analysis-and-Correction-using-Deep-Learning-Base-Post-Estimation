@@ -37,14 +37,14 @@ phase_definitions = {
 }
 phase_labels_map = {name: i for i, name in enumerate(phase_definitions.keys())}
 
-df = pd.read_csv('.\..\GolfDB\GolfDB.csv')
+df = pd.read_csv('..\\data\\golfdb\\GolfDB.csv')
 all_features = []
 all_labels = []
 
 # You'll need the actual video files corresponding to the IDs in GolfDB.csv
 # Let's assume they are in a folder "./../PoseVideos/" and named like "0.mp4", "1.mp4", etc.
 # based on the 'id' column. (This needs verification based on your actual video naming)
-VIDEO_BASE_PATH = "./../GolfDB/videos_160/videos_160"
+VIDEO_BASE_PATH = "./../data/golfdb/videos_160/videos_160"
 
 # For simplicity, let's take one representative feature vector per defined phase segment
 # In a real system, you'd sample many frames or windows from each phase.
