@@ -3,10 +3,28 @@ import cv2
 import time  # Not strictly used in the final version, but often useful
 import numpy as np
 import mediapipe as mp
+import matplotlib
+matplotlib.use('Agg') # Added Agg backend to safely render Matplotlib without freezing server threads
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation, FFMpegWriter
 from mpl_toolkits.mplot3d import Axes3D
 import traceback
+
+# Add Server Imports
+from fastapi import FastAPI, UploadFile, File
+from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
+import shutil
+import uuid
+
+# Initialize FastAPI App
+api = FastAPI()
+api.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class Pose3DVisualizer:
@@ -237,6 +255,7 @@ class Pose3DVisualizer:
 
 
 def main():
+    # We maintain your original CLI main functionality, but bypass it when running as a web server
     visualizer = Pose3DVisualizer()
 
     default_video_dir = "PoseVideos"
@@ -344,6 +363,6 @@ def main():
         print(f"An unexpected error occurred in main: {e}")
         traceback.print_exc()
 
-
-if __name__ == "__main__":
-    main()
+# Create the API Endpoint mapping
+@api.post("/analyze")
+async def analyze_video(video: UploadFile = File(...)

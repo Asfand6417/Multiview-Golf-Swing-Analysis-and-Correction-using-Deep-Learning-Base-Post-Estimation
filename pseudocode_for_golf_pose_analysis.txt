@@ -1,0 +1,447 @@
+# Pseudocode for Golf Pose Analysis System
+
+## 1. Main System Workflow
+
+```
+FUNCTION ProcessVideo:
+    // Initialize
+    Load video file
+    Create output directory for annotated video
+    Load ground truth data if available
+    Initialize CSV file for results
+    Initialize pose detector
+
+    // Process each frame
+    FOR each frame in video:
+        Detect pose in frame
+        Find positions of landmarks
+        Detect current swing phase
+        Check if golf pose is correct
+        Calculate MPJPE (Mean Per Joint Position Error)
+        Display information on frame
+        Write frame to output video
+        Write data to CSV
+
+    // Finalize
+    Release resources
+    Print summary statistics
+```
+
+## 2. Pose Detection Logic
+
+```
+CLASS PoseDetector:
+    FUNCTION Initialize:
+        Set up MediaPipe pose detector with parameters
+        Initialize drawing specifications
+        Initialize landmark history for swing phase detection
+
+    FUNCTION FindPose(image):
+        Convert image to RGB
+        Process image with MediaPipe pose detector
+        If landmarks detected and drawing enabled:
+            Draw landmarks and connections on image
+        Return processed image
+
+    FUNCTION FindPosition(image):
+        Initialize empty landmark list
+        If pose landmarks detected:
+            FOR each landmark:
+                Calculate pixel coordinates
+                Add to landmark list
+                Draw circle if drawing enabled
+            Update landmark history for swing phase detection
+        Return landmark list
+```
+
+## 3. Golf Pose Analysis Logic
+
+```
+FUNCTION CheckGolfPose(image):
+    If not enough landmarks detected:
+        Return (False, None)
+
+    Initialize list for incorrect body parts
+
+    // Check right arm angle
+    Get right shoulder, elbow, and wrist positions
+    Calculate right arm angle
+    If angle outside acceptable range (60-150 degrees):
+        Draw red lines for right arm
+        Add "right_arm" to incorrect parts
+
+    // Check left arm angle
+    Get left shoulder, elbow, and wrist positions
+    Calculate left arm angle
+    If angle outside acceptable range (120-175 degrees):
+        Draw red lines for left arm
+        Add "left_arm" to incorrect parts
+
+    // Check torso rotation
+    Get shoulder and hip positions
+    Calculate shoulder angle relative to horizontal
+    Calculate hip angle relative to horizontal
+    Calculate torso rotation (difference between angles)
+    If rotation outside acceptable range (20-100 degrees):
+        Draw red lines for torso
+        Add "torso_rotation" to incorrect parts
+
+    // Check knee bend
+    Get hip, knee, and ankle positions for both legs
+    Calculate knee angles
+    If angles outside acceptable range (150-175 degrees):
+        Draw red lines for knees
+        Add knee to incorrect parts
+
+    Return (incorrect parts exist, list of incorrect parts)
+```
+
+## 4. Swing Phase Detection Logic
+
+```
+FUNCTION DetectSwingPhase:
+    If not enough landmarks or history:
+        Return "Setup"
+
+    Extract key landmarks (wrist, shoulder, hip, head)
+    Determine direction golfer is facing
+
+    Check if wrist is above shoulder
+    Check if wrist is behind hip
+    Calculate arm extension
+    Check if club is near impact position
+    Check if in follow-through position
+
+    Calculate wrist velocity using landmark history
+
+    // Determine swing phase based on position and velocity
+    IF wrist above shoulder AND wrist behind hip:
+        Return "Top of Backswing"
+    ELSE IF high velocity AND not wrist above shoulder AND not near impact:
+        Return "Downswing"
+    ELSE IF near impact AND high velocity:
+        Return "Impact"
+    ELSE IF follow through:
+        Return "Follow Through"
+    ELSE IF wrist behind hip AND not wrist above shoulder:
+        Return "Backswing"
+    ELSE IF not wrist behind hip AND not follow through AND not near impact:
+        Return "Takeaway"
+    ELSE:
+        Return "Address"
+```
+
+## 5. Angle Calculation Algorithms
+
+### 5.1 Standard Angle Calculation (Vector Method)
+
+```
+FUNCTION CalculateAngle(point1, point2, point3):
+    // Convert points to numpy arrays
+    a = array(point1)
+    b = array(point2)
+    c = array(point3)
+
+    // Calculate vectors
+    ba = a - b  // Vector from point2 to point1
+    bc = c - b  // Vector from point2 to point3
+
+    // Calculate angle using dot product
+    cosine_angle = dot(ba, bc) / (norm(ba) * norm(bc))
+    angle = arccos(clip(cosine_angle, -1.0, 1.0))
+    angle_degrees = degrees(angle)
+
+    Return angle_degrees
+```
+
+### 5.2 Angle Calculation Using Arctangent (Alternative Method)
+
+```
+FUNCTION GetAngle(point1, point2, point3):
+    // Extract coordinates
+    x1, y1 = point1
+    x2, y2 = point2
+    x3, y3 = point3
+
+    // Calculate angle using arctangent
+    angle = degrees(atan2(y3 - y2, x3 - x2) - atan2(y1 - y2, x1 - x2))
+
+    // Normalize angle to 0-360 range
+    If angle < 0:
+        angle += 360
+
+    Return angle
+```
+
+### 5.3 Alignment Angle Calculation
+
+```
+FUNCTION CalculateAlignmentAngle(point1, point2):
+    // Calculate angle of line relative to horizontal
+    angle = degrees(atan2(point2.y - point1.y, point2.x - point1.x))
+
+    Return angle
+```
+
+## 6. Error Metrics Calculation
+
+```
+FUNCTION CalculateMPJPE(predicted_coords, ground_truth_coords):
+    // Handle empty inputs
+    If predicted_coords is None or ground_truth_coords is None:
+        Return None
+
+    // Format coordinate arrays
+    If format is [id, x, y]:
+        Extract just [x, y] positions
+
+    // Ensure shapes match
+    Truncate to minimum length if necessary
+
+    // Calculate Euclidean distance for each joint
+    FOR each joint:
+        Calculate distance = norm(predicted - ground_truth)
+
+    // Return mean distance across all joints
+    Return mean(distances)
+```
+
+## 7. Data Handling
+
+```
+FUNCTION LoadGroundTruth(video_name):
+    Construct path to ground truth file
+
+    If file doesn't exist:
+        Create sample ground truth file
+        Return None
+
+    Try:
+        Load JSON data from file
+        Extract landmarks
+        Return landmarks
+    Catch Exception:
+        Print error
+        Return None
+
+FUNCTION GenerateSyntheticGroundTruth(landmarks, perturbation_factor):
+    If landmarks empty:
+        Return None
+
+    Initialize empty list for synthetic ground truth
+
+    FOR each landmark:
+        Extract x, y coordinates
+        Add random perturbation within range
+        Add perturbed coordinates to synthetic ground truth
+
+    Return synthetic ground truth
+
+## 8. 3D Pose Visualization
+
+```
+CLASS Pose3DVisualizer:
+    FUNCTION Initialize:
+        Set up MediaPipe pose detector with high quality model
+        Initialize 3D plotting environment with matplotlib
+        Initialize empty list to store landmarks for each frame
+        Set default framerate parameters
+
+    FUNCTION ProcessVideo(video_path):
+        Check if video file exists
+        Open video file and get properties (fps, total frames)
+
+        FOR each frame in video:
+            Convert frame to RGB
+            Process frame with MediaPipe pose
+
+            IF pose landmarks detected:
+                Extract 3D world coordinates
+                Reorient landmarks to ensure proper floor orientation
+                Add landmarks to storage list
+            ELSE:
+                Use previous frame's landmarks or zeros if first frame
+
+        Release video resources
+
+    FUNCTION ReorientLandmarks(landmarks):
+        // Transform MediaPipe coordinates to proper 3D visualization coordinates
+        Make copy of landmarks
+
+        // Find the ground level (lowest foot point)
+        Get y-values of foot landmarks (indices 27-32)
+        Find maximum y-value (lowest point in MediaPipe coordinates)
+
+        // Adjust all landmarks so feet are on the ground
+        Subtract y-offset from all y-coordinates
+        Flip y-axis for intuitive visualization (make y go up)
+
+        Return reoriented landmarks
+
+    FUNCTION GetPoseConnections:
+        Return list of joint connections used by MediaPipe Pose
+
+    FUNCTION UpdatePlot(frame_index):
+        Clear previous plot
+        Get landmarks for current frame
+
+        Set axis labels and title
+        Draw grid on X-Z plane (floor)
+
+        // Plot skeleton
+        Plot all landmarks as points
+        Draw connections between joints
+
+        Set appropriate axis limits
+        Adjust viewing angle
+
+        Return updated plot
+
+    FUNCTION Animate(show, save, output_path):
+        Check if landmarks are available
+
+        Create animation using FuncAnimation
+
+        IF save is True:
+            Ensure output directory exists
+            Set up FFmpeg writer
+            Save animation to file
+
+        IF show is True:
+            Display animation in real-time
+
+        Return animation object
+```
+
+## 9. Multi-Camera 3D Reconstruction
+
+```
+FUNCTION ProcessDualVideosWithSingle3DSkeleton(video1_path, video2_path, output_dir, fps):
+    // Initialize
+    Create output directory
+    Initialize MediaPipe Pose for both cameras
+    Open video files
+    Get video properties
+    Create video writers for output videos
+
+    // Process each frame from both videos
+    FOR each frame in both videos:
+        Read frames from both cameras
+        Convert frames to RGB
+        Process frames with MediaPipe
+
+        // Extract landmarks and confidence
+        IF pose detected in camera 1:
+            Extract 3D world landmarks and confidence values
+
+        IF pose detected in camera 2:
+            Extract 3D world landmarks and confidence values
+
+        // Combine landmarks from both cameras
+        combined_landmarks = CombineLandmarks(landmarks1, landmarks2, confidence1, confidence2)
+
+        // Create annotated frames
+        Draw pose landmarks on both camera views
+        Combine annotated frames side by side
+        Write to annotated video
+
+        // Create 3D skeleton visualization
+        IF combined landmarks exist:
+            Create 3D skeleton visualization
+            Write to skeleton video
+
+    // Release resources
+    Release video captures and writers
+
+FUNCTION CombineLandmarks(landmarks1, landmarks2, confidence1, confidence2):
+    // Handle cases where one or both sets of landmarks are missing
+    IF both landmarks are None:
+        Return None
+    IF landmarks1 is None:
+        Return landmarks2
+    IF landmarks2 is None:
+        Return landmarks1
+
+    // Combine landmarks based on confidence
+    Initialize combined landmarks array
+    FOR each landmark index:
+        IF confidence1[i] > confidence2[i]:
+            Use landmark from camera 1
+        ELSE:
+            Use landmark from camera 2
+
+    Return combined landmarks
+
+FUNCTION Project3DTo2D(points_3d, rotation_x, rotation_y, rotation_z, scale, center_x, center_y):
+    // Convert rotation angles to radians
+    Convert degrees to radians
+
+    // Create rotation matrices for X, Y, and Z axes
+    Create rotation matrix for X axis
+    Create rotation matrix for Y axis
+    Create rotation matrix for Z axis
+
+    // Combine rotation matrices
+    rotation_matrix = Z matrix × Y matrix × X matrix
+
+    // Apply rotation to all points
+    Rotate all 3D points using rotation matrix
+
+    // Project to 2D using orthographic projection
+    FOR each rotated point:
+        x = point[0] * scale + center_x
+        y = point[1] * scale + center_y
+        Add (x, y, z) to points_2d list
+
+    Return points_2d
+
+FUNCTION AdjustSkeletonToGround(landmarks):
+    // Find the lowest foot point to use as ground level
+    Get y-values of foot landmarks (indices 27-32)
+    Find maximum y-value (lowest point in MediaPipe coordinates)
+
+    // Adjust all landmarks so feet touch the ground
+    Subtract y-offset from all y-coordinates
+
+    // Flip Y axis for intuitive visualization
+    Negate all y-coordinates
+
+    // Scale skeleton to reasonable size
+    Measure height (distance from feet to head)
+    Calculate scale factor based on target height
+    Scale all coordinates
+
+    Return adjusted landmarks
+
+FUNCTION Draw3DSkeleton(landmarks, width, height, rotation_x, rotation_y, rotation_z):
+    // Initialize
+    Create black image of specified dimensions
+    Set center coordinates and scale factor
+
+    // Adjust landmarks to stand on ground
+    adjusted_landmarks = AdjustSkeletonToGround(landmarks)
+
+    // Project 3D points to 2D
+    points_2d = Project3DTo2D(adjusted_landmarks, rotation_x, rotation_y, rotation_z, scale, center_x, center_y)
+
+    // Draw ground grid
+    Draw grid on X-Z plane
+
+    // Draw feet shadows
+    Draw ellipses where feet meet the ground
+
+    // Draw skeleton connections
+    FOR each connection in skeleton_connections:
+        Get start and end points
+        Determine line thickness based on connection type
+        Determine color based on body part
+        Draw line between points
+
+    // Draw keypoints
+    FOR each point:
+        Determine radius and color based on joint type
+        Draw circle at point location
+        Add white outline for visibility
+
+    Return image
+```
