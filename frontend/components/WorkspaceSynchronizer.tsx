@@ -162,8 +162,6 @@ export default function WorkspaceSynchronizer({
     // ------------------------------------------------------------------
     let swayProxy = 0;
     let leftKneeAngle = 180;
-    let smoothedMpjpe: number | null = null;
-    
     let phase = "Setup";
     let poseStatus = "2D Clear";
     let currentIssues: string[] = [];
@@ -175,11 +173,6 @@ export default function WorkspaceSynchronizer({
 
         // 2. Lead Knee Angle 
         leftKneeAngle = calculateAngle(landmarks[23], landmarks[25], landmarks[27]);
-
-        // 3. Projected MPJPE
-        // MPJPE requires 3D ground-truth vs triangulated DLT comparison.
-        // It cannot be computed from 2D coordinates. Disabled until backend is connected.
-        smoothedMpjpe = null;
 
         // Determine Phase based on hands vs hip Y pos
         const handY = (landmarks[15].y + landmarks[16].y) / 2;
@@ -279,13 +272,8 @@ export default function WorkspaceSynchronizer({
     ctx.fillStyle = "#0000ff"; // Blue for phase
     ctx.fillText(`Phase: ${phase}`, 15, 80);
 
-    if (smoothedMpjpe !== null) {
-        ctx.fillStyle = smoothedMpjpe < 10.0 ? "#00ff00" : "#ff0000";
-        ctx.fillText(`MPJPE: ${smoothedMpjpe.toFixed(2)}`, 15, 105);
-    } else {
-        ctx.fillStyle = "#a0a0a0";
-        ctx.fillText(`MPJPE: Awaiting 3D`, 15, 105);
-    }
+    ctx.fillStyle = "#a0a0a0";
+    ctx.fillText(`3D DLT: Awaiting calibration`, 15, 105);
 
     if (currentIssues.length > 0) {
         ctx.fillStyle = "#ff0000";

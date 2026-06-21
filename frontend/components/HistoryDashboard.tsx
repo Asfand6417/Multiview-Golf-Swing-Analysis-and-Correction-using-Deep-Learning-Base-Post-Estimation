@@ -29,7 +29,6 @@ interface HistoryDashboardProps {
 
 export default function HistoryDashboard({ onLoadSession }: HistoryDashboardProps) {
   const [timeRange, setTimeRange] = useState<'7D' | '30D' | '90D'>('30D');
-  const [hoveredPointId, setHoveredPointId] = useState<number | null>(null);
 
   // Stats data corresponding to screenshot cards
   const summaryStats = [
@@ -67,61 +66,11 @@ export default function HistoryDashboard({ onLoadSession }: HistoryDashboardProp
     }
   ];
 
-  // Placeholder trend data. Do not present it as measured MPJPE until Phase 2 exists.
-  const chartData = {
-    '7D': [
-      { day: 'Mon', error: 10.4, score: 91.2 },
-      { day: 'Tue', error: 9.8, score: 92.4 },
-      { day: 'Wed', error: 9.5, score: 93.0 },
-      { day: 'Thu', error: 8.9, score: 93.8 },
-      { day: 'Fri', error: 8.4, score: 94.2 },
-      { day: 'Sat', error: 8.2, score: 94.6 },
-      { day: 'Sun', error: 8.2, score: 94.8 }
-    ],
-    '30D': [
-      { day: 'Oct 01', error: 14.8, score: 86.4 },
-      { day: 'Oct 07', error: 13.5, score: 88.0 },
-      { day: 'Oct 14', error: 11.2, score: 90.5 },
-      { day: 'Oct 21', error: 9.8, score: 92.8 },
-      { day: 'Oct 28', error: 8.5, score: 94.1 },
-      { day: 'Today', error: 8.2, score: 94.8 }
-    ],
-    '90D': [
-      { day: 'Aug 01', error: 18.5, score: 81.2 },
-      { day: 'Aug 15', error: 16.4, score: 83.5 },
-      { day: 'Sep 01', error: 14.2, score: 87.0 },
-      { day: 'Sep 15', error: 12.8, score: 89.2 },
-      { day: 'Oct 01', error: 11.0, score: 91.0 },
-      { day: 'Oct 15', error: 9.4, score: 93.2 },
-      { day: 'Today', error: 8.2, score: 94.8 }
-    ]
-  };
-
-  const points = chartData[timeRange];
-
   // SVG dimensions for trend graph
   const width = 800;
   const height = 240;
   const paddingX = 60;
   const paddingY = 45;
-
-  // Render SVG Paths
-  const maxVal = Math.max(...points.map(p => p.error)) * 1.15;
-  const minVal = Math.min(...points.map(p => p.error)) * 0.85;
-
-  const getCoordinates = (p: typeof points[0], index: number) => {
-    const x = paddingX + (index / (points.length - 1)) * (width - 2 * paddingX);
-    const y = height - paddingY - ((p.error - minVal) / (maxVal - minVal)) * (height - 2 * paddingY);
-    return { x, y };
-  };
-
-  const pathD = points.map((p, i) => {
-    const coords = getCoordinates(p, i);
-    return `${i === 0 ? 'M' : 'L'} ${coords.x} ${coords.y}`;
-  }).join(' ');
-
-  // SVG Area beneath line for glowing gradient fill
-  const areaD = `${pathD} L ${getCoordinates(points[points.length - 1], points.length - 1).x} ${height - paddingY} L ${getCoordinates(points[0], 0).x} ${height - paddingY} Z`;
 
   // Mock sessions corresponding with high fidelity images and golf analytics parameter readings
   const recentSessions: SwingSession[] = [
@@ -259,60 +208,37 @@ export default function HistoryDashboard({ onLoadSession }: HistoryDashboardProp
               );
             })}
 
-            {/* Glowing fill path */}
-            <path d={areaD} fill="url(#glowGradient)" />
-
-            {/* Primary line path (Performance Green) */}
-            <path
-              d={pathD}
-              fill="none"
-              stroke="#75ff9e"
-              strokeWidth="3.5"
-              strokeLinecap="round"
-              className="drop-shadow-[0_4px_10px_rgba(117,255,158,0.35)]"
+            <rect
+              x={paddingX}
+              y={paddingY}
+              width={width - paddingX * 2}
+              height={height - paddingY * 2}
+              rx="10"
+              fill="rgba(250,204,21,0.04)"
+              stroke="rgba(250,204,21,0.18)"
+              strokeDasharray="8 8"
             />
 
-            {/* Intersection Nodes circles */}
-            {points.map((p, i) => {
-              const coords = getCoordinates(p, i);
-              const isHovered = hoveredPointId === i;
-              return (
-                <g key={i}>
-                  <circle
-                    cx={coords.x}
-                    cy={coords.y}
-                    r={isHovered ? 8 : 5}
-                    fill={isHovered ? "#75ff9e" : "#131313"}
-                    stroke="#75ff9e"
-                    strokeWidth={isHovered ? 3 : 2}
-                    className="cursor-pointer transition-all duration-150"
-                  />
-                  
-                  {/* Invisible larger hover zone */}
-                  <circle
-                    cx={coords.x}
-                    cy={coords.y}
-                    r={20}
-                    fill="transparent"
-                    className="cursor-pointer"
-                    onMouseEnter={() => setHoveredPointId(i)}
-                    onMouseLeave={() => setHoveredPointId(null)}
-                  />
-
-                  {/* Date/Label below nodes */}
-                  <text
-                    x={coords.x}
-                    y={height - 15}
-                    fill="rgba(229,226,225,0.4)"
-                    fontSize="10"
-                    fontFamily="monospace"
-                    textAnchor="middle"
-                  >
-                    {p.day}
-                  </text>
-                </g>
-              );
-            })}
+            <text
+              x={width / 2}
+              y={height / 2 - 10}
+              fill="rgba(250,204,21,0.9)"
+              fontSize="13"
+              fontFamily="monospace"
+              textAnchor="middle"
+            >
+              No validated trend data
+            </text>
+            <text
+              x={width / 2}
+              y={height / 2 + 14}
+              fill="rgba(186,203,185,0.55)"
+              fontSize="10"
+              fontFamily="monospace"
+              textAnchor="middle"
+            >
+              {timeRange} range selected; awaiting real DLT history
+            </text>
 
             {/* Placeholder axis labels until validated history exists */}
             <text x={30} y={paddingY} fill="rgba(229,226,225,0.3)" fontSize="9" fontFamily="monospace">No data</text>
@@ -320,26 +246,6 @@ export default function HistoryDashboard({ onLoadSession }: HistoryDashboardProp
             <text x={30} y={height - paddingY} fill="rgba(229,226,225,0.3)" fontSize="9" fontFamily="monospace">Phase 2</text>
           </svg>
 
-          {/* Floating Tooltip of selected joint error values */}
-          {hoveredPointId !== null && (
-            <div
-              className="absolute bg-[#181818] border border-brand-primary/20 p-2.5 rounded text-xs select-none shadow-md"
-              style={{
-                left: `${paddingX + (hoveredPointId / (points.length - 1)) * (width - 2 * paddingX) - 60}px`,
-                top: `${getCoordinates(points[hoveredPointId], hoveredPointId).y - 75}px`
-              }}
-            >
-              <div className="font-mono text-[9px] text-[#859585] uppercase tracking-wider">
-                {points[hoveredPointId].day} Analysis
-              </div>
-              <div className="font-extrabold text-[#75ff9e] text-sm mt-0.5">
-                Placeholder: no validated MPJPE
-              </div>
-              <div className="text-[10px] text-white mt-0.5">
-                Phase 2 public-dataset demo pending
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
