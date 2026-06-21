@@ -1,21 +1,8 @@
 "use client";
-import React, { useEffect } from 'react';
+import React from 'react';
 import Head from 'next/head';
 
 export default function SplittingPage() {
-    
-    // Progress bar micro-interaction simulation
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const pulseBar = document.getElementById('progress-bar-primary');
-            if (pulseBar && Math.random() > 0.8) {
-                const currentWidth = parseFloat(pulseBar.style.width) || 84;
-                const newWidth = Math.min(84.9, currentWidth + (Math.random() * 0.05));
-                pulseBar.style.width = newWidth + '%';
-            }
-        }, 2000);
-        return () => clearInterval(interval);
-    }, []);
 
     return (
         <div className="bg-[#131313] text-[#e5e2e1] font-sans min-h-screen overflow-x-hidden selection:bg-[#75ff9e] selection:text-[#00210b]">
@@ -77,7 +64,7 @@ export default function SplittingPage() {
                 <aside className="hidden lg:flex flex-col h-[calc(100vh-64px)] w-64 fixed left-0 top-16 bg-[#1c1b1b] border-r border-[#3b4a3d] py-8 px-4 space-y-6 z-40">
                     <div className="mb-8">
                         <div className="text-[20px] font-bold text-[#75ff9e] uppercase font-inter">PIPELINE CTRL</div>
-                        <div className="text-[#bacbb9] text-xs opacity-60 font-mono">V3.4 Stable</div>
+                        <div className="text-[#bacbb9] text-xs opacity-60 font-mono">Phase 1 Preview</div>
                     </div>
                     <nav className="flex-1 space-y-2">
                         <button onClick={() => window.location.href='/history'} className="flex items-center w-full px-4 py-3 text-[#bacbb9] hover:bg-white/5 transition-all group rounded-lg">
@@ -117,16 +104,16 @@ export default function SplittingPage() {
                         <div>
                             <span className="text-[#75ff9e] text-sm uppercase tracking-widest block mb-1 font-mono font-medium">STEP 02/05</span>
                             <h1 className="text-[40px] font-bold leading-tight mb-2 font-inter text-[#e5e2e1]">Preprocessing & Splitting</h1>
-                            <p className="text-[#bacbb9] max-w-2xl text-[16px] font-inter leading-relaxed">Refining multi-view golf swing captures into synchronized datasets for deep skeletal reconstruction. Current node: <span className="text-[#75ff9e] font-bold">Training Set Distribution</span>.</p>
+                            <p className="text-[#bacbb9] max-w-2xl text-[16px] font-inter leading-relaxed">Dataset preparation is a placeholder until Phase 2 connects a public calibrated multi-view clip. Current node: <span className="text-[#75ff9e] font-bold">Configuration Preview</span>.</p>
                         </div>
                         <div className="flex gap-4">
                             <div className="glass-panel p-4 flex flex-col items-center min-w-[120px] rounded-lg">
                                 <span className="text-[10px] font-medium font-mono text-[#bacbb9] mb-1 uppercase tracking-wider">Annotated Vids</span>
-                                <span className="text-[20px] font-bold font-mono text-[#75ff9e]">1,400</span>
+                                <span className="text-[20px] font-bold font-mono text-[#facc15]">Not loaded</span>
                             </div>
                             <div className="glass-panel p-4 flex flex-col items-center min-w-[120px] rounded-lg">
                                 <span className="text-[10px] font-medium font-mono text-[#bacbb9] mb-1 uppercase tracking-wider">KeyPoints/Shot</span>
-                                <span className="text-[20px] font-bold font-mono text-[#75ff9e]">25</span>
+                                <span className="text-[20px] font-bold font-mono text-[#facc15]">Pending</span>
                             </div>
                         </div>
                     </header>
@@ -147,7 +134,7 @@ export default function SplittingPage() {
                                         <span className="material-symbols-outlined mr-3 text-[#75ff9e]">schema</span>
                                         Data Splitting Logic
                                     </h2>
-                                    <span className="bg-[#75ff9e]/20 text-[#75ff9e] px-3 py-1 text-[10px] font-bold tracking-widest uppercase rounded border border-[#75ff9e]/30">Processing Active</span>
+                                    <span className="bg-[#facc15]/20 text-[#facc15] px-3 py-1 text-[10px] font-bold tracking-widest uppercase rounded border border-[#facc15]/30">Not processing</span>
                                 </div>
 
                                 {/* Split Visualization (Standardized) */}
@@ -156,19 +143,19 @@ export default function SplittingPage() {
                                         <div className="flex-1 glass-panel p-6 border-[#75ff9e]/30 relative active-glow rounded-xl">
                                             <div className="flex justify-between items-end mb-3">
                                                 <span className="text-[10px] font-medium font-mono uppercase tracking-widest text-[#75ff9e]">Training Set</span>
-                                                <span className="text-3xl font-bold font-inter text-[#e5e2e1]">80<span className="text-sm font-normal">%</span></span>
+                                                <span className="text-xl font-bold font-inter text-[#facc15]">Not assigned</span>
                                             </div>
                                             <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                                                <div className="bg-[#75ff9e] h-full w-[80%] glow-green"></div>
+                                                <div className="bg-[#facc15] h-full w-0"></div>
                                             </div>
                                         </div>
                                         <div className="w-[30%] glass-panel p-6 border-white/5 bg-white/5 rounded-xl">
                                             <div className="flex justify-between items-end mb-3">
                                                 <span className="text-[10px] font-medium font-mono uppercase tracking-widest text-[#bacbb9]">Validation</span>
-                                                <span className="text-2xl font-bold font-mono text-[#e5e2e1]">20<span className="text-sm font-normal">%</span></span>
+                                                <span className="text-xl font-bold font-mono text-[#facc15]">Not assigned</span>
                                             </div>
                                             <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-                                                <div className="bg-[#bacbb9] h-full w-[20%] opacity-50"></div>
+                                                <div className="bg-[#facc15] h-full w-0 opacity-50"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -178,16 +165,16 @@ export default function SplittingPage() {
                                         <div className="p-4 bg-white/5 border border-white/5 rounded-lg flex items-center justify-between">
                                             <div>
                                                 <span className="text-[10px] text-[#bacbb9] uppercase block font-mono">Fine-Tuning Vids</span>
-                                                <span className="text-xl font-bold font-inter text-[#e5e2e1]">60 <span className="text-xs font-mono font-normal text-[#859585]">FILES</span></span>
+                                                <span className="text-xl font-bold font-inter text-[#e5e2e1]">Pending</span>
                                             </div>
-                                            <span className="text-[#75ff9e] font-bold font-mono text-sm">70%</span>
+                                            <span className="text-[#facc15] font-bold font-mono text-sm">No split</span>
                                         </div>
                                         <div className="p-4 bg-white/5 border border-white/5 rounded-lg flex items-center justify-between opacity-60">
                                             <div>
                                                 <span className="text-[10px] text-[#bacbb9] uppercase block font-mono">Control Group</span>
-                                                <span className="text-xl font-bold font-inter text-[#e5e2e1]">40 <span className="text-xs font-mono font-normal text-[#859585]">FILES</span></span>
+                                                <span className="text-xl font-bold font-inter text-[#e5e2e1]">Pending</span>
                                             </div>
-                                            <span className="text-[#bacbb9] font-bold font-mono text-sm">30%</span>
+                                            <span className="text-[#facc15] font-bold font-mono text-sm">No split</span>
                                         </div>
                                     </div>
                                 </div>
@@ -195,11 +182,11 @@ export default function SplittingPage() {
                                 <div className="mt-8 pt-8 border-t border-white/5 flex gap-12">
                                     <div>
                                         <div className="text-[10px] text-[#bacbb9] uppercase mb-1 tracking-widest font-mono">Methodology</div>
-                                        <div className="text-sm font-semibold font-inter text-[#e5e2e1]">Random Seed Stratification</div>
+                                        <div className="text-sm font-semibold font-inter text-[#e5e2e1]">Not selected</div>
                                     </div>
                                     <div>
                                         <div className="text-[10px] text-[#bacbb9] uppercase mb-1 tracking-widest font-mono">Integrity</div>
-                                        <div className="text-sm font-semibold text-[#75ff9e] font-inter">Verified Hash (SHA-256)</div>
+                                        <div className="text-sm font-semibold text-[#facc15] font-inter">No dataset hash</div>
                                     </div>
                                 </div>
                             </div>
@@ -220,10 +207,10 @@ export default function SplittingPage() {
                                                 <span className="material-symbols-outlined text-[#75ff9e] mr-3 text-lg">sync_alt</span>
                                                 Frame Synchronization (Multi-Cam)
                                             </span>
-                                            <span className="text-xs font-mono text-[#75ff9e] font-bold">84%</span>
+                                            <span className="text-xs font-mono text-[#facc15] font-bold">Pending</span>
                                         </div>
                                         <div className="w-full h-[6px] bg-white/5 rounded-full overflow-hidden">
-                                            <div id="progress-bar-primary" className="h-full bg-[#75ff9e] w-[84%] animate-pulse glow-green transition-all duration-1000"></div>
+                                            <div id="progress-bar-primary" className="h-full bg-[#facc15] w-0 transition-all duration-1000"></div>
                                         </div>
                                     </div>
                                     {/* Task 2 */}
@@ -233,10 +220,10 @@ export default function SplittingPage() {
                                                 <span className="material-symbols-outlined text-[#75ff9e] mr-3 text-lg">align_vertical_bottom</span>
                                                 Impact Alignment Metrics
                                             </span>
-                                            <span className="text-xs font-mono text-[#75ff9e] font-bold">62%</span>
+                                            <span className="text-xs font-mono text-[#facc15] font-bold">Pending</span>
                                         </div>
                                         <div className="w-full h-[6px] bg-white/5 rounded-full overflow-hidden">
-                                            <div className="h-full bg-[#75ff9e] w-[62%] transition-all duration-1000"></div>
+                                            <div className="h-full bg-[#facc15] w-0 transition-all duration-1000"></div>
                                         </div>
                                     </div>
                                     {/* Task 3 */}
@@ -246,10 +233,10 @@ export default function SplittingPage() {
                                                 <span className="material-symbols-outlined text-[#75ff9e] mr-3 text-lg">check_circle</span>
                                                 Keypoint Extraction Pipeline
                                             </span>
-                                            <span className="text-xs font-mono text-[#75ff9e] font-bold">100%</span>
+                                            <span className="text-xs font-mono text-[#facc15] font-bold">Pending</span>
                                         </div>
                                         <div className="w-full h-[6px] bg-white/5 rounded-full overflow-hidden">
-                                            <div className="h-full bg-[#75ff9e] w-[100%] transition-all duration-1000 shadow-[0_0_8px_#75ff9e]"></div>
+                                            <div className="h-full bg-[#facc15] w-0 transition-all duration-1000"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -263,9 +250,9 @@ export default function SplittingPage() {
                             <div className="glass-panel p-6 rounded-xl border-l-4 border-l-[#75ff9e]">
                                 <h3 className="text-[10px] font-medium font-mono uppercase tracking-widest text-[#75ff9e] mb-4">GolfSwing Dataset V1</h3>
                                 <div className="aspect-video bg-[#353534] mb-6 relative rounded-lg overflow-hidden border border-[#3b4a3d]">
-                                    <img alt="Swing Analysis Ground Truth" className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZra_mDeO6xRaPwOgkHDu6IDe2mmvaFE4u_szvkuAvQdxkBrrF_ACSJ9pF7_emkjyEVaom-2e7nCuLco40DSoooKHL7EWazjUxu3SykG62oWwCT2gVvhiyINHqzS76oFKIlRfFguCFJWyR5Nqaom6wSxPrvs-MPNNrb3GZKkEeMlFRDd8VABWkm0fpBgeSLZnvWL-r4rCv_TmpUotIO3CalX3o7hbZ8JJw1x-cyaV-AHG9d3CT5OBux4S_-NPfZQaARh5SdcYVPykg" />
+                                    <img alt="Dataset placeholder" className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZra_mDeO6xRaPwOgkHDu6IDe2mmvaFE4u_szvkuAvQdxkBrrF_ACSJ9pF7_emkjyEVaom-2e7nCuLco40DSoooKHL7EWazjUxu3SykG62oWwCT2gVvhiyINHqzS76oFKIlRfFguCFJWyR5Nqaom6wSxPrvs-MPNNrb3GZKkEeMlFRDd8VABWkm0fpBgeSLZnvWL-r4rCv_TmpUotIO3CalX3o7hbZ8JJw1x-cyaV-AHG9d3CT5OBux4S_-NPfZQaARh5SdcYVPykg" />
                                     <div className="absolute inset-0 flex items-center justify-center">
-                                        <span className="bg-[#131313]/80 backdrop-blur-md px-4 py-2 rounded-full text-[10px] uppercase font-bold font-mono tracking-widest border border-white/10 text-[#75ff9e]">3D Ground Truth Active</span>
+                                        <span className="bg-[#131313]/80 backdrop-blur-md px-4 py-2 rounded-full text-[10px] uppercase font-bold font-mono tracking-widest border border-white/10 text-[#facc15]">Ground truth not loaded</span>
                                     </div>
                                 </div>
                                 <ul className="space-y-4 text-sm font-medium font-inter">
@@ -279,7 +266,7 @@ export default function SplittingPage() {
                                     </li>
                                     <li className="flex justify-between items-center text-[#e5e2e1]">
                                         <span className="text-[#bacbb9] text-[12px] font-mono">Precision:</span>
-                                        <span className="text-[#75ff9e] font-bold">Sub-mm Accuracy</span>
+                                        <span className="text-[#facc15] font-bold">Not measured</span>
                                     </li>
                                 </ul>
                             </div>
@@ -293,7 +280,7 @@ export default function SplittingPage() {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="p-4 bg-[#201f1f] rounded-lg border border-[#3b4a3d] shadow-inner">
                                         <span className="text-[10px] text-[#bacbb9] uppercase block mb-1 font-mono tracking-wider">Architecture</span>
-                                        <span className="text-sm font-bold text-[#e5e2e1]">HRNet + MPJPE</span>
+                                        <span className="text-sm font-bold text-[#e5e2e1]">Model pending</span>
                                     </div>
                                     <div className="p-4 bg-[#201f1f] rounded-lg border border-[#3b4a3d] shadow-inner">
                                         <span className="text-[10px] text-[#bacbb9] uppercase block mb-1 font-mono tracking-wider">Complexity</span>
@@ -309,7 +296,7 @@ export default function SplittingPage() {
                                     <span className="material-symbols-outlined ml-3 transition-transform group-hover:translate-x-2">arrow_forward</span>
                                 </button>
                                 <p className="text-center text-[10px] text-[#bacbb9] mt-4 uppercase font-mono tracking-tighter opacity-80">
-                                    Approx. Training Time: 4h 12m (RTX 4090 x4 Cluster)
+                                    Training disabled until a real dataset job is connected
                                 </p>
                             </div>
                         </section>
@@ -318,12 +305,12 @@ export default function SplittingPage() {
                     {/* Global Footer Status */}
                     <footer className="mt-20 border-t border-white/5 pt-8 pb-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] text-[#bacbb9] uppercase tracking-widest font-mono">
                         <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-8">
-                            <span className="flex items-center font-bold text-[#75ff9e]"><span className="w-2 h-2 rounded-full bg-[#75ff9e] mr-2 glow-green animate-pulse"></span> SYSTEM READY</span>
-                            <span>LATENCY: 12ms</span>
-                            <span>ENCRYPTION: AES-256</span>
+                            <span className="flex items-center font-bold text-[#facc15]"><span className="w-2 h-2 rounded-full bg-[#facc15] mr-2 glow-green animate-pulse"></span> CONFIG PREVIEW</span>
+                            <span>LATENCY: Not measured</span>
+                            <span>BACKEND: Not connected</span>
                         </div>
                         <div className="font-mono opacity-60">
-                            Build: psa_v3.4.0_stable_901
+                            Build: Pending real pipeline
                         </div>
                     </footer>
                 </main>

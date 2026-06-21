@@ -32,13 +32,13 @@ export default function App() {
   const [activeSection, setActiveSection] = useState<string>('sync'); // sync, biometrics, video, reports
   const [selectedSampleName, setSelectedSampleName] = useState<string>("Front_Swinger_PRO_3203.mp4");
 
-  // Global Dynamic Biometrics State from MediaPipe Engine!
+  // 2D overlay state from the synchronizer. Metric-grade 3D analysis is disabled until DLT is wired.
   const [liveMetrics, setLiveMetrics] = useState({
-    swayCm: 0.0,
+    swayProxy: 0.0,
     kneeAngle: 155.0,
-    mpjpe: 4.2,
+    mpjpe: null as number | null,
     fps: 0,
-    poseStatus: 'GOOD Pose',
+    poseStatus: '2D Overlay',
     phase: 'Setup',
     issues: [] as string[]
   });
@@ -49,7 +49,7 @@ export default function App() {
   const [coachChat, setCoachChat] = useState<Array<{ sender: 'user' | 'ai'; text: string }>>([
     {
       sender: 'ai',
-      text: `Hi Alex! I'm your Gemini Swing Pro Coach. I am analyzing your real-time data. Currently your MPJPE precision is locking in at ${liveMetrics.mpjpe.toFixed(1)}mm. How can I help you adjust your posture or mechanics today?`
+      text: "Hi Alex. The current workspace can show a 2D pose overlay, but calibrated 3D DLT analysis is not connected yet. I can help interpret what is available without presenting fake precision."
     }
   ]);
   const [isCoachTyping, setIsCoachTyping] = useState<boolean>(false);
@@ -67,11 +67,11 @@ export default function App() {
     setActiveTab('analyze');
     setActiveSection('sync');
     setSelectedSampleName("Draft_New_Capture_Front_1.mp4");
-    setLiveMetrics({ swayCm: 0, kneeAngle: 0, mpjpe: 0, fps: 0, poseStatus: '', phase: '', issues: [] }); // reset
-    alert("New empty session workspace configured. You can now load local video clips or trigger the professional sample demo!");
+    setLiveMetrics({ swayProxy: 0, kneeAngle: 0, mpjpe: null, fps: 0, poseStatus: '', phase: '', issues: [] });
+    alert("New empty session workspace configured. User-uploaded 3D analysis remains disabled until calibrated camera matrices are available.");
   };
 
-  // Chat queries responses matching ACTUAL golf biomechanics LIVE
+  // Chat responses are limited to 2D overlay guidance until calibrated DLT is available.
   const handleCoachSubmit = (e: any) => {
     e.preventDefault();
     if (!coachQuery.trim()) return;
@@ -86,14 +86,14 @@ export default function App() {
       
       const normalized = userMsg.toLowerCase();
       if (normalized.includes('sway') || normalized.includes('lateral')) {
-        const isSwayBad = liveMetrics.swayCm > 2.5;
-        aiText = `Based on your live tracking, your lateral head sway is currently ${liveMetrics.swayCm.toFixed(1)}cm. ${isSwayBad ? 'This exceeds the recommended 2.5cm threshold.' : 'This is within optimal limits!'} To improve, keep your lead knee slightly flexed inward and anchor your weight 55% to your lead instep.`;
+        const isSwayBad = liveMetrics.swayProxy > 2.5;
+        aiText = `Based on the 2D overlay, your lateral head movement proxy is ${liveMetrics.swayProxy.toFixed(1)}% of frame width. ${isSwayBad ? 'This exceeds the provisional 2D threshold.' : 'This is within the provisional 2D threshold.'} Metric-grade 3D confirmation still requires calibration.`;
       } else if (normalized.includes('smash') || normalized.includes('factor')) {
         aiText = "Smash factor is the ratio of ball speed to clubhead speed. Prioritize striking inside the absolute sweet-spot. Avoid shifting your sternum forward before the impact plane.";
       } else if (normalized.includes('knee') || normalized.includes('posture')) {
-        aiText = `Your lead knee angle is registering at ${liveMetrics.kneeAngle.toFixed(1)} degrees. ${liveMetrics.kneeAngle < 155 ? 'Excellent stability through the impact zone.' : 'You are extending early. Keep the flex held slightly longer.'}`;
+        aiText = `The 2D overlay estimates your lead knee angle at ${liveMetrics.kneeAngle.toFixed(1)} degrees. ${liveMetrics.kneeAngle < 155 ? 'That suggests stable flex in the current view.' : 'That suggests possible early extension in the current view.'} Treat this as 2D guidance, not DLT-validated analysis.`;
       } else if (normalized.includes('drill') || normalized.includes('exercise')) {
-        aiText = "Based on your current telemetry, I recommend the 'Lateral Tether Rotation Drill'. You can launch it by clicking the 'View Drill Video' button inside the Biometrics workspace!";
+        aiText = "I can suggest general drills from the 2D overlay, but the app is no longer presenting drill recommendations as DLT-validated until the real pipeline is connected.";
       }
 
       setCoachChat((prev) => [...prev, { sender: 'ai', text: aiText }]);
@@ -105,7 +105,7 @@ export default function App() {
   const renderWorkspaceContent = () => {
     if (activeTab === 'analyze') {
       if (activeSection === 'biometrics') {
-        return <SkeletalAnalysis metrics={liveMetrics} />;
+        return <SkeletalAnalysis />;
       } else if (activeSection === 'video') {
         // Render simple elegant video catalog layout
         return (
@@ -148,7 +148,6 @@ export default function App() {
       } else {
         return (
           <WorkspaceSynchronizer
-            onStartAnalysis={() => setActiveSection('biometrics')}
             selectedSampleName={selectedSampleName}
             setSelectedSampleName={setSelectedSampleName}
             onMetricsUpdate={(newMetrics) => setLiveMetrics(newMetrics)}
@@ -215,7 +214,7 @@ export default function App() {
               <Sparkles className="w-5 h-5 text-brand-primary fill-brand-primary" />
               <div>
                 <h3 className="text-sm font-bold tracking-tight text-white uppercase font-sans">Gemini Swing Coach</h3>
-                <span className="text-[9px] font-mono tracking-widest text-[#859585]">REAL-TIME ATHLETE ENGINE</span>
+                <span className="text-[9px] font-mono tracking-widest text-[#859585]">2D OVERLAY ASSISTANT</span>
               </div>
             </div>
             <button
@@ -260,11 +259,11 @@ export default function App() {
 
           {/* Quick FAQ tag shortcuts */}
           <div className="p-3 bg-[#111] border-t border-white/5 flex flex-wrap gap-1.5 justify-center">
-            {[
-              "Why lateral head sway?",
-              "Raise smash factor to 1.51",
-              "Extend shoulder rotation"
-            ].map((faq, fIdx) => (
+	            {[
+	              "Why lateral head sway?",
+	              "Explain smash factor",
+	              "Extend shoulder rotation"
+	            ].map((faq, fIdx) => (
               <button
                 key={fIdx}
                 onClick={() => setCoachQuery(faq)}

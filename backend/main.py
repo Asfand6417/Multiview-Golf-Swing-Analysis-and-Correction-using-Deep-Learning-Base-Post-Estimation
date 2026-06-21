@@ -1,6 +1,5 @@
-from fastapi import FastAPI, UploadFile, File, BackgroundTasks
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from tasks.analysis import process_golf_swing_videos
 import uuid
 
 app = FastAPI(title="GolfPose API")
@@ -29,15 +28,14 @@ async def upload_videos(
     with open(side_path, "wb") as f:
         f.write(await side_video.read())
         
-    # Temporary bypass of Celery so you don't need Redis to test the connection
-    # process_golf_swing_videos.delay(job_id, front_path, side_path)
-    
     return {
-        "status": "success", 
+        "status": "not_connected",
         "job_id": job_id,
-        "flaws": ["Spine Angle Loss", "Flying Right Elbow"],
-        "injury": "Moderate Shoulder Strain Risk",
-        "mpjpe": 22.4
+        "message": (
+            "Videos were received for preview storage only. User-uploaded 3D analysis "
+            "requires calibrated camera projection matrices and is not connected yet."
+        ),
+        "analysis": None
     }
 
 @app.get("/results/{job_id}")

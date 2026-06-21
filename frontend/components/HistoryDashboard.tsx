@@ -35,39 +35,39 @@ export default function HistoryDashboard({ onLoadSession }: HistoryDashboardProp
   const summaryStats = [
     {
       id: 'stat-total-analysis',
-      title: 'TOTAL ANALYSIS',
-      value: '1,284',
-      badge: '↑ 12%',
+      title: 'VALIDATED ANALYSIS',
+      value: '0',
+      badge: 'PENDING',
       badgeColor: 'text-brand-primary bg-brand-primary/10 border-brand-primary/10',
-      description: 'Swings processed in workspace'
+      description: 'Awaiting calibrated DLT output'
     },
     {
       id: 'stat-top-score',
       title: 'TOP WORKSPACE SCORE',
-      value: '94.8',
-      badge: 'ELITE RANK',
+      value: 'N/A',
+      badge: 'NO DATA',
       badgeColor: 'text-brand-primary bg-brand-primary/10 border-brand-primary/20',
-      description: 'Pro-tier 3D pose alignment'
+      description: 'Requires real reconstructed output'
     },
     {
       id: 'stat-avg-smash',
       title: 'AVG SMASH FACTOR',
-      value: '1.48',
-      badge: 'OPTIMAL',
+      value: 'N/A',
+      badge: 'NOT MEASURED',
       badgeColor: 'text-brand-blue bg-brand-blue/10 border-brand-blue/20',
-      description: 'Energy transfer efficiency ratio'
+      description: 'No launch monitor integration'
     },
     {
       id: 'stat-streak',
       title: 'SESSION STREAK',
-      value: '12',
-      badge: 'ACTIVE 🔥',
+      value: '0',
+      badge: 'INACTIVE',
       badgeColor: 'text-brand-primary bg-brand-primary/25 border-brand-primary/30',
-      description: 'Consecutive training days'
+      description: 'No validated sessions yet'
     }
   ];
 
-  // Interactive Graph Data (MPJPE Joint Error Rate Downward over time)
+  // Placeholder trend data. Do not present it as measured MPJPE until Phase 2 exists.
   const chartData = {
     '7D': [
       { day: 'Mon', error: 10.4, score: 91.2 },
@@ -131,11 +131,8 @@ export default function HistoryDashboard({ onLoadSession }: HistoryDashboardProp
       date: 'Today, 08:30 AM',
       time: '08:30 AM',
       clubType: 'Driver',
-      swingScore: 92,
-      smashFactor: 1.51,
-      launchAngle: 12.4,
       thumbnailUrl: 'https://images.unsplash.com/photo-1592919505780-303950717480?auto=format&fit=crop&q=80&w=480',
-      tags: ['In-to-Out', 'High Fade', '3D ACTIVE']
+      tags: ['Demo record', 'Not validated', '3D Pending']
     },
     {
       id: 'session-2',
@@ -143,11 +140,8 @@ export default function HistoryDashboard({ onLoadSession }: HistoryDashboardProp
       date: 'Oct 26, 04:15 PM',
       time: '04:15 PM',
       clubType: '7-Iron',
-      swingScore: 88,
-      smashFactor: 1.45,
-      launchAngle: 11.8,
       thumbnailUrl: 'https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&q=80&w=480',
-      tags: ['Slight Pull', 'Optimal Spin', '3D ACTIVE']
+      tags: ['Demo record', 'Not validated', '3D Pending']
     },
     {
       id: 'session-3',
@@ -155,11 +149,8 @@ export default function HistoryDashboard({ onLoadSession }: HistoryDashboardProp
       date: 'Oct 24, 10:00 AM',
       time: '14:22 PM',
       clubType: 'Driver',
-      swingScore: 95,
-      smashFactor: 1.54,
-      launchAngle: 13.1,
       thumbnailUrl: 'https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?auto=format&fit=crop&q=80&w=480',
-      tags: ['Pure Center', 'Draw path', '3D ACTIVE']
+      tags: ['Demo record', 'Not validated', '3D Pending']
     }
   ];
 
@@ -216,9 +207,9 @@ export default function HistoryDashboard({ onLoadSession }: HistoryDashboardProp
       <div id="precision-trend-container" className="bg-surface-low border border-white/5 rounded-lg p-6 mb-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <div>
-            <h3 className="text-base font-bold text-white tracking-tight">Precision Trend</h3>
+            <h3 className="text-base font-bold text-white tracking-tight">Validation Trend</h3>
             <p className="text-xs text-brand-secondary/40 mt-0.5">
-              Mean Per Joint Position Error (MPJPE) tracked over last 30 days.
+              No validated DLT or MPJPE history is available until the real reconstruction pipeline is connected.
             </p>
           </div>
 
@@ -323,10 +314,10 @@ export default function HistoryDashboard({ onLoadSession }: HistoryDashboardProp
               );
             })}
 
-            {/* Left Y-axis labels of MPJPE error scale */}
-            <text x={30} y={paddingY} fill="rgba(229,226,225,0.3)" fontSize="9" fontFamily="monospace">15.0mm</text>
-            <text x={30} y={height / 2} fill="rgba(229,226,225,0.3)" fontSize="9" fontFamily="monospace">11.0mm</text>
-            <text x={30} y={height - paddingY} fill="rgba(229,226,225,0.3)" fontSize="9" fontFamily="monospace">8.0mm</text>
+            {/* Placeholder axis labels until validated history exists */}
+            <text x={30} y={paddingY} fill="rgba(229,226,225,0.3)" fontSize="9" fontFamily="monospace">No data</text>
+            <text x={30} y={height / 2} fill="rgba(229,226,225,0.3)" fontSize="9" fontFamily="monospace">Pending</text>
+            <text x={30} y={height - paddingY} fill="rgba(229,226,225,0.3)" fontSize="9" fontFamily="monospace">Phase 2</text>
           </svg>
 
           {/* Floating Tooltip of selected joint error values */}
@@ -342,10 +333,10 @@ export default function HistoryDashboard({ onLoadSession }: HistoryDashboardProp
                 {points[hoveredPointId].day} Analysis
               </div>
               <div className="font-extrabold text-[#75ff9e] text-sm mt-0.5">
-                MPJPE: {points[hoveredPointId].error.toFixed(1)}mm
+                Placeholder: no validated MPJPE
               </div>
               <div className="text-[10px] text-white mt-0.5">
-                Score: {points[hoveredPointId].score.toFixed(1)}% / Elite
+                Phase 2 public-dataset demo pending
               </div>
             </div>
           )}
@@ -390,8 +381,8 @@ export default function HistoryDashboard({ onLoadSession }: HistoryDashboardProp
                   <span
                     key={tIdx}
                     className={`text-[8px] font-mono uppercase font-bold px-2 py-0.5 rounded shadow-sm ${
-                      tag === '3D ACTIVE'
-                        ? 'bg-brand-primary text-black'
+                      tag === '3D Pending'
+                        ? 'bg-[#facc15] text-black'
                         : 'bg-black/80 text-white border border-white/10'
                     }`}
                   >
@@ -402,7 +393,7 @@ export default function HistoryDashboard({ onLoadSession }: HistoryDashboardProp
 
               {/* Score label */}
               <div className="absolute top-3 right-3 bg-black/80 border border-brand-primary/20 rounded py-0.5 px-2 text-[10px] font-mono tracking-wider font-extrabold text-brand-primary">
-                {session.swingScore} Score
+                Demo
               </div>
             </div>
 
@@ -424,7 +415,7 @@ export default function HistoryDashboard({ onLoadSession }: HistoryDashboardProp
                   </button>
                 </div>
                 <span className="text-[10px] font-mono text-brand-secondary/40 block mt-1">
-                  Processed: {session.date} • {session.clubType} club
+                  Demo record: {session.date} • {session.clubType} club
                 </span>
               </div>
 
@@ -432,11 +423,11 @@ export default function HistoryDashboard({ onLoadSession }: HistoryDashboardProp
               <div className="grid grid-cols-2 gap-2 border-t border-white/5 mt-4 pt-3 text-[11px] font-mono">
                 <div>
                   <span className="text-brand-secondary/40 uppercase text-[9px] block">Smash Factor</span>
-                  <span className="text-brand-primary font-bold text-sm mt-0.5 block">{session.smashFactor}</span>
+                  <span className="text-brand-primary font-bold text-sm mt-0.5 block">Not measured</span>
                 </div>
                 <div>
                   <span className="text-brand-secondary/40 uppercase text-[9px] block">Launch Angle</span>
-                  <span className="text-white font-semibold text-sm mt-0.5 block">{session.launchAngle}°</span>
+                  <span className="text-white font-semibold text-sm mt-0.5 block">Not measured</span>
                 </div>
               </div>
             </div>

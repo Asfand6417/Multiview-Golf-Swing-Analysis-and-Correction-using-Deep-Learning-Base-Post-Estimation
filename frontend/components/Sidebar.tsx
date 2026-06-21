@@ -33,7 +33,7 @@ export default function Sidebar({
       id: 'sync',
       label: 'Synchronization',
       icon: RefreshCcw,
-      badge: 'Active'
+      badge: 'Preview'
     },
     {
       id: 'biometrics',
@@ -44,7 +44,7 @@ export default function Sidebar({
       id: 'video',
       label: 'Video Assets',
       icon: Video,
-      badge: '12 Files'
+      badge: 'Imports'
     },
     {
       id: 'reports',
@@ -69,7 +69,7 @@ export default function Sidebar({
             <h1 className="text-xl font-extrabold tracking-tight text-white flex items-center gap-1.5">
               PRO SWING <span className="text-brand-primary text-xs bg-brand-primary/10 px-1.5 py-0.5 rounded font-mono decoration-solid">AI</span>
             </h1>
-            <span className="text-[10px] font-mono tracking-widest text-brand-secondary/40">KINETIC ELITE V3.4</span>
+            <span className="text-[10px] font-mono tracking-widest text-brand-secondary/40">PHASE 1 HONEST MODE</span>
           </div>
         </div>
 
@@ -138,36 +138,35 @@ export default function Sidebar({
           </div>
           <div className="flex flex-col gap-1 text-[11px]">
             <div className="flex justify-between">
-              <span className="text-brand-secondary/60">Multi-View Input</span>
-              <span className="text-brand-primary font-medium">Active</span>
+              <span className="text-brand-secondary/60">Upload Preview</span>
+              <span className="text-brand-primary font-medium">Available</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-brand-secondary/60">Annotated Videos</span>
-              <span className="text-white font-semibold">1,400 Swings</span>
+              <span className="text-brand-secondary/60">Calibrated Dataset</span>
+              <span className="text-[#facc15] font-semibold">Not loaded</span>
             </div>
             <div className="flex justify-between border-t border-white/5 mt-1.5 pt-1.5">
               <span className="text-brand-secondary/60">Engine Status</span>
-              <span className="text-brand-blue font-mono text-[10px]">Landmark active</span>
+              <span className="text-brand-blue font-mono text-[10px]">2D overlay only</span>
             </div>
           </div>
         </div>
 
-        {/* Cloud Storage Gauge */}
+        {/* Storage connection status */}
         <div id="cloud-storage-widget" className="bg-surface-low border border-white/5 rounded-md p-3">
           <div className="flex items-center justify-between text-[10px] font-mono text-brand-secondary/60 mb-1.5">
             <span className="flex items-center gap-1.5 uppercase font-medium">
               <Cloud className="w-3.5 h-3.5 text-brand-blue" />
               Cloud Storage
             </span>
-            <span className="text-white">65%</span>
+            <span className="text-[#facc15]">OFFLINE</span>
           </div>
-          {/* Progress bar container */}
           <div className="w-full bg-[#1e1e1e] rounded-[1px] h-2 overflow-hidden border border-white/5">
-            <div className="bg-brand-primary-dim h-full" style={{ width: '65%' }} />
+            <div className="bg-[#facc15]/40 h-full" style={{ width: '0%' }} />
           </div>
           <div className="flex justify-between text-[9px] font-mono text-brand-secondary/40 mt-1">
-            <span>6.5 GB active</span>
-            <span>10 GB Max Cap</span>
+            <span>No storage telemetry</span>
+            <span>Not connected</span>
           </div>
         </div>
 

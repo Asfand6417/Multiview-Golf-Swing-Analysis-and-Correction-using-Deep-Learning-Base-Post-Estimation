@@ -6,9 +6,9 @@ export interface SwingSession {
   date: string;
   time: string;
   clubType: string;
-  swingScore: number;
-  smashFactor: number;
-  launchAngle: number;
+  swingScore?: number;
+  smashFactor?: number;
+  launchAngle?: number;
   rotationSpeed?: number;
   mpjpeMetric?: number;
   status?: string;

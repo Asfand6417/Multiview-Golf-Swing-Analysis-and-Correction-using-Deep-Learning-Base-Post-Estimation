@@ -26,14 +26,12 @@ declare global {
 }
 
 interface WorkspaceSynchronizerProps {
-  onStartAnalysis: () => void;
   selectedSampleName: string;
   setSelectedSampleName: (name: string) => void;
   onMetricsUpdate?: (metrics: any) => void;
 }
 
 export default function WorkspaceSynchronizer({
-  onStartAnalysis,
   selectedSampleName,
   setSelectedSampleName,
   onMetricsUpdate
@@ -53,11 +51,10 @@ export default function WorkspaceSynchronizer({
   const [sideVideoURL, setSideVideoURL] = useState<string | null>(null);
   
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
-  const [loading, setLoading] = useState(false);
+  const [analysisNotice, setAnalysisNotice] = useState<string | null>(null);
 
-  // References for live biomechanical metric tracking
+  // References for the 2D overlay only. Metric-grade 3D values require calibrated DLT.
   const initialHeadXRef = useRef<number | null>(null);
-  const mpjpeHistory = useRef<number[]>([]);
   const lastMetricsUpdate = useRef<number>(0);
   const lastFrameTimeRef = useRef<number>(Date.now()); 
 
@@ -83,7 +80,7 @@ export default function WorkspaceSynchronizer({
     return () => clearInterval(interval);
   }, [isPlaying]);
 
-  // Handle uploading simulation
+  // Handle local preview uploads
   const handleFileUpload = (type: 'front' | 'side', e: any) => {
     const file = e.target.files && e.target.files[0];
     if (file) {
@@ -99,10 +96,8 @@ export default function WorkspaceSynchronizer({
   };
 
   const loadSample = () => {
-    setFrontVideoURL("https://storage.googleapis.com/tfjs-models/assets/posenet/squats.mp4");
-    setSideVideoURL("https://storage.googleapis.com/tfjs-models/assets/posenet/squats.mp4");
-    setFrameIndex(12);
-    setOffset(0.02);
+    // TODO(Phase 2): replace this blocked state with a real public calibrated demo job.
+    setAnalysisNotice("Public calibrated DLT demo is not connected yet. Phase 2 will wire this button to a real pre-calibrated dataset.");
   };
 
   const triggerAutoSync = () => {
@@ -136,37 +131,28 @@ export default function WorkspaceSynchronizer({
     lastFrameTimeRef.current = now;
 
     // ------------------------------------------------------------------
-    // REAL-TIME BIOMECHANICAL ANNOTATION (MPJPE & SWING ISSUES PIPELINE)
+    // 2D overlay annotation. Metric-grade biomechanics require calibrated DLT.
     // ------------------------------------------------------------------
-    let swayCm = 0;
+    let swayProxy = 0;
     let leftKneeAngle = 180;
-    let smoothedMpjpe = 4.2;
-    let torsoRotAngle = 90;
+    let smoothedMpjpe: number | null = null;
     
     let phase = "Setup";
-    let poseStatus = "GOOD Pose";
+    let poseStatus = "2D Clear";
     let currentIssues: string[] = [];
 
     if (landmarks[0] && landmarks[23] && landmarks[25] && landmarks[27] && landmarks[11] && landmarks[12]) {
-        // 1. Lateral Head Sway
+        // 1. Lateral Head Sway proxy, expressed as percent of frame width.
         if (initialHeadXRef.current === null) initialHeadXRef.current = landmarks[0].x;
-        const swayPx = Math.abs(landmarks[0].x - initialHeadXRef.current) * width;
-        swayCm = swayPx * 0.2; 
+        swayProxy = Math.abs(landmarks[0].x - initialHeadXRef.current) * 100;
 
         // 2. Lead Knee Angle 
         leftKneeAngle = calculateAngle(landmarks[23], landmarks[25], landmarks[27]);
 
-        // 3. Torso Rotation Simulation (Using Z depth & X delta for pseudo 3D rotation)
-        const shoulderDx = landmarks[12].x - landmarks[11].x;
-        const shoulderDz = landmarks[12].z - landmarks[11].z;
-        torsoRotAngle = Math.abs(Math.atan2(shoulderDz, shoulderDx) * 180 / Math.PI);
-
-        // 4. Projected MPJPE
-        const avgConfidence = landmarks.reduce((acc: number, lm: any) => acc + lm.visibility, 0) / landmarks.length;
-        const simulatedMpjpe = (1 - avgConfidence) * 15.0 + (Math.random() * 2.5); 
-        mpjpeHistory.current.push(simulatedMpjpe);
-        if (mpjpeHistory.current.length > 20) mpjpeHistory.current.shift();
-        smoothedMpjpe = mpjpeHistory.current.reduce((a, b) => a + b, 0) / mpjpeHistory.current.length;
+        // 3. Projected MPJPE
+        // MPJPE requires 3D ground-truth vs triangulated DLT comparison.
+        // It cannot be computed from 2D coordinates. Disabled until backend is connected.
+        smoothedMpjpe = null;
 
         // Determine Phase based on hands vs hip Y pos
         const handY = (landmarks[15].y + landmarks[16].y) / 2;
@@ -178,19 +164,18 @@ export default function WorkspaceSynchronizer({
         else phase = "Downswing";
 
         // Push diagnostics
-        if (swayCm > 2.5) currentIssues.push("head_sway");
+        if (swayProxy > 2.5) currentIssues.push("head_sway");
         if (leftKneeAngle >= 155 && phase === "Impact") currentIssues.push("early_extension");
-        if (torsoRotAngle < 15 && phase === "Impact") currentIssues.push("torso_rotation");
 
-        if (currentIssues.length > 0) poseStatus = "BAD Pose";
+        if (currentIssues.length > 0) poseStatus = "2D Flag";
     }
 
     // Pass data upwards to React state (throttled)
     if (onMetricsUpdate && (now - lastMetricsUpdate.current > 300)) {
         onMetricsUpdate({
-            swayCm,
+            swayProxy,
             kneeAngle: leftKneeAngle,
-            mpjpe: smoothedMpjpe,
+            mpjpe: null,
             fps,
             phase,
             poseStatus,
@@ -236,17 +221,9 @@ export default function WorkspaceSynchronizer({
         ctx.lineTo(landmarks[12].x * width, landmarks[12].y * height);
         ctx.closePath();
         
-        const hasTorsoIssue = currentIssues.includes("torso_rotation");
-        ctx.strokeStyle = hasTorsoIssue ? "red" : primaryColor;
-        ctx.lineWidth = hasTorsoIssue ? 4 : 3;
+        ctx.strokeStyle = primaryColor;
+        ctx.lineWidth = 3;
         ctx.stroke();
-
-        // Print Rot value near the hip
-        if (hasTorsoIssue || phase === "Impact") {
-            ctx.fillStyle = hasTorsoIssue ? "red" : primaryColor;
-            ctx.font = "bold 14px monospace";
-            ctx.fillText(`Rot: ${torsoRotAngle.toFixed(0)}`, (landmarks[24].x * width) + 10, (landmarks[24].y * height));
-        }
     }
 
     // Draw Nodes
@@ -269,14 +246,19 @@ export default function WorkspaceSynchronizer({
     ctx.fillStyle = "rgba(229, 226, 225, 0.9)"; // Off-white
     ctx.fillText(`FPS: ${fps}`, 15, 30);
 
-    ctx.fillStyle = poseStatus === "BAD Pose" ? "#ff0000" : "#00ff00";
+    ctx.fillStyle = poseStatus === "2D Flag" ? "#ff0000" : "#00ff00";
     ctx.fillText(`${poseStatus}`, 15, 55);
 
     ctx.fillStyle = "#0000ff"; // Blue for phase
     ctx.fillText(`Phase: ${phase}`, 15, 80);
 
-    ctx.fillStyle = smoothedMpjpe < 10.0 ? "#00ff00" : "#ff0000";
-    ctx.fillText(`MPJPE: ${smoothedMpjpe.toFixed(2)}`, 15, 105);
+    if (smoothedMpjpe !== null) {
+        ctx.fillStyle = smoothedMpjpe < 10.0 ? "#00ff00" : "#ff0000";
+        ctx.fillText(`MPJPE: ${smoothedMpjpe.toFixed(2)}`, 15, 105);
+    } else {
+        ctx.fillStyle = "#a0a0a0";
+        ctx.fillText(`MPJPE: Awaiting 3D`, 15, 105);
+    }
 
     if (currentIssues.length > 0) {
         ctx.fillStyle = "#ff0000";
@@ -406,15 +388,11 @@ export default function WorkspaceSynchronizer({
 
 
   const handleStartAnalysis = async () => {
-      if (!frontFile && !frontVideoURL) {
-          onStartAnalysis();
-          return;
-      }
-      setLoading(true);
-      setTimeout(() => {
-          setLoading(false);
-          onStartAnalysis();
-      }, 1500);
+      // TODO(Phase 2): route only the public calibrated demo through a real backend job;
+      // user uploads stay blocked until Phase 3 camera calibration exists.
+      setAnalysisNotice(
+        "Analysis pipeline not yet connected. Real 3D DLT triangulation requires calibrated projection matrices and a submitted backend job. User-uploaded 3D analysis remains disabled until calibration exists."
+      );
   };
 
   return (
@@ -455,12 +433,35 @@ export default function WorkspaceSynchronizer({
             onClick={handleStartAnalysis}
             className="bg-brand-primary hover:bg-brand-primary-dim text-black font-semibold px-5 py-2.5 rounded transition flex items-center gap-2 text-xs shadow-[0_4px_12px_rgba(117,255,158,0.25)] hover:shadow-[0_4px_20px_rgba(117,255,158,0.35)] cursor-pointer tracking-wider uppercase active:scale-[0.98]"
           >
-            {loading ? <RefreshCw className="w-4 h-4 text-black animate-spin" /> : <Zap className="w-4 h-4 text-black fill-black" />}
-            <span>{loading ? "Processing..." : "Start 3D Analysis"}</span>
+            <Zap className="w-4 h-4 text-black fill-black" />
+            <span>Start 3D Analysis</span>
           </button>
         </div>
       </div>
 
+      {analysisNotice && (
+        <div className="mb-6 rounded border border-[#facc15]/30 bg-[#facc15]/10 px-4 py-3 text-sm text-[#fde68a]">
+          <div className="font-semibold text-white">Analysis pipeline not available</div>
+          <div className="mt-1 text-xs leading-relaxed text-[#fde68a]">{analysisNotice}</div>
+        </div>
+      )}
+
+      {analysisNotice ? (
+        <div
+          id="analysis-blocked-state"
+          className="rounded-lg border border-white/5 bg-surface-low p-8 text-center min-h-[360px] flex flex-col items-center justify-center"
+        >
+          <div className="text-xs font-mono uppercase tracking-widest text-[#facc15]">No analysis job submitted</div>
+          <h3 className="mt-3 text-2xl font-bold text-white">3D analysis is disabled</h3>
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-brand-secondary">
+            The app is not showing sync scores, frame matches, MPJPE, classifier output, or a skeleton because no calibrated backend reconstruction job ran.
+          </p>
+          <div className="mt-6 rounded border border-[#facc15]/20 bg-[#facc15]/5 px-4 py-3 text-xs text-[#fde68a]">
+            Public calibrated demo: Phase 2 pending. User uploads: calibration required.
+          </div>
+        </div>
+      ) : (
+        <>
       <div id="synchronizer-grid" className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         
         {/* FRONT VIEW CARD/PLAYER */}
@@ -512,7 +513,7 @@ export default function WorkspaceSynchronizer({
 
           {frontVideoURL && (
             <div className="flex justify-between items-center text-[11px] font-mono text-brand-secondary/50 mt-2 px-1 z-10">
-              <span>Resolution: 1920x1080</span>
+              <span>Resolution: Not measured</span>
               <button onClick={() => setFrontVideoURL(null)} className="text-brand-error hover:underline transition">
                 Clear Video
               </button>
@@ -569,7 +570,7 @@ export default function WorkspaceSynchronizer({
 
           {sideVideoURL && (
             <div className="flex justify-between items-center text-[11px] font-mono text-brand-secondary/50 mt-2 px-1 z-10">
-              <span>Resolution: 1920x1080</span>
+              <span>Resolution: Not measured</span>
               <button onClick={() => setSideVideoURL(null)} className="text-brand-error hover:underline transition">
                 Clear Video
               </button>
@@ -620,7 +621,7 @@ export default function WorkspaceSynchronizer({
             <div className="hidden sm:block">
               <span className="text-[10px] font-mono uppercase text-brand-secondary/40 tracking-wider block">Auto-Sync Status</span>
               <span className="text-xs font-semibold text-white flex items-center gap-1 mt-0.5">
-                <CheckCircle className="w-3.5 h-3.5 text-brand-primary" /> Joint Impact Alignment
+                <CheckCircle className="w-3.5 h-3.5 text-brand-primary" /> Preview Alignment
               </span>
             </div>
           </div>
@@ -639,7 +640,7 @@ export default function WorkspaceSynchronizer({
               ) : (
                 <>
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>Align Impact</span>
+                  <span>Preview Align</span>
                 </>
               )}
             </button>
@@ -675,22 +676,27 @@ export default function WorkspaceSynchronizer({
             <div className="flex-1 bg-[#151515] border border-white/5 rounded px-4 py-1.5 relative select-none h-14 flex items-center">
               <div className="flex items-center justify-between w-full h-8 opacity-40">
                 {Array.from({ length: 90 }).map((_, idx) => {
-                  const h = Math.abs(Math.sin(idx * 0.15)) * 26 + (idx % 7 === 0 ? 6 : 2);
+                  // deterministic waveform heights (same on server & client)
+                  const raw = Math.abs(Math.sin(idx * 0.15)) * 26 + (idx % 7 === 0 ? 6 : 2);
+                  const heightPx = Math.round(raw); // integer px ensures identical serialization
                   const isImpact = idx > 43 && idx < 48;
+                  const bg = isImpact ? 'rgb(117,255,158)' : 'rgb(229,226,225)'; // explicit rgb avoids hex/rgb mismatch
+                  const op = isImpact ? 1 : 0.4;
                   return (
                     <div
                       key={idx}
                       className="w-[3px] rounded-full transition-colors"
                       style={{
-                        height: `${h}px`,
-                        backgroundColor: isImpact ? '#75ff9e' : '#e5e2e1',
-                        opacity: isImpact ? 1 : 0.4
+                        height: `${heightPx}px`,
+                        backgroundColor: bg,
+                        opacity: op
                       }}
                     />
                   );
                 })}
               </div>
 
+              {/* Scrub Progress Track and Needle */}
               <div
                 className="absolute inset-y-0 w-0.5 bg-brand-primary-dim shadow-[0_0_8px_#75ff9e] pointer-events-none"
                 style={{ left: `${(frameIndex / totalFrames) * 98}%` }}
@@ -707,16 +713,19 @@ export default function WorkspaceSynchronizer({
             <div className="flex-1 bg-[#151515] border border-white/5 rounded px-4 py-1.5 relative select-none h-14 flex items-center">
               <div className="flex items-center justify-between w-full h-8 opacity-30">
                 {Array.from({ length: 90 }).map((_, idx) => {
-                  const h = Math.abs(Math.cos(idx * 0.18)) * 24 + ((idx + 3) % 8 === 0 ? 8 : 1);
+                  const raw = Math.abs(Math.cos(idx * 0.18)) * 24 + ((idx + 3) % 8 === 0 ? 8 : 1);
+                  const heightPx = Math.round(raw);
                   const isImpact = idx > 40 && idx < 45;
+                  const bg = isImpact ? 'rgb(0,228,255)' : 'rgb(229,226,225)';
+                  const op = isImpact ? 0.95 : 0.35;
                   return (
                     <div
                       key={idx}
-                      className="w-[3px] rounded-full"
+                      className="w-[3px] rounded-full transition-colors"
                       style={{
-                        height: `${h}px`,
-                        backgroundColor: isImpact ? '#00e4ff' : '#e5e2e1',
-                        opacity: isImpact ? 0.95 : 0.35
+                        height: `${heightPx}px`,
+                        backgroundColor: bg,
+                        opacity: op
                       }}
                     />
                   );
@@ -751,12 +760,11 @@ export default function WorkspaceSynchronizer({
           <span className="text-[10px] font-mono text-brand-secondary/40 font-semibold tracking-wider uppercase">Alignment Score</span>
           <div className="flex items-center gap-2 mt-1">
             <h4 id="metric-align-score" className="text-xl font-bold font-sans text-brand-primary tracking-tight">
-                {/* Dynamically calculate alignment based on active offset and locking state */}
-                {isLocked ? (offset === 0.04 ? '98.4%' : `${(98.4 - Math.abs(offset - 0.04) * 100).toFixed(1)}%`) : 'Syncing...'}
+                Preview only
             </h4>
             <div className="w-4 h-4 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary text-[10px] font-bold">✓</div>
           </div>
-          <span className="text-[9px] font-mono text-brand-secondary/30 mt-1 block">Sub-mm synchronization tolerance</span>
+          <span className="text-[9px] font-mono text-brand-secondary/30 mt-1 block">Upload sync preview only</span>
         </div>
 
         <div className="bg-surface-low border border-white/5 rounded p-4">
@@ -772,22 +780,23 @@ export default function WorkspaceSynchronizer({
 
         <div className="bg-surface-low border border-white/5 rounded p-4">
           <span className="text-[10px] font-mono text-brand-secondary/40 font-semibold tracking-wider uppercase">Capture Rate</span>
-          {/* Realtime framerate readouts based on loaded assets */}
-          <h4 id="metric-fps" className="text-xl font-semibold font-sans text-white tracking-tight mt-1">{frontVideoURL || sideVideoURL ? '60 FPS' : '120 FPS'}</h4>
-          <span className="text-[9px] font-mono text-[#00e4ff] mt-1 block">Dynamic camera calibration</span>
+          <h4 id="metric-fps" className="text-xl font-semibold font-sans text-white tracking-tight mt-1">Not measured</h4>
+          <span className="text-[9px] font-mono text-[#00e4ff] mt-1 block">Video FPS readout not connected</span>
         </div>
 
         <div className="bg-surface-low border border-white/5 rounded p-4">
           <span className="text-[10px] font-mono text-brand-secondary/40 font-semibold tracking-wider uppercase">Processing Status</span>
           <div className="flex items-center gap-2 mt-1">
             <h4 id="metric-status" className="text-xl font-semibold font-sans text-white tracking-tight">
-                { loading ? 'Processing' : ((frontVideoURL || sideVideoURL) && isPlaying) ? 'Live Tracking' : 'Ready' }
+                {((frontVideoURL || sideVideoURL) && isPlaying) ? '2D Overlay' : 'Ready' }
             </h4>
-            <span className={`w-2.5 h-2.5 rounded-full ${loading || isPlaying ? 'bg-brand-blue animate-pulse' : 'bg-brand-primary'}`} />
+            <span className={`w-2.5 h-2.5 rounded-full ${isPlaying ? 'bg-brand-blue animate-pulse' : 'bg-brand-primary'}`} />
           </div>
-          <span className="text-[9px] font-mono text-brand-secondary/30 mt-1 block">Fine-tuned pose weights preloaded</span>
+          <span className="text-[9px] font-mono text-brand-secondary/30 mt-1 block">3D analysis pending calibration</span>
         </div>
       </div>
+        </>
+      )}
     </div>
   );
 }

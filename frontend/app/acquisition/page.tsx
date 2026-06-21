@@ -202,12 +202,12 @@ export default function AcquisitionPage() {
                             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                                 <span className="material-symbols-outlined text-5xl">video_library</span>
                             </div>
-                            <p className="text-[12px] font-medium font-mono text-[#859585] mb-1 uppercase tracking-wider">Annotated Dataset</p>
-                            <h3 className="text-[48px] font-bold leading-none text-[#75ff9e] font-inter">1,400</h3>
-                            <p className="text-[12px] font-medium font-mono text-[#bacbb9] mt-2">Verified Swing Videos</p>
-                            <div className="mt-4 flex items-center gap-2 text-[10px] text-[#75ff9e]">
-                                <span className="material-symbols-outlined text-[14px]">check_circle</span>
-                                <span>DIVERSE LIGHTING MODELS ENABLED</span>
+	                            <p className="text-[12px] font-medium font-mono text-[#859585] mb-1 uppercase tracking-wider">Annotated Dataset</p>
+	                            <h3 className="text-[40px] font-bold leading-none text-[#facc15] font-inter">Not loaded</h3>
+	                            <p className="text-[12px] font-medium font-mono text-[#bacbb9] mt-2">No validated swing dataset is connected.</p>
+	                            <div className="mt-4 flex items-center gap-2 text-[10px] text-[#facc15]">
+	                                <span className="material-symbols-outlined text-[14px]">hourglass_empty</span>
+	                                <span>PUBLIC CALIBRATED DEMO PENDING</span>
                             </div>
                         </div>
 
@@ -215,12 +215,12 @@ export default function AcquisitionPage() {
                             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                                 <span className="material-symbols-outlined text-5xl">rebase_edit</span>
                             </div>
-                            <p className="text-[12px] font-medium font-mono text-[#859585] mb-1 uppercase tracking-wider">Landmark Accuracy</p>
-                            <h3 className="text-[48px] font-bold leading-none text-[#e5e2e1] font-inter">98.4%</h3>
-                            <div className="mt-2 w-full bg-[#353534] h-1 rounded-full overflow-hidden">
-                                <div className="bg-[#75ff9e] h-full w-[98.4%]"></div>
-                            </div>
-                            <p className="text-[12px] font-medium font-mono text-[#bacbb9] mt-2">Active Landmark Detection</p>
+	                            <p className="text-[12px] font-medium font-mono text-[#859585] mb-1 uppercase tracking-wider">Landmark Accuracy</p>
+	                            <h3 className="text-[40px] font-bold leading-none text-[#e5e2e1] font-inter">Unavailable</h3>
+	                            <div className="mt-2 w-full bg-[#353534] h-1 rounded-full overflow-hidden">
+	                                <div className="bg-[#facc15] h-full w-0"></div>
+	                            </div>
+	                            <p className="text-[12px] font-medium font-mono text-[#bacbb9] mt-2">No measured accuracy without DLT output.</p>
                         </div>
 
                         <div className="bg-[#201f1f] p-6 border border-[#3b4a3d] rounded-lg">
@@ -228,22 +228,22 @@ export default function AcquisitionPage() {
                             <div className="space-y-4">
                                 <div className="flex justify-between items-end">
                                     <div>
-                                        <p className="text-[10px] text-[#859585] uppercase font-bold">Focal Length [F]</p>
-                                        <p className="text-[20px] font-bold font-mono text-[#e5e2e1]">35.2 mm</p>
+	                                        <p className="text-[10px] text-[#859585] uppercase font-bold">Focal Length [F]</p>
+	                                        <p className="text-[20px] font-bold font-mono text-[#e5e2e1]">Pending</p>
                                     </div>
                                     <span className="material-symbols-outlined text-[#859585]">settings_input_component</span>
                                 </div>
                                 <div className="flex justify-between items-end">
                                     <div>
-                                        <p className="text-[10px] text-[#859585] uppercase font-bold">Distortion [K]</p>
-                                        <p className="text-[20px] font-bold font-mono text-[#e5e2e1]">0.0024</p>
+	                                        <p className="text-[10px] text-[#859585] uppercase font-bold">Distortion [K]</p>
+	                                        <p className="text-[20px] font-bold font-mono text-[#e5e2e1]">Pending</p>
                                     </div>
                                     <span className="material-symbols-outlined text-[#859585]">blur_on</span>
                                 </div>
                                 <div className="flex justify-between items-end">
                                     <div>
-                                        <p className="text-[10px] text-[#859585] uppercase font-bold">Sensor ID</p>
-                                        <p className="text-[20px] font-bold font-mono text-[#e5e2e1]">GH-X829</p>
+	                                        <p className="text-[10px] text-[#859585] uppercase font-bold">Sensor ID</p>
+	                                        <p className="text-[20px] font-bold font-mono text-[#e5e2e1]">Not assigned</p>
                                     </div>
                                     <span className="material-symbols-outlined text-[#859585]">fingerprint</span>
                                 </div>
@@ -363,7 +363,7 @@ export default function AcquisitionPage() {
                                                 </div>
                                                 <div className="text-center">
                                                     <p className="text-[20px] font-bold font-mono text-[#e5e2e1] mb-1">Drop Side View MOV/MP4</p>
-                                                    <p className="text-[12px] font-medium font-mono text-[#859585]">Minimum 120 FPS Recommended</p>
+                                                    <p className="text-[12px] font-medium font-mono text-[#859585]">High-frame-rate video recommended</p>
                                                 </div>
                                             </div>
                                         )}

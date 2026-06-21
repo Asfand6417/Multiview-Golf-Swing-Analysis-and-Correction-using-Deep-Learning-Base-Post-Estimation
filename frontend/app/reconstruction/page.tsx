@@ -1,27 +1,10 @@
 "use client";
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 
 export default function ReconstructionPage() {
     const coordRefX = useRef<HTMLSpanElement>(null);
     const coordRefY = useRef<HTMLSpanElement>(null);
     const coordRefZ = useRef<HTMLSpanElement>(null);
-
-    // Micro-interaction: Update coordinate numbers subtly
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const targets = [coordRefX.current, coordRefY.current, coordRefZ.current];
-            const target = targets[Math.floor(Math.random() * targets.length)];
-            
-            if (target) {
-                const current = parseFloat(target.innerText);
-                if (!isNaN(current)) {
-                    const variation = (Math.random() - 0.5) * 0.005;
-                    target.innerText = (current + variation).toFixed(3);
-                }
-            }
-        }, 800);
-        return () => clearInterval(interval);
-    }, []);
 
     return (
         <div className="bg-[#131313] text-[#e5e2e1] font-sans min-h-screen overflow-x-hidden selection:bg-[#75ff9e] selection:text-[#00210b]">
@@ -91,7 +74,7 @@ export default function ReconstructionPage() {
                         <span className="text-[12px] font-medium font-mono text-[#bacbb9] px-4">PIPELINE CTRL</span>
                         <div className="px-4 py-1 flex items-center gap-2">
                             <div className="w-2 h-2 rounded-full bg-[#75ff9e] animate-pulse"></div>
-                            <span className="font-mono text-[12px] text-[#75ff9e] font-bold">V3.4 Stable</span>
+                            <span className="font-mono text-[12px] text-[#facc15] font-bold">Phase 1 Preview</span>
                         </div>
                     </div>
                     <nav className="flex-1 space-y-2">
@@ -130,7 +113,7 @@ export default function ReconstructionPage() {
                         <div className="flex items-center gap-4">
                             <div className="glass-panel px-4 py-2 flex items-center gap-3 rounded-lg">
                                 <div className="w-3 h-3 bg-[#ffb4ab] rounded-full animate-pulse"></div>
-                                <span className="text-[20px] font-bold font-mono text-[#ffb4ab]">LIVE FEED SYNCING</span>
+                                <span className="text-[20px] font-bold font-mono text-[#ffb4ab]">DLT PIPELINE PENDING</span>
                             </div>
                         </div>
                     </section>
@@ -145,7 +128,7 @@ export default function ReconstructionPage() {
                                         <span className="material-symbols-outlined text-[18px]">hub</span>
                                         DLT TRANSFORMATION ENGINE
                                     </h3>
-                                    <span className="text-[14px] font-bold font-mono text-[#75ff9e] uppercase tracking-widest bg-[#75ff9e]/10 px-3 py-1 rounded border border-[#75ff9e]/30">8-Point Calibration Active</span>
+                                    <span className="text-[14px] font-bold font-mono text-[#facc15] uppercase tracking-widest bg-[#facc15]/10 px-3 py-1 rounded border border-[#facc15]/30">Calibration required</span>
                                 </div>
 
                                 {/* Flow Visualization */}
@@ -155,9 +138,9 @@ export default function ReconstructionPage() {
                                         <div className="w-32 h-20 glass-panel rounded border-[#75ff9e]/40 flex items-center justify-center relative group">
                                             <div className="scanline"></div>
                                             <span className="material-symbols-outlined text-[#75ff9e] text-3xl">videocam</span>
-                                            <div className="absolute -bottom-8 text-[10px] text-[#bacbb9] font-mono">CAM_01_REAR</div>
+                                            <div className="absolute -bottom-8 text-[10px] text-[#bacbb9] font-mono">CAM_01_PENDING</div>
                                         </div>
-                                        <div className="text-[12px] font-mono text-[#75ff9e]/60 font-bold">60 FPS / 4K</div>
+                                        <div className="text-[12px] font-mono text-[#75ff9e]/60 font-bold">Awaiting calibrated input</div>
                                     </div>
 
                                     {/* Central Logic Block */}
@@ -167,7 +150,7 @@ export default function ReconstructionPage() {
                                         </div>
                                         <div className="absolute inset-0 flex flex-col items-center justify-center">
                                             <span className="font-mono text-[#75ff9e] text-2xl font-black">DLT</span>
-                                            <span className="text-[10px] text-[#bacbb9] tracking-[4px] font-mono">LOGIC</span>
+                                            <span className="text-[10px] text-[#bacbb9] tracking-[4px] font-mono">PENDING</span>
                                         </div>
                                         {/* Floating Particles */}
                                         <div className="absolute -top-4 -right-4 w-2 h-2 bg-[#75ff9e] rounded-full blur-[1px] animate-pulse"></div>
@@ -178,9 +161,9 @@ export default function ReconstructionPage() {
                                         <div className="w-32 h-20 glass-panel rounded border-[#75ff9e]/40 flex items-center justify-center relative group">
                                             <div className="scanline"></div>
                                             <span className="material-symbols-outlined text-[#75ff9e] text-3xl">videocam</span>
-                                            <div className="absolute -bottom-8 text-[10px] text-[#bacbb9] font-mono">CAM_02_SIDE</div>
+                                            <div className="absolute -bottom-8 text-[10px] text-[#bacbb9] font-mono">CAM_02_PENDING</div>
                                         </div>
-                                        <div className="text-[12px] font-mono text-[#75ff9e]/60 font-bold">60 FPS / 4K</div>
+                                        <div className="text-[12px] font-mono text-[#75ff9e]/60 font-bold">Awaiting calibrated input</div>
                                     </div>
 
                                     {/* Background SVG Lines */}
@@ -190,7 +173,7 @@ export default function ReconstructionPage() {
                                     </svg>
                                 </div>
                                 <div className="absolute bottom-4 left-6 text-[10px] font-mono text-[#bacbb9] opacity-40">
-                                    MAT[H]: [1.023, 0.002, 0.493; 0.223, 0.998, 0.042; 0.000, 0.000, 1.000]
+                                    No calibration matrix loaded
                                 </div>
                             </div>
 
@@ -199,15 +182,15 @@ export default function ReconstructionPage() {
                                 <div className="glass-panel p-5 rounded-lg border-l-4 border-l-[#75ff9e]">
                                     <label className="font-mono text-[11px] text-[#75ff9e] uppercase tracking-wider mb-2 block font-bold">Focal Length</label>
                                     <div className="flex items-baseline gap-2">
-                                        <span className="text-[24px] font-bold font-mono text-[#e5e2e1]">35.404</span>
-                                        <span className="text-[#bacbb9] text-[14px]">mm</span>
+                                        <span className="text-[24px] font-bold font-mono text-[#e5e2e1]">Pending</span>
+                                        <span className="text-[#bacbb9] text-[14px]">calibration</span>
                                     </div>
                                 </div>
                                 <div className="glass-panel p-5 rounded-lg border-l-4 border-l-[#75ff9e]">
                                     <label className="font-mono text-[11px] text-[#75ff9e] uppercase tracking-wider mb-2 block font-bold">Distortion (K1)</label>
                                     <div className="flex items-baseline gap-2">
-                                        <span className="text-[24px] font-bold font-mono text-[#e5e2e1]">0.000</span>
-                                        <span className="text-[#bacbb9] text-[9px] px-2 py-0.5 bg-[#75ff9e]/10 text-[#75ff9e] border border-[#75ff9e]/20 rounded font-mono font-bold">CORRECTED</span>
+                                        <span className="text-[24px] font-bold font-mono text-[#e5e2e1]">Pending</span>
+                                        <span className="text-[#bacbb9] text-[9px] px-2 py-0.5 bg-[#facc15]/10 text-[#facc15] border border-[#facc15]/20 rounded font-mono font-bold">NOT CALIBRATED</span>
                                     </div>
                                 </div>
                                 <div className="glass-panel p-5 rounded-lg border-l-4 border-l-[#75ff9e] bg-[#75ff9e]/[0.02]">
@@ -215,11 +198,11 @@ export default function ReconstructionPage() {
                                     <div className="space-y-1">
                                         <div className="flex justify-between font-mono text-[10px]">
                                             <span className="text-[#bacbb9]">CAM 1:</span>
-                                            <span className="text-[#75ff9e] font-bold">[42.1, 88.3, 12.0]</span>
+                                            <span className="text-[#75ff9e] font-bold">Not loaded</span>
                                         </div>
                                         <div className="flex justify-between font-mono text-[10px]">
                                             <span className="text-[#bacbb9]">CAM 2:</span>
-                                            <span className="text-[#75ff9e] font-bold">[39.8, 86.5, 11.4]</span>
+                                            <span className="text-[#75ff9e] font-bold">Not loaded</span>
                                         </div>
                                     </div>
                                 </div>
@@ -239,17 +222,17 @@ export default function ReconstructionPage() {
                                     <div className="flex items-center justify-between">
                                         <span className="font-mono text-[#75ff9e] font-bold">X-AXIS</span>
                                         <div className="flex-1 mx-4 h-[1px] bg-white/10"></div>
-                                        <span ref={coordRefX} className="text-[20px] font-bold font-mono text-[#e5e2e1]">1.229</span>
+                                        <span ref={coordRefX} className="text-[20px] font-bold font-mono text-[#e5e2e1]">Pending</span>
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <span className="font-mono text-[#75ff9e] font-bold">Y-AXIS</span>
                                         <div className="flex-1 mx-4 h-[1px] bg-white/10"></div>
-                                        <span ref={coordRefY} className="text-[20px] font-bold font-mono text-[#e5e2e1]">0.817</span>
+                                        <span ref={coordRefY} className="text-[20px] font-bold font-mono text-[#e5e2e1]">Pending</span>
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <span className="font-mono text-[#75ff9e] font-bold">Z-AXIS</span>
                                         <div className="flex-1 mx-4 h-[1px] bg-white/10"></div>
-                                        <span ref={coordRefZ} className="text-[20px] font-bold font-mono text-[#e5e2e1]">2.444</span>
+                                        <span ref={coordRefZ} className="text-[20px] font-bold font-mono text-[#e5e2e1]">Pending</span>
                                     </div>
                                 </div>
                             </div>
@@ -261,14 +244,14 @@ export default function ReconstructionPage() {
                                 </div>
                                 <h3 className="text-[12px] font-medium font-mono text-[#75ff9e] mb-2 uppercase tracking-tighter">Precision Metric</h3>
                                 <div className="flex flex-col">
-                                    <span className="text-[48px] font-bold text-[#75ff9e] font-inter">1.2mm</span>
-                                    <span className="text-[12px] font-medium font-mono text-[#75ff9e]/60">Ultra Precision Threshold</span>
+                                    <span className="text-[36px] font-bold text-[#75ff9e] font-inter">Not available</span>
+                                    <span className="text-[12px] font-medium font-mono text-[#75ff9e]/60">Requires documented calibration and reconstruction output</span>
                                 </div>
                                 <div className="mt-4 flex gap-1">
-                                    <div className="h-1 flex-1 bg-[#75ff9e] shadow-[0_0_5px_#75ff9e]"></div>
-                                    <div className="h-1 flex-1 bg-[#75ff9e] shadow-[0_0_5px_#75ff9e]"></div>
-                                    <div className="h-1 flex-1 bg-[#75ff9e] shadow-[0_0_5px_#75ff9e]"></div>
-                                    <div className="h-1 flex-1 bg-[#75ff9e] shadow-[0_0_5px_#75ff9e]"></div>
+                                    <div className="h-1 flex-1 bg-[#75ff9e]/20"></div>
+                                    <div className="h-1 flex-1 bg-[#75ff9e]/20"></div>
+                                    <div className="h-1 flex-1 bg-[#75ff9e]/20"></div>
+                                    <div className="h-1 flex-1 bg-[#75ff9e]/20"></div>
                                     <div className="h-1 flex-1 bg-[#75ff9e]/20"></div>
                                 </div>
                             </div>
@@ -281,29 +264,29 @@ export default function ReconstructionPage() {
                                     
                                     {/* Step 01 */}
                                     <div className="flex gap-4 relative">
-                                        <div className="w-[28px] h-[28px] rounded-full bg-[#75ff9e] flex items-center justify-center z-10">
-                                            <span className="material-symbols-outlined text-[16px] text-[#00210b] font-bold">check</span>
+                                        <div className="w-[28px] h-[28px] rounded-full bg-[#131313] border border-white/20 flex items-center justify-center z-10">
+                                            <span className="material-symbols-outlined text-[16px] text-[#bacbb9] font-bold">lock</span>
                                         </div>
                                         <div>
                                             <p className="text-[12px] font-medium font-mono text-[#e5e2e1]">01 2D Keypoint Detection</p>
-                                            <p className="text-[11px] text-[#75ff9e] uppercase font-bold font-mono pt-1">Complete</p>
+                                            <p className="text-[11px] text-[#bacbb9] uppercase font-bold font-mono pt-1">Not run</p>
                                         </div>
                                     </div>
                                     
                                     {/* Step 02 */}
                                     <div className="flex gap-4 relative">
-                                        <div className="w-[28px] h-[28px] rounded-full bg-[#131313] border border-[#75ff9e] flex items-center justify-center z-10">
-                                            <div className="w-1.5 h-1.5 bg-[#75ff9e] rounded-full animate-ping"></div>
+                                        <div className="w-[28px] h-[28px] rounded-full bg-[#131313] border border-[#facc15] flex items-center justify-center z-10">
+                                            <div className="w-1.5 h-1.5 bg-[#facc15] rounded-full"></div>
                                         </div>
                                         <div className="flex-1">
                                             <div className="flex justify-between items-start">
                                                 <p className="text-[12px] font-medium font-mono text-[#e5e2e1]">02 Triangulation (DLT)</p>
-                                                <span className="text-[11px] font-mono text-[#75ff9e] font-bold">88%</span>
+                                                <span className="text-[11px] font-mono text-[#facc15] font-bold">Pending</span>
                                             </div>
                                             <div className="w-full h-1 bg-white/10 mt-2 rounded-full overflow-hidden">
-                                                <div className="h-full bg-[#75ff9e] w-[88%] shadow-[0_0_8px_#75ff9e]"></div>
+                                                <div className="h-full bg-[#facc15] w-0"></div>
                                             </div>
-                                            <p className="text-[10px] font-mono text-[#bacbb9] mt-1">Processing Vector Fields...</p>
+                                            <p className="text-[10px] font-mono text-[#bacbb9] mt-1">Awaiting Phase 2 public dataset wiring.</p>
                                         </div>
                                     </div>
                                     
@@ -322,7 +305,7 @@ export default function ReconstructionPage() {
 
                             {/* Primary CTA */}
                             <button onClick={() => window.location.href='/analysis'} className="w-full py-5 bg-[#75ff9e] text-[#00210b] font-black text-[16px] uppercase tracking-widest rounded-xl glow-green hover:brightness-110 transition-all flex items-center justify-center gap-3 group active:scale-[0.98]">
-                                ANALYZE 3D MODEL
+                                VIEW ANALYSIS PLACEHOLDER
                                 <span className="material-symbols-outlined group-hover:translate-x-2 transition-transform">arrow_forward</span>
                             </button>
                         </div>
@@ -337,11 +320,11 @@ export default function ReconstructionPage() {
                             <div className="relative z-10 h-full flex flex-col justify-between">
                                 <span className="text-[12px] font-medium font-mono text-[#75ff9e] flex items-center gap-2">
                                     <span className="material-symbols-outlined text-[16px]">accessibility_new</span>
-                                    3D SKELETON RECONSTRUCTION
+                                    3D SKELETON RECONSTRUCTION PENDING
                                 </span>
                                 <div className="p-4 bg-black/60 backdrop-blur-md border border-white/10 w-fit rounded-lg">
-                                    <p className="text-[12px] font-mono text-[#75ff9e] font-bold">LATENCY: 12ms</p>
-                                    <p className="text-[12px] font-mono text-[#bacbb9]">STABILITY: 99.8%</p>
+                                    <p className="text-[12px] font-mono text-[#75ff9e] font-bold">LATENCY: Not measured</p>
+                                    <p className="text-[12px] font-mono text-[#bacbb9]">STABILITY: Not computed</p>
                                 </div>
                             </div>
                         </div>
@@ -351,8 +334,8 @@ export default function ReconstructionPage() {
                                 <div className="w-16 h-16 rounded-full border border-[#75ff9e]/40 mx-auto flex items-center justify-center animate-pulse glow-green">
                                     <span className="material-symbols-outlined text-[#75ff9e] text-3xl">data_exploration</span>
                                 </div>
-                                <h4 className="text-[24px] font-bold text-[#e5e2e1] font-inter">Ready for Biometric Analysis</h4>
-                                <p className="text-[16px] text-[#bacbb9] max-w-sm mx-auto leading-relaxed">Reconstruction complete for frame range 0-144. Kinematic sequencing engine is ready.</p>
+                                <h4 className="text-[24px] font-bold text-[#e5e2e1] font-inter">Waiting for Biometric Analysis</h4>
+                                <p className="text-[16px] text-[#bacbb9] max-w-sm mx-auto leading-relaxed">No reconstruction has run. Phase 2 must provide real calibrated coordinates before this view becomes active.</p>
                             </div>
                         </div>
                     </div>

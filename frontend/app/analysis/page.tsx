@@ -78,7 +78,14 @@ export default function AnalysisPage() {
                 <section className="relative flex-grow flex flex-col bg-[#0e0e0e] overflow-hidden group">
                     <div className="relative flex-grow overflow-hidden flex items-center justify-center">
                         <div className="absolute inset-0 grid-bg opacity-30"></div>
-                        <img alt="3D Swing Reconstruction" className="relative z-10 w-full h-full object-contain mix-blend-screen opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnV_3AxtCi8STKeL6GGkBong0SrJsKJXP7uxXjPcrx4vcipb0iZUdXAwbyTejHO6ycU1-ZBdh6VoTmjKPKVWZ1_5RarmCAMdZ0CejFL0BMdRf6LQFXwK7ORMvzTyS4ECwygcwyDLXzh5qTAHkZqCdA6IZNv20ZmK9Pq12f2J78NmDd1ZYC_KOH2Kmrkx5Ie_ozN2e0_7B9pRl592naMPGsPW-GSCCFbBOQburlGdBy2i79Q1qSkYFfFQ9pMJUgHIMx3yMf3busC2gc" />
+                        <div className="relative z-10 flex h-full w-full items-center justify-center">
+                            <div className="glass-panel max-w-lg rounded-2xl p-8 text-center">
+                                <h2 className="text-2xl font-bold text-[#e5e2e1]">No Triangulated 3D Data</h2>
+                                <p className="mt-3 text-sm leading-relaxed text-[#bacbb9]">
+                                    This analysis screen is a placeholder until calibrated DLT reconstruction produces real frame-by-frame coordinates.
+                                </p>
+                            </div>
+                        </div>
                         
                         {/* HUD Overlays */}
                         <div className="absolute inset-0 pointer-events-none z-20">
@@ -86,8 +93,8 @@ export default function AnalysisPage() {
                             <div ref={setRef(0)} className="absolute top-12 left-12 glass-panel p-6 rounded-2xl border-l-4 border-l-[#75ff9e] performance-glow transition-transform ease-out duration-75">
                                 <p className="text-[10px] text-[#bacbb9] uppercase tracking-widest font-bold mb-1 font-mono">Rotation Speed</p>
                                 <div className="flex items-baseline gap-2">
-                                    <span className="text-[48px] font-bold text-white leading-none">102</span>
-                                    <span className="text-[#75ff9e] font-bold">MPH</span>
+                                    <span className="text-[28px] font-bold text-white leading-none">Unavailable</span>
+                                    <span className="text-[#75ff9e] font-bold">Pending</span>
                                 </div>
                             </div>
                             
@@ -95,7 +102,7 @@ export default function AnalysisPage() {
                             <div className="absolute top-1/2 left-2/3 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2">
                                 <div className="w-4 h-4 rounded-full border-2 border-[#75ff9e] animate-ping"></div>
                                 <div className="w-2 h-2 rounded-full bg-[#75ff9e] absolute top-1 left-1"></div>
-                                <div ref={setRef(1)} className="glass-panel px-2 py-1 rounded text-[10px] text-[#75ff9e] font-bold uppercase tracking-tighter mt-4 transition-transform ease-out duration-100">Impact Point</div>
+                                <div ref={setRef(1)} className="glass-panel px-2 py-1 rounded text-[10px] text-[#75ff9e] font-bold uppercase tracking-tighter mt-4 transition-transform ease-out duration-100">Impact pending</div>
                             </div>
 
                             {/* Perspective Indicator */}
@@ -127,7 +134,7 @@ export default function AnalysisPage() {
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <button className="material-symbols-outlined text-[#bacbb9] hover:text-white">chevron_left</button>
-                                        <span className="text-[11px] font-mono text-[#bacbb9]">142/300</span>
+                                        <span className="text-[11px] font-mono text-[#bacbb9]">No DLT frames</span>
                                         <button className="material-symbols-outlined text-[#bacbb9] hover:text-white">chevron_right</button>
                                     </div>
                                 </div>
@@ -138,7 +145,7 @@ export default function AnalysisPage() {
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <div className="w-1.5 h-1.5 rounded-full bg-[#75ff9e] animate-pulse"></div>
-                                        <span className="text-[10px] font-bold text-[#75ff9e] uppercase tracking-widest font-mono">Live AI Analysis</span>
+                                        <span className="text-[10px] font-bold text-[#75ff9e] uppercase tracking-widest font-mono">3D analysis pending</span>
                                     </div>
                                 </div>
                             </div>
@@ -203,17 +210,17 @@ export default function AnalysisPage() {
                     <section>
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-[24px] font-semibold text-[#e5e2e1]">System Precision</h2>
-                            <span className="bg-[#00e676]/10 text-[#75ff9e] text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-widest border border-[#75ff9e]/20">Live AI</span>
+                            <span className="bg-[#facc15]/10 text-[#facc15] text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-widest border border-[#facc15]/20">Unavailable</span>
                         </div>
                         <div className="bg-[#201f1f] border border-[#3b4a3d] rounded-xl p-5 flex flex-col gap-3">
                             <div className="flex justify-between items-center">
                                 <span className="text-[#bacbb9] text-sm font-medium">MPJPE Metric</span>
-                                <span className="text-[#75ff9e] font-bold font-mono">4.2mm</span>
+                                <span className="text-[#75ff9e] font-bold font-mono">Requires DLT output</span>
                             </div>
                             <div className="w-full bg-[#353534] h-1.5 rounded-full overflow-hidden">
-                                <div className="bg-[#75ff9e] h-full w-[92%] shadow-[0_0_8px_#75ff9e]"></div>
+                                <div className="bg-[#75ff9e] h-full w-0 shadow-[0_0_8px_#75ff9e]"></div>
                             </div>
-                            <p className="text-[11px] text-[#bacbb9] italic">High confidence pose estimation achieved via multi-view synthesis.</p>
+                            <p className="text-[11px] text-[#bacbb9] italic">Hidden until the app can compare real reconstructed joints against a documented reference.</p>
                         </div>
                     </section>
 
@@ -224,15 +231,15 @@ export default function AnalysisPage() {
                             <div className="bg-[#93000a]/10 border border-[#ffb4ab]/20 rounded-xl p-5 flex gap-4 items-start shadow-sm">
                                 <span className="material-symbols-outlined text-[#ffb4ab]">warning</span>
                                 <div>
-                                    <p className="font-bold text-[#e5e2e1] text-sm mb-1">Excessive Head Lateral</p>
-                                    <p className="text-xs text-[#bacbb9] leading-relaxed">Head moved 4.2cm off-axis during backswing, leading to inconsistent strike point.</p>
+                                    <p className="font-bold text-[#e5e2e1] text-sm mb-1">No computed diagnostics</p>
+                                    <p className="text-xs text-[#bacbb9] leading-relaxed">Biomechanical issue detection is disabled until real coordinates are available.</p>
                                 </div>
                             </div>
                             <div className="bg-[#b0c8ff]/10 border border-[#dae4ff]/20 rounded-xl p-5 flex gap-4 items-start shadow-sm">
                                 <span className="material-symbols-outlined text-[#dae4ff]">info</span>
                                 <div>
-                                    <p className="font-bold text-[#e5e2e1] text-sm mb-1">Shoulder Rotation Limit</p>
-                                    <p className="text-xs text-[#bacbb9] leading-relaxed">Reached 88° rotation. Ideal target for your profile is 92°.</p>
+                                    <p className="font-bold text-[#e5e2e1] text-sm mb-1">Calibration required</p>
+                                    <p className="text-xs text-[#bacbb9] leading-relaxed">User-uploaded analysis needs a real two-camera calibration session before 3D claims are shown.</p>
                                 </div>
                             </div>
                         </div>
@@ -247,9 +254,9 @@ export default function AnalysisPage() {
                                     <span className="material-symbols-outlined text-[#75ff9e]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
                                     <span className="text-[12px] font-medium text-[#75ff9e] uppercase tracking-wider font-mono">AI Pro-Tips</span>
                                 </div>
-                                <p className="text-[#e5e2e1] text-sm leading-relaxed mb-6 italic">"Focus on keeping your lead knee stable during the initial takeaway to prevent the lateral head shift detected."</p>
-                                <button className="w-full py-3 bg-[#75ff9e] text-[#00210b] font-bold rounded-lg text-sm shadow-[0_0_15px_rgba(117,255,158,0.2)] hover:shadow-[0_0_20px_rgba(117,255,158,0.4)] transition-all">
-                                    View Drill Video
+                                <p className="text-[#e5e2e1] text-sm leading-relaxed mb-6 italic">General coaching can be shown here later, but no drill is being generated from fake telemetry.</p>
+                                <button className="w-full py-3 bg-[#75ff9e] text-[#00210b] font-bold rounded-lg text-sm shadow-[0_0_15px_rgba(117,255,158,0.2)] opacity-60">
+                                    Drill disabled
                                 </button>
                             </div>
                         </div>
