@@ -10,10 +10,11 @@ import {
   Info,
   ShieldAlert
 } from 'lucide-react';
-import { DemoDltFrame, DemoDltJoint, DemoDltResponse } from '../types';
+import { DLTFrame, DLTJoint, DLTReconstructionResponse } from '../types';
 
 interface SkeletalAnalysisProps {
-  demoReconstruction?: DemoDltResponse | null;
+  reconstruction?: DLTReconstructionResponse | null;
+  demoReconstruction?: DLTReconstructionResponse | null;
 }
 
 const CONNECTIONS: Array<[string, string]> = [
@@ -33,7 +34,7 @@ const CONNECTIONS: Array<[string, string]> = [
   ['right_knee', 'right_ankle']
 ];
 
-type ProjectedJoint = DemoDltJoint & {
+type ProjectedJoint = DLTJoint & {
   screenX: number;
   screenY: number;
 };
@@ -42,12 +43,12 @@ function formatCoordinate(value: number) {
   return value.toFixed(3);
 }
 
-function getObservedJoints(frame: DemoDltFrame | undefined) {
+function getObservedJoints(frame: DLTFrame | undefined) {
   if (!frame) return [];
-  return Object.entries(frame.joints).filter((entry): entry is [string, DemoDltJoint] => entry[1] !== null);
+  return Object.entries(frame.joints).filter((entry): entry is [string, DLTJoint] => entry[1] !== null);
 }
 
-function projectFrame(frame: DemoDltFrame | undefined) {
+function projectFrame(frame: DLTFrame | undefined) {
   const observedEntries = getObservedJoints(frame);
   if (observedEntries.length === 0) return {};
 
@@ -73,20 +74,36 @@ function projectFrame(frame: DemoDltFrame | undefined) {
   }, {});
 }
 
-export default function SkeletalAnalysis({ demoReconstruction = null }: SkeletalAnalysisProps) {
-  const frames = demoReconstruction?.frames ?? [];
+export default function SkeletalAnalysis({ reconstruction = null, demoReconstruction = null }: SkeletalAnalysisProps) {
+  const activeReconstruction = reconstruction ?? demoReconstruction;
+  const isUploadedAnalysis = activeReconstruction?.source === 'uploaded_calibrated_dlt'
+    && activeReconstruction !== null
+    && 'smoothed_frames' in activeReconstruction;
+  const frames = isUploadedAnalysis
+    ? activeReconstruction.smoothed_frames
+    : activeReconstruction?.frames ?? [];
   const hasTriangulatedFrames = frames.length > 0;
   const [currentFrameIndex, setCurrentFrameIndex] = useState(0);
 
   useEffect(() => {
     setCurrentFrameIndex(0);
-  }, [demoReconstruction]);
+  }, [activeReconstruction]);
 
   const activeFrame = frames[Math.min(currentFrameIndex, Math.max(frames.length - 1, 0))];
   const projectedJoints = useMemo(() => projectFrame(activeFrame), [activeFrame]);
   const observedJoints = getObservedJoints(activeFrame);
-  const missingJoints = demoReconstruction?.joint_names.filter((name) => !activeFrame?.joints[name]) ?? [];
+  const missingJoints = activeReconstruction?.joint_names.filter((name) => !activeFrame?.joints[name]) ?? [];
   const firstObservedJoint = observedJoints[0];
+  const source = activeReconstruction?.source ?? null;
+  const sourceLabel = source === 'uploaded_calibrated_dlt'
+    ? 'Uploaded calibrated DLT reconstruction'
+    : source === 'calibrated_demo'
+      ? 'Calibrated DLT demo reconstruction'
+      : 'Calibrated DLT reconstruction';
+  const sourceBadge = source === 'uploaded_calibrated_dlt' ? 'Uploaded calibrated' : 'Demo only';
+  const smoothingStatus = isUploadedAnalysis && 'smoothing' in activeReconstruction
+    ? activeReconstruction.smoothing
+    : null;
 
   return (
     <div id="biometrics-root" className="flex-1 overflow-y-auto p-8 bg-surface-base grid grid-cols-1 xl:grid-cols-12 gap-8 select-none">
@@ -98,12 +115,12 @@ export default function SkeletalAnalysis({ demoReconstruction = null }: Skeletal
                 <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
                   <div>
                     <div id="dlt-demo-label" className="text-[10px] font-mono uppercase tracking-widest text-brand-primary">
-                      Calibrated DLT demo reconstruction
+                      {sourceLabel}
                     </div>
                     <h2 className="mt-1 text-2xl font-bold text-white">Backend-Triangulated Skeleton</h2>
                   </div>
                   <div className="rounded border border-brand-primary/20 bg-brand-primary/10 px-3 py-2 text-xs font-mono text-brand-primary">
-                    Source: {demoReconstruction?.source ?? 'calibrated_demo'}
+                    Source: {activeReconstruction?.source ?? 'calibrated_demo'}
                   </div>
                 </div>
 
@@ -181,11 +198,11 @@ export default function SkeletalAnalysis({ demoReconstruction = null }: Skeletal
                 <div>
                   <div className="text-[10px] font-mono uppercase tracking-wider text-brand-secondary/40">Frame Sequence</div>
                   <div id="dlt-demo-frame-count" className="mt-1 text-sm font-semibold text-white">
-                    {hasTriangulatedFrames ? `${frames.length} reconstructed frames loaded` : 'Unavailable until DLT runs'}
+                  {hasTriangulatedFrames ? `${activeReconstruction?.frame_count ?? frames.length} reconstructed frames loaded` : 'Unavailable until DLT runs'}
                   </div>
                 </div>
                 <div className="rounded-full border border-[#facc15]/30 bg-[#facc15]/10 px-3 py-1 text-[10px] font-mono uppercase tracking-wider text-[#facc15]">
-                  Demo only
+                  {sourceBadge}
                 </div>
               </div>
 
@@ -216,21 +233,21 @@ export default function SkeletalAnalysis({ demoReconstruction = null }: Skeletal
           <div className="flex justify-between items-center mb-3">
             <span className="text-[10px] font-mono tracking-widest uppercase text-[#859585]">System Precision</span>
             <span className="text-[9px] font-mono rounded-xs px-1.5 uppercase font-bold bg-[#facc15]/15 text-[#facc15]">
-              {demoReconstruction?.metrics.mpjpe_available ? 'Available' : 'Unavailable'}
+              {activeReconstruction?.metrics.mpjpe_available ? 'Available' : 'Unavailable'}
             </span>
           </div>
           <div className="flex justify-between items-baseline">
             <span className="text-xs text-brand-secondary/60 font-sans">MPJPE Metric</span>
             <span id="metric-mpjpe" className="text-sm font-mono font-bold text-brand-secondary">
-              {demoReconstruction?.metrics.mpjpe_available && demoReconstruction.metrics.mpjpe_mm !== null
-                ? `${demoReconstruction.metrics.mpjpe_mm} mm`
-                : 'Requires ground-truth DLT output'}
+              {activeReconstruction?.metrics.mpjpe_available && activeReconstruction.metrics.mpjpe_mm !== null
+                ? `${activeReconstruction.metrics.mpjpe_mm} mm`
+                : 'Requires ground-truth 3D labels'}
             </span>
           </div>
           <div className="mt-3 flex items-start gap-2 rounded bg-surface-lowest/70 border border-white/5 p-3">
             <Info className="mt-0.5 h-4 w-4 shrink-0 text-[#facc15]" />
             <p className="text-xs leading-relaxed text-brand-secondary">
-              {demoReconstruction?.metrics.notes ?? 'MPJPE is hidden until the app can compare real reconstructed 3D joints against a valid reference or documented dataset output.'}
+              {activeReconstruction?.metrics.notes ?? 'MPJPE is hidden until the app can compare real reconstructed 3D joints against a valid reference or documented dataset output.'}
             </p>
           </div>
         </div>
@@ -240,17 +257,24 @@ export default function SkeletalAnalysis({ demoReconstruction = null }: Skeletal
           <div className="grid grid-cols-3 gap-1 divide-x divide-white/5 text-center">
             <div className="p-1.5">
               <div className="text-[10px] font-mono text-brand-secondary/40 font-semibold">01 / INPUT</div>
-              <div className="text-xs font-semibold text-white mt-0.5">{hasTriangulatedFrames ? 'Demo fixture' : 'Pending'}</div>
+              <div className="text-xs font-semibold text-white mt-0.5">{hasTriangulatedFrames ? sourceBadge : 'Pending'}</div>
             </div>
             <div className="p-1.5">
               <div className="text-[10px] font-mono text-brand-secondary/40 font-semibold uppercase">02 / DLT</div>
               <div className="text-xs font-semibold text-brand-secondary mt-0.5">{hasTriangulatedFrames ? 'Computed' : 'Not run'}</div>
             </div>
             <div className="p-1.5">
-              <div className="text-[10px] font-mono text-brand-secondary/40 font-semibold">03 / VIEW</div>
-              <div className="text-xs font-semibold text-brand-secondary mt-0.5">{hasTriangulatedFrames ? 'Loaded' : 'Empty'}</div>
+              <div className="text-[10px] font-mono text-brand-secondary/40 font-semibold">03 / SMOOTH</div>
+              <div className="text-xs font-semibold text-brand-secondary mt-0.5">
+                {smoothingStatus ? (smoothingStatus.available ? 'Applied' : 'Skipped') : hasTriangulatedFrames ? 'Raw' : 'Empty'}
+              </div>
             </div>
           </div>
+          {smoothingStatus && (
+            <p className="mt-3 text-[11px] leading-relaxed text-brand-secondary">
+              {smoothingStatus.notes}
+            </p>
+          )}
         </div>
 
         {hasTriangulatedFrames && (
@@ -301,13 +325,13 @@ export default function SkeletalAnalysis({ demoReconstruction = null }: Skeletal
           </div>
           <div className="space-y-3 text-xs leading-relaxed text-brand-secondary">
             <p>
-              Phase 2 is active for the bundled calibrated demo only. User uploads remain blocked until real session calibration exists.
+              Calibrated DLT rendering is active only for backend-returned reconstructed frames.
             </p>
             <p>
               No classifier output, swing score, speed, or MPJPE is displayed for this demo because those values are not computed here.
             </p>
-            {demoReconstruction?.calibration.notes && (
-              <p className="text-[#facc15]">{demoReconstruction.calibration.notes}</p>
+            {activeReconstruction?.calibration?.notes && (
+              <p className="text-[#facc15]">{activeReconstruction.calibration.notes}</p>
             )}
           </div>
         </div>

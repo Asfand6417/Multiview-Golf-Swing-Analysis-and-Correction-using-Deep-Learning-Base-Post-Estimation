@@ -29,7 +29,7 @@ def _valid_2d_point(point):
     return bool(np.all(np.isfinite(values)))
 
 
-def triangulate_dlt_point(point_front, point_side, P_front, P_side):
+def triangulate_joint(point_front, point_side, P_front, P_side):
     """
     Triangulate one joint from two calibrated 2D observations.
 
@@ -61,6 +61,37 @@ def triangulate_dlt_point(point_front, point_side, P_front, P_side):
     }
 
 
+def triangulate_dlt_point(point_front, point_side, P_front, P_side):
+    return triangulate_joint(point_front, point_side, P_front, P_side)
+
+
+def triangulate_frame(frame_pair, joint_names, P_front, P_side):
+    front_points = frame_pair.get("front", {}).get("points", {})
+    side_points = frame_pair.get("side", {}).get("points", {})
+    joints = {}
+
+    for joint_name in joint_names:
+        joints[joint_name] = triangulate_joint(
+            front_points.get(joint_name),
+            side_points.get(joint_name),
+            P_front,
+            P_side,
+        )
+
+    return {
+        "frame_index": frame_pair.get("frame_index"),
+        "timestamp": frame_pair.get("timestamp"),
+        "joints": joints
+    }
+
+
+def triangulate_sequence(paired_frames, joint_names, P_front, P_side):
+    return [
+        triangulate_frame(frame_pair, joint_names, P_front, P_side)
+        for frame_pair in paired_frames
+    ]
+
+
 def reconstruct_dlt_frames(demo_frames, joint_names, P_front, P_side):
     """
     Reconstruct frame-by-frame joints from stored paired 2D demo observations.
@@ -78,7 +109,7 @@ def reconstruct_dlt_frames(demo_frames, joint_names, P_front, P_side):
         for joint_index, joint_name in enumerate(joint_names):
             point_front = front_points[joint_index] if joint_index < len(front_points) else None
             point_side = side_points[joint_index] if joint_index < len(side_points) else None
-            joints[joint_name] = triangulate_dlt_point(point_front, point_side, P_front, P_side)
+            joints[joint_name] = triangulate_joint(point_front, point_side, P_front, P_side)
 
         reconstructed_frames.append({
             "frame_index": frame.get("frame_index"),

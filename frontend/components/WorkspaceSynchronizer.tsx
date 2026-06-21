@@ -18,7 +18,7 @@ import {
   Sparkles,
   RefreshCw
 } from 'lucide-react';
-import { DemoDltResponse } from '../types';
+import { CalibratedDLTAnalysisResponse, DemoDltResponse } from '../types';
 
 declare global {
   interface Window {
@@ -29,15 +29,19 @@ declare global {
 interface WorkspaceSynchronizerProps {
   selectedSampleName: string;
   setSelectedSampleName: (name: string) => void;
+  calibrationId?: string | null;
   onMetricsUpdate?: (metrics: any) => void;
   onDemoLoaded?: (demo: DemoDltResponse) => void;
+  onAnalysisLoaded?: (analysis: CalibratedDLTAnalysisResponse) => void;
 }
 
 export default function WorkspaceSynchronizer({
   selectedSampleName,
   setSelectedSampleName,
+  calibrationId = null,
   onMetricsUpdate,
-  onDemoLoaded
+  onDemoLoaded,
+  onAnalysisLoaded
 }: WorkspaceSynchronizerProps) {
   // Sync Controls State
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -57,6 +61,7 @@ export default function WorkspaceSynchronizer({
   const [analysisNotice, setAnalysisNotice] = useState<string | null>(null);
   const [demoError, setDemoError] = useState<string | null>(null);
   const [isDemoLoading, setIsDemoLoading] = useState<boolean>(false);
+  const [isAnalysisLoading, setIsAnalysisLoading] = useState<boolean>(false);
 
   // References for the 2D overlay only. Metric-grade 3D values require calibrated DLT.
   const initialHeadXRef = useRef<number | null>(null);
@@ -403,11 +408,50 @@ export default function WorkspaceSynchronizer({
 
 
   const handleStartAnalysis = async () => {
-      // TODO(Phase 2): route only the public calibrated demo through a real backend job;
-      // user uploads stay blocked until Phase 3 camera calibration exists.
-      setAnalysisNotice(
-        "Analysis pipeline not yet connected. Real 3D DLT triangulation requires calibrated projection matrices and a submitted backend job. User-uploaded 3D analysis remains disabled until calibration exists."
-      );
+      setDemoError(null);
+
+      if (!calibrationId) {
+        setAnalysisNotice("Camera calibration required before uploaded 3D DLT analysis. Run stereo checkerboard calibration and use the returned calibration ID first.");
+        return;
+      }
+
+      if (!frontFile || !sideFile) {
+        setAnalysisNotice("Front and side videos are required.");
+        return;
+      }
+
+      setIsAnalysisLoading(true);
+      setAnalysisNotice(null);
+
+      try {
+        const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000';
+        const formData = new FormData();
+        formData.append('front_video', frontFile);
+        formData.append('side_video', sideFile);
+        formData.append('calibration_id', calibrationId);
+
+        const response = await fetch(`${apiBaseUrl}/analysis/calibrated-dlt`, {
+          method: 'POST',
+          body: formData
+        });
+        const payload = await response.json();
+        if (!response.ok) {
+          throw new Error(payload.detail || `Backend returned ${response.status}`);
+        }
+
+        const analysis = payload as CalibratedDLTAnalysisResponse;
+        if (analysis.status !== 'ok' || analysis.source !== 'uploaded_calibrated_dlt' || !Array.isArray(analysis.frames)) {
+          throw new Error('Analysis endpoint did not return calibrated DLT frames.');
+        }
+
+        setSelectedSampleName('Uploaded_Calibrated_DLT');
+        onAnalysisLoaded?.(analysis);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Unknown error';
+        setAnalysisNotice(`Calibrated DLT analysis failed: ${message}. No fallback skeleton was rendered.`);
+      } finally {
+        setIsAnalysisLoading(false);
+      }
   };
 
   return (
@@ -451,10 +495,11 @@ export default function WorkspaceSynchronizer({
 
           <button
             onClick={handleStartAnalysis}
+            disabled={isAnalysisLoading}
             className="bg-brand-primary hover:bg-brand-primary-dim text-black font-semibold px-5 py-2.5 rounded transition flex items-center gap-2 text-xs shadow-[0_4px_12px_rgba(117,255,158,0.25)] hover:shadow-[0_4px_20px_rgba(117,255,158,0.35)] cursor-pointer tracking-wider uppercase active:scale-[0.98]"
           >
             <Zap className="w-4 h-4 text-black fill-black" />
-            <span>Start 3D Analysis</span>
+            <span>{isAnalysisLoading ? 'Running DLT...' : 'Start 3D Analysis'}</span>
           </button>
         </div>
       </div>
@@ -487,7 +532,7 @@ export default function WorkspaceSynchronizer({
             The app is not showing sync scores, frame matches, MPJPE, classifier output, or a skeleton because no calibrated backend reconstruction job ran.
           </p>
           <div className="mt-6 rounded border border-[#facc15]/20 bg-[#facc15]/5 px-4 py-3 text-xs text-[#fde68a]">
-            Public calibrated demo: Phase 2 pending. User uploads: calibration required.
+            Public calibrated demo: available. User uploads: calibration ID required.
           </div>
         </div>
       ) : (
@@ -544,7 +589,7 @@ export default function WorkspaceSynchronizer({
           {frontVideoURL && (
             <div className="flex justify-between items-center text-[11px] font-mono text-brand-secondary/50 mt-2 px-1 z-10">
               <span>Resolution: Not measured</span>
-              <button onClick={() => setFrontVideoURL(null)} className="text-brand-error hover:underline transition">
+              <button onClick={() => { setFrontVideoURL(null); setFrontFile(null); }} className="text-brand-error hover:underline transition">
                 Clear Video
               </button>
             </div>
@@ -601,7 +646,7 @@ export default function WorkspaceSynchronizer({
           {sideVideoURL && (
             <div className="flex justify-between items-center text-[11px] font-mono text-brand-secondary/50 mt-2 px-1 z-10">
               <span>Resolution: Not measured</span>
-              <button onClick={() => setSideVideoURL(null)} className="text-brand-error hover:underline transition">
+              <button onClick={() => { setSideVideoURL(null); setSideFile(null); }} className="text-brand-error hover:underline transition">
                 Clear Video
               </button>
             </div>

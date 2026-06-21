@@ -7,7 +7,9 @@
 import { useState } from 'react';
 import {
   ActiveTab,
-  DemoDltResponse,
+  CalibrationResponse,
+  CalibratedDLTAnalysisResponse,
+  DLTReconstructionResponse,
   SwingSession
 } from '../types';
 import Sidebar from '../components/Sidebar';
@@ -16,6 +18,11 @@ import WorkspaceSynchronizer from '../components/WorkspaceSynchronizer';
 import SkeletalAnalysis from '../components/SkeletalAnalysis';
 import HistoryDashboard from '../components/HistoryDashboard';
 import PipelineControl from '../components/PipelineControl';
+import CalibrationWizard from '../components/CalibrationWizard';
+import AnalysisResult from '../components/AnalysisResult';
+import PhaseTimeline from '../components/PhaseTimeline';
+import BiomechanicsPanel from '../components/BiomechanicsPanel';
+import RenderedVideoPanel from '../components/RenderedVideoPanel';
 
 import {
   Sparkles,
@@ -32,7 +39,10 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('analyze');
   const [activeSection, setActiveSection] = useState<string>('sync'); // sync, biometrics, video, reports
   const [selectedSampleName, setSelectedSampleName] = useState<string>("Front_Swinger_PRO_3203.mp4");
-  const [demoReconstruction, setDemoReconstruction] = useState<DemoDltResponse | null>(null);
+  const [dltReconstruction, setDltReconstruction] = useState<DLTReconstructionResponse | null>(null);
+  const [calibrationId, setCalibrationId] = useState<string | null>(null);
+  const [calibrationStatus, setCalibrationStatus] = useState<CalibrationResponse | null>(null);
+  const [analysisResponse, setAnalysisResponse] = useState<CalibratedDLTAnalysisResponse | null>(null);
 
   // 2D overlay state from the synchronizer. Metric-grade 3D analysis is disabled until DLT is wired.
   const [liveMetrics, setLiveMetrics] = useState({
@@ -62,7 +72,8 @@ export default function App() {
     setActiveTab('analyze');
     setActiveSection('sync');
     setSelectedSampleName(session.location === 'Augusta National' ? 'Front_Angle_Rory_McIlroy.mp4' : 'Front_Swinger_PRO_3203.mp4');
-    setDemoReconstruction(null);
+    setDltReconstruction(null);
+    setAnalysisResponse(null);
   };
 
   // Reset or start new setup session
@@ -70,7 +81,8 @@ export default function App() {
     setActiveTab('analyze');
     setActiveSection('sync');
     setSelectedSampleName("Draft_New_Capture_Front_1.mp4");
-    setDemoReconstruction(null);
+    setDltReconstruction(null);
+    setAnalysisResponse(null);
     setLiveMetrics({ swayProxy: 0, kneeAngle: 0, mpjpe: null, fps: 0, poseStatus: '', phase: '', issues: [] });
     alert("New empty session workspace configured. User-uploaded 3D analysis remains disabled until calibrated camera matrices are available.");
   };
@@ -109,13 +121,32 @@ export default function App() {
   const renderWorkspaceContent = () => {
     if (activeTab === 'analyze') {
       if (activeSection === 'biometrics') {
-        return <SkeletalAnalysis demoReconstruction={demoReconstruction} />;
+        return (
+          <div className="flex-1 min-h-0 overflow-y-auto bg-surface-base">
+            <SkeletalAnalysis reconstruction={dltReconstruction} />
+            {analysisResponse && (
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 px-8 pb-8">
+                <AnalysisResult analysis={analysisResponse} />
+                <div className="space-y-6">
+                  <PhaseTimeline phaseSegmentation={analysisResponse.phase_segmentation} />
+                  <BiomechanicsPanel biomechanics={analysisResponse.biomechanics} />
+                  <RenderedVideoPanel renderedVideo={analysisResponse.rendered_video} />
+                </div>
+              </div>
+            )}
+          </div>
+        );
       } else if (activeSection === 'video') {
         // Render simple elegant video catalog layout
         return (
           <div id="video-catalog-view" className="flex-1 overflow-y-auto p-8 bg-surface-base">
             <span className="text-xs uppercase font-mono tracking-widest text-brand-secondary/40">DIGITAL ASSETS LOCKER</span>
             <h2 className="text-2xl font-bold font-sans text-white tracking-tight mt-1 mb-6">Imported Video Files</h2>
+            {analysisResponse?.rendered_video && (
+              <div className="mb-6">
+                <RenderedVideoPanel renderedVideo={analysisResponse.rendered_video} />
+              </div>
+            )}
             
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {[
@@ -151,15 +182,35 @@ export default function App() {
         return <PipelineControl />;
       } else {
         return (
-          <WorkspaceSynchronizer
-            selectedSampleName={selectedSampleName}
-            setSelectedSampleName={setSelectedSampleName}
-            onMetricsUpdate={(newMetrics) => setLiveMetrics(newMetrics)}
-            onDemoLoaded={(demo) => {
-              setDemoReconstruction(demo);
-              setActiveSection('biometrics');
-            }}
-          />
+          <div className="flex-1 min-h-0 overflow-y-auto bg-surface-base">
+            <CalibrationWizard
+              onCalibrationReady={(calibration) => {
+                setCalibrationStatus(calibration);
+                setCalibrationId(calibration.calibration_id);
+              }}
+            />
+            {calibrationStatus && (
+              <div className="mx-8 mb-6 rounded border border-brand-primary/20 bg-brand-primary/10 px-4 py-3 text-xs text-brand-primary">
+                Active calibration ID: {calibrationStatus.calibration_id}. Valid pairs: {calibrationStatus.valid_pair_count}. Reprojection error: {calibrationStatus.reprojection_error.toFixed(4)}.
+              </div>
+            )}
+            <WorkspaceSynchronizer
+              selectedSampleName={selectedSampleName}
+              setSelectedSampleName={setSelectedSampleName}
+              calibrationId={calibrationId}
+              onMetricsUpdate={(newMetrics) => setLiveMetrics(newMetrics)}
+              onDemoLoaded={(demo) => {
+                setDltReconstruction(demo);
+                setAnalysisResponse(null);
+                setActiveSection('biometrics');
+              }}
+              onAnalysisLoaded={(analysis) => {
+                setAnalysisResponse(analysis);
+                setDltReconstruction(analysis);
+                setActiveSection('biometrics');
+              }}
+            />
+          </div>
         );
       }
     } else if (activeTab === 'history') {
