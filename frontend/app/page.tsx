@@ -7,6 +7,7 @@
 import { useState } from 'react';
 import {
   ActiveTab,
+  DemoDltResponse,
   SwingSession
 } from '../types';
 import Sidebar from '../components/Sidebar';
@@ -31,6 +32,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('analyze');
   const [activeSection, setActiveSection] = useState<string>('sync'); // sync, biometrics, video, reports
   const [selectedSampleName, setSelectedSampleName] = useState<string>("Front_Swinger_PRO_3203.mp4");
+  const [demoReconstruction, setDemoReconstruction] = useState<DemoDltResponse | null>(null);
 
   // 2D overlay state from the synchronizer. Metric-grade 3D analysis is disabled until DLT is wired.
   const [liveMetrics, setLiveMetrics] = useState({
@@ -60,6 +62,7 @@ export default function App() {
     setActiveTab('analyze');
     setActiveSection('sync');
     setSelectedSampleName(session.location === 'Augusta National' ? 'Front_Angle_Rory_McIlroy.mp4' : 'Front_Swinger_PRO_3203.mp4');
+    setDemoReconstruction(null);
   };
 
   // Reset or start new setup session
@@ -67,6 +70,7 @@ export default function App() {
     setActiveTab('analyze');
     setActiveSection('sync');
     setSelectedSampleName("Draft_New_Capture_Front_1.mp4");
+    setDemoReconstruction(null);
     setLiveMetrics({ swayProxy: 0, kneeAngle: 0, mpjpe: null, fps: 0, poseStatus: '', phase: '', issues: [] });
     alert("New empty session workspace configured. User-uploaded 3D analysis remains disabled until calibrated camera matrices are available.");
   };
@@ -105,7 +109,7 @@ export default function App() {
   const renderWorkspaceContent = () => {
     if (activeTab === 'analyze') {
       if (activeSection === 'biometrics') {
-        return <SkeletalAnalysis />;
+        return <SkeletalAnalysis demoReconstruction={demoReconstruction} />;
       } else if (activeSection === 'video') {
         // Render simple elegant video catalog layout
         return (
@@ -151,6 +155,10 @@ export default function App() {
             selectedSampleName={selectedSampleName}
             setSelectedSampleName={setSelectedSampleName}
             onMetricsUpdate={(newMetrics) => setLiveMetrics(newMetrics)}
+            onDemoLoaded={(demo) => {
+              setDemoReconstruction(demo);
+              setActiveSection('biometrics');
+            }}
           />
         );
       }

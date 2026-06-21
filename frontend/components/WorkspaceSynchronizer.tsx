@@ -18,6 +18,7 @@ import {
   Sparkles,
   RefreshCw
 } from 'lucide-react';
+import { DemoDltResponse } from '../types';
 
 declare global {
   interface Window {
@@ -29,12 +30,14 @@ interface WorkspaceSynchronizerProps {
   selectedSampleName: string;
   setSelectedSampleName: (name: string) => void;
   onMetricsUpdate?: (metrics: any) => void;
+  onDemoLoaded?: (demo: DemoDltResponse) => void;
 }
 
 export default function WorkspaceSynchronizer({
   selectedSampleName,
   setSelectedSampleName,
-  onMetricsUpdate
+  onMetricsUpdate,
+  onDemoLoaded
 }: WorkspaceSynchronizerProps) {
   // Sync Controls State
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -52,6 +55,8 @@ export default function WorkspaceSynchronizer({
   
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [analysisNotice, setAnalysisNotice] = useState<string | null>(null);
+  const [demoError, setDemoError] = useState<string | null>(null);
+  const [isDemoLoading, setIsDemoLoading] = useState<boolean>(false);
 
   // References for the 2D overlay only. Metric-grade 3D values require calibrated DLT.
   const initialHeadXRef = useRef<number | null>(null);
@@ -95,9 +100,31 @@ export default function WorkspaceSynchronizer({
     }
   };
 
-  const loadSample = () => {
-    // TODO(Phase 2): replace this blocked state with a real public calibrated demo job.
-    setAnalysisNotice("Public calibrated DLT demo is not connected yet. Phase 2 will wire this button to a real pre-calibrated dataset.");
+  const loadSample = async () => {
+    setIsDemoLoading(true);
+    setDemoError(null);
+    setAnalysisNotice(null);
+
+    try {
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000';
+      const response = await fetch(`${apiBaseUrl}/demo/dlt-reconstruction`);
+      if (!response.ok) {
+        throw new Error(`Backend returned ${response.status}`);
+      }
+
+      const demo = await response.json() as DemoDltResponse;
+      if (demo.status !== 'ok' || !Array.isArray(demo.frames) || demo.frames.length === 0) {
+        throw new Error('Demo endpoint did not return reconstructed frames.');
+      }
+
+      setSelectedSampleName('Calibrated_DLT_Demo');
+      onDemoLoaded?.(demo);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      setDemoError(`Could not load calibrated DLT demo: ${message}. No fallback skeleton was rendered.`);
+    } finally {
+      setIsDemoLoading(false);
+    }
   };
 
   const triggerAutoSync = () => {
@@ -421,8 +448,13 @@ export default function WorkspaceSynchronizer({
             ))}
           </div>
 
-          <button onClick={loadSample} className="border border-brand-primary/20 text-brand-primary hover:bg-brand-primary/10 transition px-3.5 py-2 rounded text-xs font-mono font-semibold">
-            Load Pro Demo
+          <button
+            id="btn-load-dlt-demo"
+            onClick={loadSample}
+            disabled={isDemoLoading}
+            className="border border-brand-primary/20 text-brand-primary hover:bg-brand-primary/10 disabled:opacity-60 disabled:cursor-not-allowed transition px-3.5 py-2 rounded text-xs font-mono font-semibold"
+          >
+            {isDemoLoading ? 'Loading DLT Demo...' : 'Load Calibrated DLT Demo'}
           </button>
 
           <button onClick={() => alert("Draft saved successfully components in workspace state.")} className="bg-surface-low hover:bg-surface-high border border-white/10 text-brand-secondary hover:text-white px-4 py-2 rounded text-xs font-sans transition flex items-center gap-2 cursor-pointer">
@@ -443,6 +475,16 @@ export default function WorkspaceSynchronizer({
         <div className="mb-6 rounded border border-[#facc15]/30 bg-[#facc15]/10 px-4 py-3 text-sm text-[#fde68a]">
           <div className="font-semibold text-white">Analysis pipeline not available</div>
           <div className="mt-1 text-xs leading-relaxed text-[#fde68a]">{analysisNotice}</div>
+        </div>
+      )}
+
+      {demoError && (
+        <div
+          id="demo-dlt-error"
+          className="mb-6 rounded border border-brand-error/30 bg-brand-error/10 px-4 py-3 text-sm text-[#ffb4ab]"
+        >
+          <div className="font-semibold text-white">Calibrated DLT demo failed</div>
+          <div className="mt-1 text-xs leading-relaxed">{demoError}</div>
         </div>
       )}
 

@@ -50,3 +50,36 @@ export interface SynchronizerState {
   totalFrames: number;
   isLocked: boolean;
 }
+
+export interface DemoDltJoint {
+  x: number;
+  y: number;
+  z: number;
+  observed: boolean;
+}
+
+export interface DemoDltFrame {
+  frame_index: number;
+  timestamp: number;
+  joints: Record<string, DemoDltJoint | null>;
+}
+
+export interface DemoDltResponse {
+  status: 'ok';
+  source: 'calibrated_demo' | string;
+  calibration: {
+    available: boolean;
+    type: string;
+    metric_scale: boolean;
+    notes: string;
+  };
+  joint_names: string[];
+  frame_count: number;
+  frames: DemoDltFrame[];
+  metrics: {
+    mpjpe_mm: number | null;
+    mpjpe_available: boolean;
+    notes: string;
+  };
+  notes?: string;
+}

@@ -18,7 +18,7 @@ export default function AnalysisResult({ flaws = [], injury, mpjpe = null }: Res
             {/* MPJPE Tracking Score */}
             <div className="bg-[#0a0a0a] border border-kinetic-border rounded p-4 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-kinetic-tertiary opacity-5 blur-[50px] rounded-full"></div>
-                <div className="font-geist text-[12px] uppercase text-kinetic-tertiary tracking-wide mb-1">Kinematic Confidence (MPJPE)</div>
+                <div className="font-geist text-[12px] uppercase text-kinetic-tertiary tracking-wide mb-1">MPJPE Availability</div>
                 <div className="text-xl font-bold text-white mb-2">
                     {mpjpe === null ? 'Requires calibrated DLT output' : `${mpjpe.toFixed(2)}mm`}
                 </div>
